@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.DS_Store
+.env*
+!.env.example
+playwright-report/
+test-results/
+.vercel/
+
+# Keep original identity photographs and résumé local. Runtime portrait assets
+# and the authoritative particle dataset remain tracked.
+references/

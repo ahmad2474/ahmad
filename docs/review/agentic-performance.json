@@ -1,0 +1,20 @@
+{
+  "browser": "153.0.8010.12",
+  "viewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "backend": "SwiftShader software renderer (confirmed via WEBGL_debug_renderer_info)",
+  "intervals": 180,
+  "median": 16.700000000000728,
+  "p95": 33.400000000001455,
+  "status": "ready",
+  "quality": "reduced",
+  "renderState": "running",
+  "progress": "1.000",
+  "rotation": "0.000",
+  "gather": "1.000",
+  "flow": "0.599",
+  "meanFrameMs": "23.8",
+  "errors": []
+}

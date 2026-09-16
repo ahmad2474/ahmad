@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-17",
+  "viewport": "1440x960",
+  "browser": "153.0.8010.12",
+  "scene": "RAG/context source documents",
+  "intervalCount": 179,
+  "medianMs": 16.69999999999891,
+  "p95Ms": 33.399999999999636,
+  "quality": "economy",
+  "rendererMeanMs": "19.7",
+  "webglRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "limitations": "Headless browser frame scheduling; software WebGL, not physical-device/native GPU presentation or a universal 60fps result."
+}
