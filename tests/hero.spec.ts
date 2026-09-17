@@ -1,4 +1,9 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
+
+async function openMobileMenu(page: Page) {
+  const toggle = page.getByRole("button", { name: "Toggle navigation menu" });
+  if (await toggle.isVisible()) await toggle.click();
+}
 
 for (const width of [320, 390, 768, 1024, 1440, 1920]) {
   test(`readable layout and real destinations at ${width}px`, async ({ page }) => {
@@ -26,6 +31,7 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
 
     await expect(page.getByRole("link", { name: /Chat on WhatsApp/ })).toHaveAttribute("href", "https://wa.me/923026849341");
     await expect(page.getByRole("link", { name: "SCROLL TO EXPLORE" })).toHaveCount(0);
+    await openMobileMenu(page);
     await page.getByRole("link", { name: "Ahmad.AI", exact: true }).click();
     await expect(page).toHaveURL(/#ahmad-ai$/);
     await expect(page.locator("#assistant-title")).toBeInViewport();
@@ -54,7 +60,7 @@ test("same live canvas responds to pointer, dissolves and reconstructs; pause fr
   await page.goto("/");
   const stage = page.locator(".particle-stage");
   await expect(stage).toHaveAttribute("data-status", "ready");
-  await expect(stage.locator("canvas")).toHaveAttribute("data-particle-count", "9832");
+  await expect(stage.locator("canvas")).toHaveAttribute("data-particle-count", "7374");
   await page.mouse.move(1300, 300);
   await expect.poll(async () => Number(await stage.getAttribute("data-rotation"))).toBeGreaterThan(.6);
   const canvas = await stage.locator("canvas").elementHandle();
@@ -115,6 +121,7 @@ test("failed WebGL initialization keeps the portrait and links usable", async ({
   await page.goto("/");
   await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback");
   await expect(page.locator(".portrait-fallback")).toBeVisible();
+  await openMobileMenu(page);
   await page.getByRole("link", { name: "Ahmad.AI", exact: true }).click();
   await expect(page).toHaveURL(/#ahmad-ai$/);
 });
@@ -139,11 +146,36 @@ test("identity and anchors remain useful without JavaScript", async ({ browser }
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator(".portrait-fallback img")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
+  await openMobileMenu(page);
   await page.getByRole("link", { name: "Ahmad.AI", exact: true }).click();
   await expect(page).toHaveURL(/#ahmad-ai$/);
   await expect(page.locator(".agent-symbol .form-fallback")).toHaveCSS("opacity", "0.65");
   await expect(page.locator(".no-script-projects")).toContainText("in development");
   await context.close();
+});
+
+test("mobile navigation opens with keyboard and closes on Escape, outside click and selection", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const toggle = page.getByRole("button", { name: "Toggle navigation menu" });
+  const menu = page.locator(".mobile-menu");
+  await expect(page.getByRole("link", { name: "Work", exact: true })).toHaveCount(0);
+  await toggle.focus(); await page.keyboard.press("Enter");
+  await expect(menu).toHaveAttribute("open", "");
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("link", { name: "Ahmad.AI", exact: true })).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(menu).not.toHaveAttribute("open");
+  await expect(toggle).toBeFocused();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await toggle.click(); await page.locator(".wordmark").click();
+  await expect(menu).not.toHaveAttribute("open");
+  await toggle.click(); await page.getByRole("link", { name: "Work", exact: true }).click();
+  await expect(menu).not.toHaveAttribute("open");
+  await expect(page).toHaveURL(/#projects$/);
+  await expect(page.locator("#projects")).toBeFocused();
 });
 
 for (const width of [320, 390, 1280]) {

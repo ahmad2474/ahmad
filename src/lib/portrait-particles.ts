@@ -1,7 +1,7 @@
 export interface PortraitSource { particleData: string; particleMeta: { count: number; stride: number; pivot: number[] } }
 
 /** Decode the user-supplied portrait geometry without generating facial features. */
-export function createPortraitParticles(count: number, source: PortraitSource) {
+export function createPortraitParticles(count: number, source: PortraitSource, density = 1) {
   const { particleData, particleMeta } = source;
   const binary = atob(particleData);
   if (particleMeta.stride !== 12 || binary.length !== particleMeta.count * particleMeta.stride) throw new Error("Invalid portrait particle data");
@@ -26,7 +26,7 @@ export function createPortraitParticles(count: number, source: PortraitSource) {
     } else cells.set(key, { index: i, distance, sum: bytes[offset + 9] / 255, samples: 1 });
   }
   const selected = [...cells.values()];
-  count = Math.min(count, selected.length);
+  count = Math.floor(Math.min(count, selected.length) * density);
   const positions = new Float32Array(count * 3);
   const scatter = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);

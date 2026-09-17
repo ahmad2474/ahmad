@@ -500,6 +500,24 @@ html[data-particles="ready"] .form-fallback { opacity: 0; }
 .nav-link:first-child { color: #f0e7ff; }
 .nav-link:hover { color: #f5edff; background: #c1a3ff13; }
 .header-link { color: #d8cde4; }
+.mobile-menu { display: none; }
+.mobile-menu-toggle { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid #b99be54a; border-radius: 14px; background: #21182bbd; color: #eee3ff; cursor: pointer; list-style: none; }
+.mobile-menu-toggle::-webkit-details-marker { display: none; }
+.mobile-menu-toggle:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 5px; }
+.menu-lines { display: flex; flex-direction: column; gap: 5px; width: 22px; }
+.menu-lines > span { display: block; width: 22px; height: 2px; border-radius: 2px; background: currentColor; transition: transform var(--duration-ui) var(--ease-out), opacity var(--duration-ui); }
+.mobile-menu[open] .menu-lines > span:first-child { transform: translateY(7px) rotate(45deg); }
+.mobile-menu[open] .menu-lines > span:nth-child(2) { opacity: 0; }
+.mobile-menu[open] .menu-lines > span:last-child { transform: translateY(-7px) rotate(-45deg); }
+@container (max-width: 53.125rem) {
+  .site-header .desktop-navigation { display: none; }
+  .mobile-menu { display: block; position: relative; }
+  .wordmark { max-width: calc(100% - 64px); min-width: 0; }
+  .site-header .mobile-menu nav { position: absolute; top: calc(100% + 12px); right: 0; width: min(18rem, calc(100vw - 2 * var(--gutter))); max-width: none; display: flex; flex-direction: column; align-items: stretch; padding: .6rem; gap: .2rem; background: linear-gradient(135deg, #21182bef, #110e19ed); }
+  .site-header .mobile-menu:not([open]) nav { display: none; }
+  .mobile-menu .nav-link { justify-content: space-between; min-height: 48px; }
+  .mobile-menu .nav-link:first-child::before { display: none; }
+}
 .scroll-cue { padding: 0; margin: 0; border: 0; background: transparent; cursor: default; }
 .footer-identity { display: flex; flex-direction: column; gap: .5rem; }
 .footer-identity p { margin: 0; }

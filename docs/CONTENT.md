@@ -2,6 +2,8 @@
 
 ## Latest compact content
 
+Latest mobile/portrait refinement: use a three-line mobile navigation disclosure, including the existing GitHub destination. Thin desktop portrait spatial sampling from 9,832 to 7,374 original positions (25% reduction); mobile remains 3,022. Supplied identity data/original folders remain unchanged. The existing static fallback is retained; this density change applies to the interactive point cloud.
+
 Latest approved detail changes: remove “From the next action / to the system around it.” from the hero. “Scroll to explore” is plain text, not an anchor. Footer name is Ahmad Hassan, with a variable current-year copyright line and “All rights reserved.” Other identity/project claims are unchanged.
 
 September 18: the user confirms the live chatbot is working. This is user-reported live behavior; independent Gemini fallback verification remains outstanding. Atmospheric and rounded-control refinements add no project claims or content changes.

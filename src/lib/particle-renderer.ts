@@ -203,7 +203,9 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   renderer.setPixelRatio(dpr);
   renderer.setClearColor(0, 0);
   host.appendChild(renderer.domElement);
-  const data = createPortraitParticles(compact ? 12000 : 24000, source);
+  // Thin desktop's spatial samples by 25%, retaining desktop glyphs and all face regions.
+  // Mobile's selected density/material is preserved.
+  const data = createPortraitParticles(compact ? 12000 : 24000, source, compact ? 1 : .75);
   const count = data.sizes.length;
   // Pack profile scalars together to stay within mobile GPU attribute limits.
   const profile = new Float32Array(count * 3);

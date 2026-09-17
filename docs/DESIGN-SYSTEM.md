@@ -4,6 +4,8 @@ Status: creative principles locked; numerical tokens and exact styling proposed.
 
 ## Locked principles
 
+Latest mobile/density direction: below the existing 53.125rem container breakpoint, navigation collapses behind a 48px three-line disclosure control. Its dropdown preserves the glass palette; native disclosure keeps access without JavaScript. Desktop keeps the inline glass nav. Desktop portrait sampling is thinned by exactly 25%, from 9,832 to 7,374; compact sampling stays at 3,022. Preserve glyph sizing, material and authoritative original positions while opening more space between desktop particles.
+
 Latest detail refinement: main navigation is one translucent violet glass surface with unboxed, warm off-white/lilac links inside. GitHub uses the same warm text palette. The hero's left kicker aligns with the right notes on full desktop. “Scroll to explore” is plain non-interactive text without a surface. Remove the right sign-off. Footer identifies Ahmad Hassan and shows “© [current year] All rights reserved.” The browser refreshes the year on load, hourly and on visibility change; server output provides the build-time fallback.
 
 September 18 approved refinement: panels use 24px corners, controls/action-link boxes use 14px corners, and status/pause controls use pill shapes. Secondary CTAs, navigation, evidence/repository links, phase controls, source references and contact actions are visibly boxed with restrained violet borders. Capability prose stays editorial. Slow violet illumination concentrates around the active visual, with quiet copy areas and sparse particle trails; keep the dark ground readable. This supersedes previous 4px-panel/unboxed-secondary specifications.

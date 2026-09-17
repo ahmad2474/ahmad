@@ -6,6 +6,7 @@ import { InfrastructureSection } from "@/components/infrastructure-section";
 import { ProjectsSection } from "@/components/projects-section";
 import { ContactSection } from "@/components/contact-section";
 import { CopyrightYear } from "@/components/copyright-year";
+import { MobileNavigation } from "@/components/mobile-navigation";
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>;
@@ -16,11 +17,12 @@ export default function Home() {
     <><AgenticScene /><div className="portfolio" id="identity">
       <header className="site-header">
         <a className="wordmark" href="#identity" aria-label="Ahmad Hassan, home">AHMAD HASSAN</a>
-        <nav aria-label="Main navigation">
+        <nav className="desktop-navigation" aria-label="Main navigation">
           <a className="nav-link" href="#ahmad-ai">Ahmad.AI</a>
           <a className="nav-link" href="#projects">Work</a>
           <a className="nav-link" href="#contact">Contact</a>
         </nav>
+        <MobileNavigation />
         <a className="header-link" href="https://github.com/ahmad2474">GitHub <Arrow /></a>
       </header>
       <main id="main" tabIndex={-1}>
