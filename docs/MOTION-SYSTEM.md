@@ -1,5 +1,11 @@
 # Portfolio V2 — Motion system
 
+## Current compact sequence
+
+One Three.js canvas and one authoritative portrait point cloud carries Hero → abstract bot glyph → Infrastructure topology → Reason/Act/Verify network → selected project → quiet contact scatter. Scroll progress is reversible; returning to the top reconstructs the same original portrait positions. Independent seeded destinations are decorative system geometry, never new facial anatomy. Project tabs interpolate the existing destination buffer over 0.9 seconds using smoothstep; rapid selection starts from its current intermediate state. Pending selections wait while paused. No canvas swap or identity data regeneration.
+
+Portrait weight/intensity/fade share a packed vec3 attribute to respect GPU attribute limits; there are 13 application attributes. The bot and infrastructure forms use seeded random grouping to avoid adaptive draw-budget aliasing. Original 9,832 / 3,022 sampling and adaptive DPR/draw budgets remain. Morph anchors follow the actual HTML visuals, including mobile and text zoom. No pinned sections or 75svh environmental spacer. The contact transition ends at reachable document scroll bounds, without adding blank height. GSAP provides restrained text reveals and scroll value interpolation; per-frame project morphing stays in the renderer. Pause stops frames, ambient motion and material updates; content and controls remain usable. Reduced motion, no JavaScript, context loss and failed initialization preserve static portrait/diagrams and semantic copy. Resize handling is frame-coalesced. All triggers, events, observers, buffers, materials and renderers are cleaned up.
+
 Status: behavior requirements locked; timings and choreography proposed.
 
 ## Purpose and ownership

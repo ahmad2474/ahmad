@@ -1,6 +1,14 @@
 # Portfolio V2 — Content and asset register
 
-Updated September 17, 2026. Current checkpoint: portrait → Agentic AI → RAG/context → planned CloudOps architecture.
+## Latest compact content
+
+Configuration checkpoint: a supplied local Gemini key is preserved in ignored local configuration, never public content or the tracked example. The user reports both keys added in Vercel and approved one local Gemini test. It returned the labeled provider-unavailable profile fallback; model generation remains unconfirmed. This supersedes earlier key deferrals.
+
+Approved public order: Hero → Ahmad.AI → DevOps/Infrastructure → Agentic AI (including context/RAG) → highlighted Projects → Contact/footer. Earlier standalone context/CloudOps chapters are retained in source as historical work but no longer rendered. OpsPilot/InsightLoop descriptions use the reviewed public repository documentation and selected source files, not invented measured outcomes. CloudOps remains IN DEVELOPMENT with every architecture feature/count marked planned.
+
+Ahmad.AI uses `src/lib/portfolio-knowledge.ts`, a curated public fact set with profile/project evidence links. It excludes raw CV, private certification identifiers, photographs, employer/years claims and unknown availability/rates. Missing facts receive an explicit uncertainty response. The chat shows direct PROFILE ANSWER labels without keys and on provider failure; model answers require configured server-side Groq/Gemini keys. No pretend typing delay or tool trace. Conversation messages are not persisted by this app; configured AI providers receive submitted conversation context, and the UI discloses this. Source-ID validation constrains rendered links but does not prove every generated claim correct. Free-tier providers have account quotas; measured model-answer fidelity and real-provider connectivity remain pending keys.
+
+Updated September 17, 2026. Current checkpoint: compact six-section portfolio; earlier content registers below are historical where superseded.
 
 ## Identity and copy
 

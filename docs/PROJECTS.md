@@ -1,6 +1,16 @@
 # Portfolio V2 — Project evidence register
 
-Status: names and narrative placement locked. Supplied CV inspected; repository evidence and measured outcomes remain unverified.
+Status: supplied CV and selected public repository documentation/source inspected. Independent live operation and measured outcomes remain unverified.
+
+## Compact revision evidence review
+
+Final configuration checkpoint: a locally supplied Gemini key was moved to ignored local configuration. The user reports both keys added in Vercel and approved one local Gemini test. It returned the labeled provider-unavailable profile fallback; real model generation remains unconfirmed. This supersedes earlier key deferrals.
+
+OpsPilot and InsightLoop now appear together in one selectable projects section. On September 17, read the public READMEs plus selected source: OpsPilot [Terraform tables](https://github.com/ahmad2474/opspilot-ai/blob/main/scripts/terraform/main.tf) and [CI workflow](https://github.com/ahmad2474/opspilot-ai/blob/main/.github/workflows/ci.yml); InsightLoop [agent loop](https://github.com/ahmad2474/insightloop/blob/main/src/lib/agent/loop.ts) and [query guard](https://github.com/ahmad2474/insightloop/blob/main/src/lib/bigquery/client.ts). Reviewed artifacts support table provisioning, backend Docker/CI, custom tool/retry/clarification flow and read-only SQL boundaries. Other descriptions are explicitly repository-documented. No end-to-end AWS/BigQuery run, evaluation result, deployment adoption or financial outcome was independently verified. In particular, OpsPilot Terraform provisions three DynamoDB tables, not an entire AWS platform.
+
+CloudOps is an in-development project within the same selector. Its architecture, 222/115 document counts and 315-question evaluation scope remain planned; unknown result metrics stay omitted. No repository/demo URL is invented.
+
+Ahmad.AI now precedes capabilities, per explicit user approval. Implemented a curated knowledge base and server route with Groq/Gemini failover, no external tools or stored conversations. Server-side keys are deferred by the user. Without keys, it serves visibly labeled profile-reference answers. Its process-local request limiter is best-effort; provider quotas/free-account settings and Vercel's platform protections govern public usage. Actual provider connectivity and answer-quality evaluation require keys and remain unverified.
 
 ## September 16 evidence intake
 

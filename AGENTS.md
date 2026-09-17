@@ -2,7 +2,7 @@
 
 ## Identity and scope
 Ahmad Hassan — Agentic AI Developer × DevOps Engineer.
-This repository is the source of truth for Portfolio V2. Current milestone: consistent Agentic AI / RAG / CloudOps composition, three-card rows and expanded planned CloudOps architecture, authorized on 2026-09-17. Publishing this completed milestone through GitHub/Vercel is now authorized. Infrastructure, other case studies and the assistant backend remain future work.
+This repository is the source of truth for Portfolio V2. Current milestone: the user-approved compact six-section portfolio, preserving a single reversible portrait particle system throughout. Ahmad.AI UI/backend with Groq and Gemini is authorized; the user will add server-side keys later. Publishing through the existing GitHub/Vercel connection is authorized.
 
 ## Read before working
 - docs/MASTER-SPEC.md: scope, architecture, decisions, Phase 01 and acceptance criteria.
@@ -18,7 +18,7 @@ The user's latest explicit direction takes precedence. Preserve useful existing 
 - Sophisticated high-end motion and WebGL should explain the work.
 - Avoid generic AI-template aesthetics, Matrix rain, excessive HUD clutter and generic cyberpunk dashboards.
 - Hero: Ahmad's real likeness as an interactive holographic centerpiece. Identity reference photos are authoritative. Never replace him with a generic generated face. Apply visual treatment to verified likeness; do not invent facial geometry.
-- Narrative: Identity → Agentic AI → RAG/Context → Infrastructure/DevOps → OpsPilot → InsightLoop → Engineering → Ahmad.AI → Contact.
+- Narrative: Hero → Ahmad.AI → DevOps/Infrastructure → Agentic AI (including RAG/context) → highlighted Projects → Contact/footer.
 - WordPress is supporting/earlier experience, never the core identity.
 
 ## Engineering direction
@@ -36,6 +36,10 @@ Subsequent September 17 revision: globe alongside the heading/supporting text, a
 When code exists, use its actual lint/typecheck/build commands, add meaningful tests for behavior, and verify keyboard navigation, mobile layouts, reduced motion and WebGL failure. Do not document fictional commands as runnable today. Report changes, validation and remaining limitations.
 
 September 17 publishing direction: the user requested putting the completed work into GitHub so their Vercel account can deploy updates without relying on localhost. Creating a repository, committing/pushing the current source, and connecting the current site to Vercel are authorized. This does not authorize new narrative chapters or assistant services. Preserve original references locally; track runtime portrait assets and the authoritative particle dataset. Keep deployment previews non-indexed until the final production domain and full content are approved.
+
+Latest compact-portfolio authorization supersedes the earlier chapter/assistant restrictions: the user approved Hero → Ahmad.AI → Infrastructure → Agentic AI → Projects → Contact/footer, explicitly retaining the same original particles as each visual reforms. Hero likeness remains unchanged. Ahmad.AI has an abstract non-human bot symbol left and chat right. Infrastructure and agent capabilities use copy left/visual right; projects use visual left/selection right. Merge RAG into agent capabilities and CloudOps into the projects selector; do not add separate long case-study sections. Source-verified OpsPilot/InsightLoop descriptions may be used without inventing production adoption or outcomes. Groq primary and Gemini fallback are approved, using the user's free-tier keys, to be configured later. Until configured, chat must visibly identify direct profile-reference answers. No fake model activity, private CV data, assistant tools/actions, conversation persistence or paid infrastructure. Per-instance rate limits are best-effort, not a distributed spending guarantee. Current live review URL: https://ahmad-umber.vercel.app/; repository https://github.com/ahmad2474/ahmad on main.
+
+Final configuration note: a Gemini key appeared in `.env.example` during the compact revision and was moved into ignored local configuration; tracked example keys remain blank. Do not commit local keys. Automatic approval review initially rejected a live-provider test because setup had been deferred. The user subsequently approved one local Gemini test and reported adding both keys in Vercel. That test returned the labeled provider-unavailable profile fallback; a Gemini-generated answer remains unconfirmed. This supersedes earlier key deferrals. Do not claim functioning providers merely from key detection.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

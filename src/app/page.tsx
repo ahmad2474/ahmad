@@ -1,8 +1,10 @@
 import { IdentityField } from "@/components/identity-field";
 import { AgenticScene } from "@/components/agentic-scene";
 import { AgenticChapter } from "@/components/agentic-chapter";
-import { ContextChapter } from "@/components/context-chapter";
-import { CloudOpsChapter } from "@/components/cloudops-chapter";
+import { AssistantSection } from "@/components/assistant-section";
+import { InfrastructureSection } from "@/components/infrastructure-section";
+import { ProjectsSection } from "@/components/projects-section";
+import { ContactSection } from "@/components/contact-section";
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>;
@@ -14,8 +16,9 @@ export default function Home() {
       <header className="site-header">
         <a className="wordmark" href="#identity" aria-label="Ahmad Hassan, home">AHMAD HASSAN</a>
         <nav aria-label="Main navigation">
-          <a className="nav-link" href="#identity">Identity</a>
-          <a className="nav-link" href="#agentic-ai">Work</a>
+          <a className="nav-link" href="#ahmad-ai">Ahmad.AI</a>
+          <a className="nav-link" href="#projects">Work</a>
+          <a className="nav-link" href="#contact">Contact</a>
         </nav>
         <a className="header-link" href="https://github.com/ahmad2474">GitHub <Arrow /></a>
       </header>
@@ -49,11 +52,14 @@ export default function Home() {
             </dl>
             <p className="notes-signoff">From the next action<br />to the system around it.</p>
           </aside>
-          <div className="hero-closing"><a className="scroll-cue" href="#agentic-ai"><span aria-hidden="true">↓</span> SCROLL TO EXPLORE</a></div>
+          <div className="hero-closing"><a className="scroll-cue" href="#ahmad-ai"><span aria-hidden="true">↓</span> SCROLL TO EXPLORE</a></div>
         </section>
+        <AssistantSection />
+        <InfrastructureSection />
         <AgenticChapter />
-        <ContextChapter />
-        <CloudOpsChapter />
+        <ProjectsSection />
+        <noscript><div className="no-script-projects"><p>Also explore <a href="https://github.com/ahmad2474/insightloop">InsightLoop</a>, a custom agent for guarded BigQuery investigation. CloudOps Knowledge Assistant is in development; its planned design includes hybrid retrieval, permissions, and grounded answers.</p></div></noscript>
+        <ContactSection />
       </main>
       <footer className="site-footer">
         <p>AH / PORTFOLIO V2</p>

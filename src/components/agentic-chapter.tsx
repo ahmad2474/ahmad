@@ -1,22 +1,25 @@
 import { NETWORK_NODES, NETWORK_ROUTES, NETWORK_SPOKES } from "@/lib/agentic-network";
 
 const phases = [
-  { name: "Reason", label: "Intent", title: "Give intelligence a direction.", copy: "Break a goal into steps. Choose the next tool. Keep each decision connected to the task.", note: "Intent → a deliberate plan" },
-  { name: "Act", label: "Plan", title: "Connect thought to tools.", copy: "Turn the plan into explicit tool calls. Work within defined boundaries, and keep the execution visible.", note: "Plan → a bounded action" },
-  { name: "Verify", label: "Evidence", title: "Make the result accountable.", copy: "Inspect the evidence. Check assumptions. Keep a trace of how the system arrived at its answer.", note: "Evidence → a checked result" },
+  { name: "Reason", copy: "Turn a goal into a plan. Choose the next tool deliberately." },
+  { name: "Act", copy: "Use bounded tools and explicit calls. Keep execution visible." },
+  { name: "Verify", copy: "Check evidence and assumptions. Preserve a trace of the result." },
 ] as const;
 
 export function AgenticChapter() {
   return (
-    <section className="agentic-chapter" aria-labelledby="agentic-title">
-      <div className="agentic-stage" id="agentic-ai" tabIndex={-1}>
+    <section className="agentic-chapter narrative-section" id="agentic-ai" aria-labelledby="agentic-title" tabIndex={-1}>
+      <div className="agentic-stage">
         <div className="agentic-overview">
         <div className="chapter-heading">
-          <p className="eyebrow chapter-index"><span /> 02 / AGENTIC AI</p>
-          <h2 id="agentic-title">From intent.<br /><span>To impact.</span></h2>
-          <p className="chapter-lead">Intelligence becomes useful<br />when it knows how to act.</p>
-          <p className="chapter-intro">I build agents around deliberate decisions, bounded tools, and visible evidence. Each action belongs to a loop that can be understood, inspected, and improved.</p>
-          <a className="context-trace-link" href="#agent-loop-cards">EXPLORE THE LOOP <span aria-hidden="true">↓</span></a>
+          <p className="eyebrow section-index"><span />04 / AGENTIC AI ENGINEERING</p>
+          <h2 id="agentic-title" className="section-title">From intent.<br /><span>To impact.</span></h2>
+          <p className="section-intro">I build agents that connect decisions to tools, and answers to evidence. Useful intelligence should be inspectable.</p>
+          <dl className="capability-lines">
+            {phases.map((phase, i) => <div key={phase.name} id={`agent-${phase.name.toLowerCase()}`} data-phase-story={i} tabIndex={-1}><dt><a href={`#agent-${phase.name.toLowerCase()}`} data-phase-link={i}><span>0{i + 1}</span>{phase.name}<span aria-hidden="true">↗</span></a></dt><dd>{phase.copy}</dd></div>)}
+          </dl>
+          <p className="agent-grounding">Retrieval, permissions, and grounded answers belong to the same loop. CloudOps brings them together in its planned RAG design.</p>
+          <a className="section-evidence" href="#projects">EXPLORE THE SYSTEMS <span aria-hidden="true">↓</span></a>
         </div>
         <figure className="agentic-network" aria-labelledby="network-caption">
           <div className="network-aura" aria-hidden="true" />
@@ -42,19 +45,6 @@ export function AgenticChapter() {
           <figcaption id="network-caption" className="sr-only">An agent coordinates a loop: reason about the goal, act through tools, then verify the returned evidence.</figcaption>
         </figure>
         </div>
-        <div className="chapter-process" id="agent-loop-cards">
-          <nav className="agentic-phase-nav" aria-label="Explore the agent loop">
-            {phases.map((phase, i) => <a key={phase.name} href={`#agent-${phase.name.toLowerCase()}`} data-phase-link={i}><span>0{i + 1}</span>{phase.name}<span className="phase-line" aria-hidden="true" /></a>)}
-          </nav>
-          <div className="phase-stories">
-            {phases.map((phase, i) => <article key={phase.name} id={`agent-${phase.name.toLowerCase()}`} className="phase-story" data-phase-story={i} tabIndex={-1}>
-              <div className="phase-card-top"><span className="eyebrow">{phase.label}</span><span aria-hidden="true">0{i + 1} / {phase.name.toUpperCase()}</span></div>
-              <h3>{phase.title}</h3><p>{phase.copy}</p><p className="phase-note">{phase.note}</p>
-            </article>)}
-          </div>
-        </div>
-        <div className="chapter-evidence"><span className="eyebrow">EXPLORE THE WORK</span><a href="https://github.com/ahmad2474/opspilot-ai">OpsPilot AI <span aria-hidden="true">↗</span></a><a href="https://github.com/ahmad2474/insightloop">InsightLoop <span aria-hidden="true">↗</span></a></div>
-        <div className="chapter-baseline"><span>REASON <span>→</span> ACT <span>→</span> VERIFY</span><span className="chapter-scroll-hint">SCROLL TO TRACE THE LOOP <span>↓</span></span></div>
       </div>
     </section>
   );

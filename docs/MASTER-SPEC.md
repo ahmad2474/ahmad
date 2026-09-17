@@ -1,6 +1,6 @@
 # Portfolio V2 — Master specification
 
-Status: particle hero and consistent Agentic AI / context / planned CloudOps chapters implemented locally. Three-card rows sit below heading/visual compositions. Infrastructure and later narrative sections remain deferred.
+Status: compact six-section portfolio approved and implemented for review. One original portrait particle system reforms into each narrative visual. Groq/Gemini Ahmad.AI structure is implemented. The user reports both keys added in Vercel; the approved local Gemini test returned the labeled provider-unavailable profile fallback. Working model generation remains unconfirmed. Current review site: https://ahmad-umber.vercel.app/.
 Date: 2026-09-17.
 Owner: Ahmad Hassan.
 
@@ -16,18 +16,17 @@ The registered local project is `/Users/apple/Projects/Ahmad/AgenticAI-WebPortfo
 ## Locked experience
 Premium editorial/cinematic technical design inspired by Dala's restraint. High-end motion and WebGL support storytelling. Avoid generic AI templates, Matrix rain, excessive HUD clutter and cyberpunk dashboards.
 
-The hero centers Ahmad's actual likeness, treated as an interactive hologram. `references/hero-layout-v1.png` guides composition, never identity. Dala guides continuous particle behavior, depth and scroll storytelling. The supplied portrait renders recognizably with bounded cursor response. Its particles disperse, gather into the agent loop, then become layered source documents in the context chapter. Reverse scrolling reforms the earlier forms. The latest September 17 instruction authorizes proceeding through RAG/context without waiting; it supersedes the prior stop after Agentic AI. Further chapters and deployment remain outside this slice.
+The hero centers Ahmad's actual likeness, treated as an interactive hologram. `references/hero-layout-v1.png` guides composition, never identity. Dala guides continuous particle behavior, depth and scroll storytelling. The supplied portrait renders recognizably with bounded cursor response. The latest approved compact sequence carries those same particles into Ahmad.AI's abstract bot symbol, infrastructure, the agent network, the selected project, and contact ambience. Reverse scrolling reforms earlier forms and the original portrait. The user authorized this complete compact revision and GitHub/Vercel publishing; model keys are deferred by the user.
 
 ## Narrative sequence
-1. Identity — who Ahmad is and what he builds.
-2. Agentic AI — systems that take useful actions, supported by verified examples.
-3. RAG/Context — how knowledge and context inform those systems.
-4. Infrastructure/DevOps — how systems are delivered and operated.
-5. OpsPilot — evidence-based project case study.
-6. InsightLoop — evidence-based project case study.
-7. Engineering — implementation decisions, constraints and tradeoffs.
-8. Ahmad.AI — portfolio assistant, with capabilities defined before implementation.
-9. Contact — verified contact details and a clear next step.
+1. Hero — Ahmad's existing recognizable portrait, identity and contact action.
+2. Ahmad.AI — original particles become an abstract bot symbol left; chat right.
+3. DevOps/Infrastructure — concise copy left, connected particle topology right.
+4. Agentic AI — concise agent/RAG capabilities left, reasoning network right.
+5. Highlighted Projects — changing particle visual left, OpsPilot / InsightLoop / in-development CloudOps selector right.
+6. Contact/footer — compact close, verified WhatsApp/email/GitHub/LinkedIn links.
+
+This approved sequence replaces the earlier nine-chapter plan. No separate context or full-length project chapters. Reserve the full-screen treatment for the hero; the rest stays in normal document flow.
 
 WordPress belongs in earlier/supporting experience. Do not elevate it into the hero identity.
 
@@ -38,7 +37,7 @@ WordPress belongs in earlier/supporting experience. Do not elevate it into the h
 - Vercel as deployment target; publishing the completed milestone through GitHub is now authorized by the September 17 publishing direction.
 - Proposed: render text and primary navigation independently of the WebGL layer; mount the scene as progressive enhancement. A static verified portrait remains available on loading failure or unsupported devices.
 - Select supported compatible library versions and package manager during implementation. No versions are locked by this document.
-- Define Ahmad.AI data sources, privacy, hosting and cost limits in a later phase. No assistant backend is in Phase 01.
+- Ahmad.AI: curated public facts with evidence links; Next.js server endpoint; Groq primary/Gemini fallback using server-only keys and bounded requests. No persistent conversations or assistant tools. Missing keys/provider failures produce visibly labeled direct profile answers. The user will add keys later. Provider quotas/account settings govern free-tier usage; local process limits are not a distributed quota.
 
 ## Quality requirements
 Responsive from small phones to wide desktop; keyboard-operable controls; visible focus; meaningful document structure; accessible contrast; prefers-reduced-motion support; descriptive metadata; social sharing artwork deferred until requested; optimized portrait assets; lazy-loaded WebGL; production-quality error handling.
@@ -65,11 +64,12 @@ The neutral-field implementation below was rejected visually. It is superseded b
 - Actual lint/typecheck/build checks pass; browser observations and performance limitations are documented.
 - No later sections in full, assistant backend, external service or deployment.
 
-## Approved roadmap
+## Historical phased roadmap
 01 Foundation + hero shell → 02 Ahmad hologram / identity → 03 Agentic AI → 04 RAG/context → 05 Infrastructure → 06 OpsPilot + InsightLoop → 07 Engineering/experience → 08 Ahmad.AI → 09 Contact/closing → 10 Performance/accessibility/responsive/SEO/QA → 11 Production deployment.
-Historical default: review each major visual phase before advancing. The user explicitly authorized moving from the card/hero revision into the next RAG/context part without waiting, then separately authorized publishing the current work through GitHub/Vercel. An assistant backend remains deferred.
+The approved compact six-section revision above supersedes this longer chapter-by-chapter roadmap. Ahmad.AI's server structure is authorized; real-provider activation/validation awaits keys. Final native-device performance, complete SEO/indexing approval and the final domain remain future release checks.
 
 ## Decision log
+- 2026-09-17 (compact revision): User approved shortening the portfolio to six sections, with Ahmad.AI directly after the hero, and explicitly locked the same portrait particles reforming across every animation. Added infrastructure, condensed agent/RAG explanations, an interactive three-project selector, and contact. Read OpsPilot/InsightLoop public READMEs and selected source artifacts before writing descriptions. The user approved Groq/Gemini structure and will add keys later; no paid service or actual model activation is asserted. Earlier narrative/assistant deferrals are superseded for this scope. Review: [compact portfolio](COMPACT-PORTFOLIO-REVIEW.md).
 - 2026-09-17 (publishing): User requested committing the completed milestone to GitHub so their Vercel account can deploy future changes, and selected the existing empty public repository [ahmad2474/ahmad](https://github.com/ahmad2474/ahmad). GitHub push and Vercel connection are now authorized, superseding the earlier local-only deployment restriction. Later narrative chapters remain deferred. Keep raw references local and deployment previews non-indexed. Record a deployment URL only after verification.
 - 2026-09-17 (current layout revision): User requested the agent globe beside heading/supporting copy, three cards below in a row, the same violet theme/cards in context, and a comparable animated CloudOps section with fuller supplied details. Removed the tall sticky agent composition; every explanation remains visible. The same point cloud gains a procedural evidence-engine destination for the planned CloudOps architecture. Public 222 / 115 / 315 counts are labeled planned scope, not measured performance. See [unified chapter review](UNIFIED-CHAPTERS-REVIEW.md).
 - 2026-09-17 (current): User supplied WhatsApp `+923026849341`, requested a changed hero palette, card styling with GSAP for Intent / Plan / Evidence, and instructed proceeding to the next part without waiting. Adopted near-black graphite / violet, retained the portrait material and geometry, linked the primary CTA to WhatsApp, removed the redundant approach copy, and implemented the RAG/context chapter with the same particles becoming source documents. CloudOps is explicitly in development; no unknown metrics or live retrieval simulation. See [context review](CONTEXT-REVIEW.md).

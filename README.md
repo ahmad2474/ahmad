@@ -1,6 +1,8 @@
 # Ahmad Hassan — Portfolio V2
 
-Ahmad's portrait responds to the cursor, disperses, gathers into an agent network, becomes context documents, then forms the planned CloudOps evidence engine. Agentic AI, context and CloudOps share a violet theme, heading/visual overview and three-card row. CloudOps remains clearly in development; public counts describe planned scope and unknown results are omitted. GitHub/Vercel publishing of this current milestone is authorized; infrastructure, other full case studies and the assistant backend remain deferred.
+Six compact sections: Hero → Ahmad.AI → DevOps/Infrastructure → Agentic AI → Projects → Contact/footer. The same portrait particles disperse and reform into every visual, with reversible scrolling and project-selection morphs. CloudOps is clearly in development; its scope/counts stay planned and unknown results are omitted.
+
+Live review: [ahmad-umber.vercel.app](https://ahmad-umber.vercel.app/).
 
 ## Run locally
 
@@ -34,22 +36,38 @@ The browser suite uses the production build and starts/stops its own server on p
 - `src/components/agentic-scene.tsx`: lazy initialization, reduced-motion preference and pause control.
 - `src/components/agentic-chapter.tsx`: semantic Agentic AI chapter, phase navigation and static SVG network.
 - `src/lib/agentic-network.ts`: shared diagram layout and procedural particle destinations.
-- `src/components/context-chapter.tsx`: semantic evidence-flow chapter, static document diagram and in-development project note.
-- `src/lib/context-particles.ts`: procedural source-document destinations for the existing particles.
-- `src/components/cloudops-chapter.tsx`: planned CloudOps architecture, source counts and engineering capabilities.
+- `src/components/assistant-section.tsx`, `profile-chat.tsx`: abstract agent symbol and grounded conversation interface.
+- `src/app/api/ahmad/route.ts`: server-only Groq/Gemini failover, input limits and labeled profile-reference fallback.
+- `src/lib/portfolio-knowledge.ts`: curated public facts and evidence links; no raw CV/private identifiers.
+- `src/components/infrastructure-section.tsx`: concise DevOps story and connected topology.
+- `src/components/projects-section.tsx`: keyboard-operable highlighted-project selection and details.
+- `src/components/contact-section.tsx`: verified public contact links.
+- `src/lib/portfolio-forms.ts`: non-identity bot/infrastructure/project destinations.
 - `src/lib/cloudops-particles.ts`: shared architecture coordinates and procedural evidence-engine destinations.
 - `src/lib/particle-renderer.ts`: Three.js rendering, GSAP scroll choreography and lifecycle cleanup.
 - `src/lib/portrait-particles.ts`: adapter for the supplied point-cloud data.
 - `tests/hero.spec.ts`: layout, anchor, keyboard, reduced-motion and no-JavaScript checks.
-- `tests/context.spec.ts`: document gathering/reversal/pause, context loss and responsive context checks.
+- `tests/context.spec.ts`: planned architecture remains populated at adaptive quality budgets.
+- `tests/compact.spec.ts`: narrative order, all-section reversal, project morphing, profile answers and chat errors.
+- `tests/assistant-api.spec.ts`: mocked provider failover and invalid-source rejection; no live model calls.
 - `docs/`: persistent specification and evidence registers.
 
-Read [unified chapter review](docs/UNIFIED-CHAPTERS-REVIEW.md) for the latest milestone. Earlier reports describe historical versions.
+Read [compact portfolio review](docs/COMPACT-PORTFOLIO-REVIEW.md) for the latest milestone. Earlier reports/components describe retained historical versions.
 
 ## Vercel deployment
 
 Repository: [ahmad2474/ahmad](https://github.com/ahmad2474/ahmad), selected by Ahmad. Deployment branch: `main`.
 
-Import this repository once in Vercel, select the Next.js preset, and use the repository root. Use `npm ci` for installation and `npm run build` for the build; leave the output directory at the framework default. No environment variables or backend services are required for the current site. Subsequent pushes to the connected branch trigger deployments.
+Connected to the existing Vercel project: Next.js preset, repository root, `npm ci`, `npm run build`, framework-default output. Pushes to `main` trigger deployments. Without model keys, the chat serves explicitly labeled direct profile-reference answers.
+
+## Activating Ahmad.AI
+
+Add `GROQ_API_KEY` in Vercel's server-side environment variables (Production and Preview as desired); optionally add `GEMINI_API_KEY` for fallback. Redeploy after adding variables. For local work, copy `.env.example` to `.env.local`. Never use a `NEXT_PUBLIC_` prefix for keys. Default models: Groq `openai/gpt-oss-20b`, Gemini `gemini-2.5-flash-lite`; override with `GROQ_MODEL` / `GEMINI_MODEL` if account availability changes. A Gemini key supplied locally was moved out of the tracked example into ignored local configuration. Vercel configuration and actual provider connectivity/answer quality remain unverified; live model testing is deferred.
+
+Use free-tier accounts and verify quotas/billing settings in the provider dashboards: [Groq limits](https://console.groq.com/docs/rate-limits), [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing). This app does not enable billing or a paid fallback. Provider timeouts, bounded context/output, a process-local limiter and concurrency backpressure reduce usage; they are not distributed rate or spending guarantees. Configure provider account limits and Vercel Firewall as needed for public traffic.
+
+The knowledge base is curated from public profile/project evidence, not a raw-CV upload. Rendered source IDs/links are allowlisted; this does not prove every generated statement accurate. No browsing/actions or persistent chat storage. Submitted context is sent to configured providers; the UI discloses that AI processing. Do not submit confidential information.
 
 The site remains non-indexed while it is under visual review. Raw identity photographs and the original résumé stay local in ignored `references/`; the runtime portrait assets and `myhologram/portraitParticles.js` are included. Local dependencies, builds, environment files, browser reports and `.vercel/` configuration are ignored.
+
+Latest configuration checkpoint: Ahmad reports both keys added in Vercel. The approved local Gemini request returned the labeled provider-unavailable profile fallback; a real model-generated answer remains unconfirmed. This supersedes the earlier setup deferral above.

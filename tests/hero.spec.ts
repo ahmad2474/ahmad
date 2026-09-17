@@ -23,11 +23,11 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     await expect(page.locator(".portrait-fallback img")).toBeVisible();
     expect(await page.locator(".portrait-fallback img").evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
     await expect(page.locator("canvas")).toHaveCount(0);
-    if ([390, 768, 1024, 1440].includes(width)) await page.screenshot({ path: `docs/review/particle-static-${width}.png`, fullPage: true });
+
     await expect(page.getByRole("link", { name: /Chat on WhatsApp/ })).toHaveAttribute("href", "https://wa.me/923026849341");
     await page.getByRole("link", { name: "SCROLL TO EXPLORE" }).click();
-    await expect(page).toHaveURL(/#agentic-ai$/);
-    await expect(page.locator("#agentic-title")).toBeInViewport();
+    await expect(page).toHaveURL(/#ahmad-ai$/);
+    await expect(page.locator("#assistant-title")).toBeInViewport();
     expect(errors).toEqual([]);
   });
 }
@@ -60,7 +60,7 @@ test("same live canvas responds to pointer, dissolves and reconstructs; pause fr
   await page.evaluate(() => window.scrollTo({ top: 1150, behavior: "instant" }));
   await expect.poll(async () => Number(await stage.getAttribute("data-progress"))).toBeGreaterThan(.95);
   expect(await canvas!.evaluate(el => el.isConnected)).toBe(true);
-  await page.screenshot({ path: "docs/review/particle-background.png" });
+
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await expect.poll(async () => Number(await stage.getAttribute("data-progress"))).toBeLessThan(.01);
   await page.getByRole("button", { name: "Pause motion" }).click();
@@ -109,7 +109,7 @@ test("failed WebGL initialization keeps the portrait and links usable", async ({
   await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback");
   await expect(page.locator(".portrait-fallback")).toBeVisible();
   await page.getByRole("link", { name: "SCROLL TO EXPLORE" }).click();
-  await expect(page).toHaveURL(/#agentic-ai$/);
+  await expect(page).toHaveURL(/#ahmad-ai$/);
 });
 
 test("phone uses the reduced particle budget and retains touch scrolling", async ({ browser }) => {
@@ -119,7 +119,7 @@ test("phone uses the reduced particle budget and retains touch scrolling", async
   await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready");
   await expect(page.locator("canvas")).toHaveAttribute("data-particle-count", "3022");
   await page.evaluate(() => window.scrollTo({ top: 250, behavior: "instant" }));
-  await page.screenshot({ path: "docs/review/particle-mobile-live.png" });
+
   await page.evaluate(() => window.scrollTo({ top: 1400, behavior: "instant" }));
   await expect.poll(async () => Number(await page.locator(".particle-stage").getAttribute("data-progress"))).toBeGreaterThan(.8);
   await context.close();
@@ -133,9 +133,9 @@ test("identity and anchors remain useful without JavaScript", async ({ browser }
   await expect(page.locator(".portrait-fallback img")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
   await page.getByRole("link", { name: "SCROLL TO EXPLORE" }).click();
-  await expect(page).toHaveURL(/#agentic-ai$/);
-  await expect(page.locator(".context-static-points").first()).toHaveCSS("opacity", "0.5");
-  await expect(page.getByText("IN DEVELOPMENT", { exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/#ahmad-ai$/);
+  await expect(page.locator(".agent-symbol .form-fallback")).toHaveCSS("opacity", "0.65");
+  await expect(page.locator(".no-script-projects")).toContainText("in development");
   await context.close();
 });
 
@@ -178,7 +178,7 @@ test("portrait particles gather into a reversible agent loop; phase links work w
     for (const story of [0, 1, 2]) await expect(page.locator(`[data-phase-story="${story}"]`)).toBeVisible();
     expect(await canvas!.evaluate(el => el.isConnected)).toBe(true);
   }
-  await page.screenshot({ path: "docs/review/agentic-desktop-verify.png" });
+
   const reason = page.locator('[data-phase-link="0"]');
   await reason.focus();
   await page.keyboard.press("Enter");

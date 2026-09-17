@@ -3,6 +3,8 @@
 Status: creative principles locked; numerical tokens and exact styling proposed.
 
 ## Locked principles
+
+Latest compact revision supersedes the historical layouts below: six sections, normal document flow, graphite/violet throughout. Hero stays unchanged. Ahmad.AI pairs the left abstract bot glyph with a single purpose-built conversation surface right. DevOps and agent capabilities are concise ruled lists left, contained visuals right. Projects pair one selected visual left with three keyboard-operable project tabs and details right. Contact closes in two columns. Mobile recomposes each pair; project controls precede its visual/details. Raw photographs and private résumé identifiers never enter assistant content. No new dashboard or generic feature-card grid.
 Premium editorial/cinematic technical direction with Dala-inspired restraint. Lead with typography, negative space, hierarchy and Ahmad's likeness. Use technical detail sparingly and meaningfully. No generic AI-template design, Matrix rain, excessive HUD clutter or generic cyberpunk dashboards.
 
 ## Proposed starting system
