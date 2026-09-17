@@ -55,7 +55,7 @@ test("keyboard skip link and primary action retain visible focus", async ({ page
   await expect(cta).toHaveAttribute("rel", "noopener noreferrer");
 });
 
-test("same live canvas responds to pointer, dissolves and reconstructs; pause freezes it", async ({ page }) => {
+test("same live canvas responds to pointer, dissolves and reconstructs", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 960 });
   await page.goto("/");
   const stage = page.locator(".particle-stage");
@@ -70,19 +70,7 @@ test("same live canvas responds to pointer, dissolves and reconstructs; pause fr
 
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await expect.poll(async () => Number(await stage.getAttribute("data-progress"))).toBeLessThan(.01);
-  await page.getByRole("button", { name: "Pause motion" }).click();
-  await expect(stage).toHaveAttribute("data-render-state", "paused");
-  const rotation = await stage.getAttribute("data-rotation");
-  const atmosphereTime = await stage.getAttribute("data-atmosphere-time");
-  await page.mouse.move(10, 300);
-  await page.evaluate(() => window.scrollTo({ top: 800, behavior: "instant" }));
-  await page.waitForTimeout(300);
-  expect(await stage.getAttribute("data-progress")).toBe("0.000");
-  expect(await stage.getAttribute("data-rotation")).toBe(rotation);
-  expect(await stage.getAttribute("data-atmosphere-time")).toBe(atmosphereTime);
-  await page.getByRole("button", { name: "Resume motion" }).click();
-  await expect.poll(async () => Number(await stage.getAttribute("data-progress"))).toBeGreaterThan(.5);
-  await expect.poll(async () => Number(await stage.getAttribute("data-atmosphere-time"))).toBeGreaterThan(Number(atmosphereTime));
+  await expect(page.getByRole("button", { name: "Pause motion" })).toHaveCount(0);
 });
 
 test("changing reduced motion removes WebGL and restores the static portrait", async ({ page }) => {
@@ -198,7 +186,7 @@ for (const width of [320, 390, 1280]) {
   });
 }
 
-test("portrait particles gather into a reversible agent loop; phase links work with keyboard and pause", async ({ page }) => {
+test("portrait particles gather into a reversible agent loop; phase links work with keyboard", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 960 });
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
@@ -222,12 +210,8 @@ test("portrait particles gather into a reversible agent loop; phase links work w
   await reason.focus();
   await page.keyboard.press("Enter");
   await expect(chapter).toHaveAttribute("data-phase", "0");
-  await page.getByRole("button", { name: "Pause motion" }).click();
-  const flow = await stage.getAttribute("data-flow");
   await page.locator('[data-phase-link="2"]').click();
   await expect(page.locator('[data-phase-story="2"]')).toBeVisible();
-  expect(await stage.getAttribute("data-flow")).toBe(flow);
-  await page.getByRole("button", { name: "Resume motion" }).click();
   await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
   await expect.poll(async () => Number(await stage.getAttribute("data-gather"))).toBeLessThan(.01);
   await expect.poll(async () => Number(await stage.getAttribute("data-progress"))).toBeLessThan(.01);

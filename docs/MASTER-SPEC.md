@@ -14,6 +14,8 @@ Read alongside [Design system](DESIGN-SYSTEM.md), [Motion system](MOTION-SYSTEM.
 The registered local project is `/Users/apple/Projects/Ahmad/AgenticAI-WebPortfolio` (app label: AgenticAI-Web-Portfolio). It was empty at inspection: no code, package manifest, assets, AGENTS.md, or .git directory. No existing implementation was replaced. The Phase 01 implementation now uses this registered folder directly. At Phase 01 inspection it contained AGENTS.md and five planning documents, but no application, package/config files, public assets or Git metadata. Existing documentation is preserved and reconciled with the new brief.
 
 ## Locked experience
+
+September 18 latest detail direction: remove the visible pause button, show a back-to-top arrow below the hero, and add restrained desktop wheel easing. Native touch/precision input and reduced-motion fallbacks remain; no narrative or identity change.
 Premium editorial/cinematic technical design inspired by Dala's restraint. High-end motion and WebGL support storytelling. Avoid generic AI templates, Matrix rain, excessive HUD clutter and cyberpunk dashboards.
 
 The hero centers Ahmad's actual likeness, treated as an interactive hologram. `references/hero-layout-v1.png` guides composition, never identity. Dala guides continuous particle behavior, depth and scroll storytelling. The supplied portrait renders recognizably with bounded cursor response. The latest approved compact sequence carries those same particles into Ahmad.AI's abstract bot symbol, infrastructure, the agent network, the selected project, and contact ambience. Reverse scrolling reforms earlier forms and the original portrait. The user authorized this complete compact revision and GitHub/Vercel publishing; model keys are deferred by the user.

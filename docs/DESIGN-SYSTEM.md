@@ -4,6 +4,8 @@ Status: creative principles locked; numerical tokens and exact styling proposed.
 
 ## Locked principles
 
+Latest scrolling direction: remove the visible Pause/Resume motion button. A 48px violet glass up-arrow appears only once the entire hero is above the viewport, links back to the page top and returns keyboard focus to the home identity. Keep reduced-motion support. Add only brief 160ms easing to stepped desktop wheel input; precision trackpad movement, touch, keyboard and nested scrolling panels stay native.
+
 Latest mobile/density direction: below the existing 53.125rem container breakpoint, navigation collapses behind a 48px three-line disclosure control. Its dropdown preserves the glass palette; native disclosure keeps access without JavaScript. Desktop keeps the inline glass nav. Desktop portrait sampling is thinned by exactly 25%, from 9,832 to 7,374; compact sampling stays at 3,022. Preserve glyph sizing, material and authoritative original positions while opening more space between desktop particles.
 
 Latest detail refinement: main navigation is one translucent violet glass surface with unboxed, warm off-white/lilac links inside. GitHub uses the same warm text palette. The hero's left kicker aligns with the right notes on full desktop. “Scroll to explore” is plain non-interactive text without a surface. Remove the right sign-off. Footer identifies Ahmad Hassan and shows “© [current year] All rights reserved.” The browser refreshes the year on load, hourly and on visibility change; server output provides the build-time fallback.

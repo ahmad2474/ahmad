@@ -14,6 +14,7 @@ This repository is the source of truth for Portfolio V2. Current milestone: the 
 The user's latest explicit direction takes precedence. Preserve useful existing work and inspect files and Git status before edits. Update these documents when decisions change; mark proposals and unknowns instead of silently treating them as approved. Do not invent credentials, project features, outcomes, metrics or links.
 
 ## Locked creative rules
+- Latest September 18 control direction: remove the visible Pause/Resume motion button; show a 48px back-to-top arrow only after the hero leaves the viewport. Preserve OS reduced motion. Desktop stepped wheel input has brief 160ms easing through native document coordinates; small precision deltas, touch, keyboard, modifiers and nested panels bypass it. No additional scroll library or transformed container.
 - September 18 refinement: the user approved slow violet background illumination with slight cursor response, sparse fading trails on existing ambient particles, and glow during reformation. Reuse the existing canvas/clock/pause/lifecycle; simplify on phones and at adaptive economy quality. Reduced motion/no WebGL receives static illumination. Round existing boxes/buttons, and give action links rounded boxed styling. Preserve the six-section composition and verified likeness. The user reports the deployed chatbot works; Gemini fallback remains separately unconfirmed.
 - Premium editorial/cinematic technical design, inspired by Dala's restraint.
 - Sophisticated high-end motion and WebGL should explain the work.

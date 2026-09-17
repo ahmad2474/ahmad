@@ -50,14 +50,8 @@ test("one portrait point cloud reforms through every section, reverses, and proj
   await page.getByRole("tab", { name: /InsightLoop/ }).click();
   await expect(stage).toHaveAttribute("data-project-key", "insightloop");
   await expect.poll(async () => Number(await stage.getAttribute("data-project-mix"))).toBeGreaterThan(.99);
-  await page.getByRole("button", { name: "Pause motion" }).click();
-  const project = await stage.getAttribute("data-project");
   await page.getByRole("tab", { name: /CloudOps/ }).click();
   await expect(page.getByRole("tabpanel")).toContainText("IN DEVELOPMENT");
-  await page.waitForTimeout(200);
-  await expect(stage).toHaveAttribute("data-project-key", "insightloop");
-  expect(await stage.getAttribute("data-project")).toBe(project);
-  await page.getByRole("button", { name: "Resume motion" }).click();
   await expect(stage).toHaveAttribute("data-project-key", "cloudops");
   await expect.poll(async () => Number(await stage.getAttribute("data-project-mix"))).toBeGreaterThan(.99);
   const contactTop = await page.locator("#contact").evaluate(el => el.getBoundingClientRect().top + scrollY);

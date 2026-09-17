@@ -7,6 +7,7 @@ import { ProjectsSection } from "@/components/projects-section";
 import { ContactSection } from "@/components/contact-section";
 import { CopyrightYear } from "@/components/copyright-year";
 import { MobileNavigation } from "@/components/mobile-navigation";
+import { PageControls } from "@/components/page-controls";
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>;
@@ -14,7 +15,7 @@ function Arrow() {
 
 export default function Home() {
   return (
-    <><AgenticScene /><div className="portfolio" id="identity">
+    <><AgenticScene /><PageControls /><div className="portfolio" id="identity">
       <header className="site-header">
         <a className="wordmark" href="#identity" aria-label="Ahmad Hassan, home">AHMAD HASSAN</a>
         <nav className="desktop-navigation" aria-label="Main navigation">
