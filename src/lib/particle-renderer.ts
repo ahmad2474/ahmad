@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { createPortraitParticles, type PortraitSource } from "./portrait-particles";
 import { createNetworkDestinations } from "./agentic-network";
 import { createAgentDestinations, createInfrastructureDestinations, createProjectDestinations, type ProjectKey } from "./portfolio-forms";
+import { createSceneAtmosphere } from "./scene-atmosphere";
 
 export interface ParticleController { dispose: () => void; setPaused: (paused: boolean) => void }
 
@@ -148,7 +149,7 @@ const ambientVertexShader = `
     gl_Position = vec4(xy / (uViewport * .5), .5, 1.);
     gl_PointSize = aSize * uDpr;
     vColor = aColor;
-    vAlpha = (.12 + position.z * .14) * (1. - smoothstep(.1, .8, uProgress));
+    vAlpha = (.12 + position.z * .14) * mix(1., .35, smoothstep(.1, .8, uProgress));
     vSeed = aSeed;
   }
 `;
@@ -244,7 +245,9 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   const ambientMaterial = new THREE.ShaderMaterial({ uniforms: { ...uniforms, uOpacity: { value: 1.25 } }, vertexShader: ambientVertexShader, fragmentShader, transparent: true, depthWrite: false, depthTest: false, blending: THREE.NormalBlending });
   const ambient = new THREE.Points(ambientGeometry, ambientMaterial);
   ambient.frustumCulled = false; ambient.renderOrder = -1;
-  scene.add(ambient, points);
+  const atmosphere = createSceneAtmosphere(uniforms, ambientGeometry, compact);
+  const lightFocus = new THREE.Vector2();
+  scene.add(atmosphere.field, atmosphere.trails, ambient, points);
   const camera = new THREE.Camera();
   const cursor = new THREE.Vector2(), pointer = new THREE.Vector2(10000, 10000);
   const progress = { value: 0 }, agentProgress = { value: 0 }, infraProgress = { value: 0 };
@@ -306,7 +309,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
     stories.forEach(story => delete story.dataset.active);
     phaseLinks.forEach(link => link.removeAttribute("aria-current"));
     diagram?.style.removeProperty("--route-offset");
-    for (const key of ["gather", "flow", "agent", "infrastructure", "project", "contact", "projectMix"]) delete host.dataset[key];
+    for (const key of ["gather", "flow", "agent", "infrastructure", "project", "contact", "projectMix", "atmosphereTime", "atmosphereBloom", "atmosphereMode"]) delete host.dataset[key];
   };
   const stopMotion = () => { tweens.forEach(tween => { tween.scrollTrigger?.kill(); tween.kill(); }); context.revert(); resetChapter(); };
   const fail = () => {
@@ -353,6 +356,16 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
     track(infraAnchor, uniforms.uInfrastructureCenter.value, uniforms.uInfrastructureExtent.value);
     track(networkAnchor, uniforms.uNetworkCenter.value, uniforms.uNetworkExtent.value);
     track(projectAnchor, uniforms.uProjectCenter.value, uniforms.uProjectExtent.value);
+    lightFocus.copy(uniforms.uCenter.value)
+      .lerp(uniforms.uAgentCenter.value, agentProgress.value)
+      .lerp(uniforms.uInfrastructureCenter.value, infraProgress.value)
+      .lerp(uniforms.uNetworkCenter.value, gatherProgress.value)
+      .lerp(uniforms.uProjectCenter.value, projectProgress.value);
+    const pulse = (value: number) => Math.pow(Math.sin(Math.PI * value), 4);
+    const bloom = Math.max(pulse(agentProgress.value), pulse(infraProgress.value), pulse(gatherProgress.value), pulse(projectProgress.value), projectFrom ? pulse(Math.min(1, (elapsed - projectChangeStart) / .9)) : 0);
+    atmosphere.update(lightFocus, bloom, qualityLevel, contactProgress.value);
+    host.dataset.atmosphereMode = qualityLevel === 2 ? "static" : "animated";
+    host.dataset.atmosphereTime = elapsed.toFixed(3); host.dataset.atmosphereBloom = bloom.toFixed(3);
     const diagnostics = { progress: progress.value.toFixed(3), rotation: uniforms.uCursor.value.x.toFixed(3), agent: agentProgress.value.toFixed(3), infrastructure: infraProgress.value.toFixed(3), gather: gatherProgress.value.toFixed(3), flow: sequence.value.toFixed(3), project: projectProgress.value.toFixed(3), contact: contactProgress.value.toFixed(3) };
     for (const [key, value] of Object.entries(diagnostics)) if (host.dataset[key] !== value) host.dataset[key] = value;
     if (phase !== lastPhase) { applyPhase(phase); lastPhase = phase; }
@@ -365,7 +378,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
       if (samples === 100) {
         const mean = totalFrameTime / samples; host.dataset.meanFrameMs = mean.toFixed(1);
         if (qualityLevel < 2 && mean > (qualityLevel === 0 ? 30 : 26)) {
-          qualityLevel++;
+          qualityLevel = qualityLevel === 0 && mean > 45 ? 2 : qualityLevel + 1;
           const nextDpr = qualityLevel === 1 ? 1.5 : 1.25;
           renderer.setPixelRatio(nextDpr); uniforms.uDpr.value = nextDpr;
           const reducedCount = Math.floor(count * (qualityLevel === 1 ? .65 : .45));
@@ -424,6 +437,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   window.addEventListener("portfolio-project", selectProject);
   chapter.addEventListener("click", selectPhase);
   host.dataset.quality = compact ? "compact" : "full"; host.dataset.renderState = "running";
+  host.dataset.atmosphereMode = "animated";
   host.dataset.projectKey = projectChapter.dataset.project || "opspilot"; host.style.visibility = "";
   ScrollTrigger.refresh(); wake();
 
@@ -442,7 +456,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
       document.removeEventListener("pointerleave", pointerLeave); document.removeEventListener("visibilitychange", visibility);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       stopMotion();
-      geometry.dispose(); material.dispose(); ambientGeometry.dispose(); ambientMaterial.dispose(); renderer.dispose(); renderer.forceContextLoss();
+      atmosphere.dispose(); geometry.dispose(); material.dispose(); ambientGeometry.dispose(); ambientMaterial.dispose(); renderer.dispose(); renderer.forceContextLoss();
       renderer.domElement.remove(); host.style.visibility = "";
     },
   };

@@ -66,13 +66,16 @@ test("same live canvas responds to pointer, dissolves and reconstructs; pause fr
   await page.getByRole("button", { name: "Pause motion" }).click();
   await expect(stage).toHaveAttribute("data-render-state", "paused");
   const rotation = await stage.getAttribute("data-rotation");
+  const atmosphereTime = await stage.getAttribute("data-atmosphere-time");
   await page.mouse.move(10, 300);
   await page.evaluate(() => window.scrollTo({ top: 800, behavior: "instant" }));
   await page.waitForTimeout(300);
   expect(await stage.getAttribute("data-progress")).toBe("0.000");
   expect(await stage.getAttribute("data-rotation")).toBe(rotation);
+  expect(await stage.getAttribute("data-atmosphere-time")).toBe(atmosphereTime);
   await page.getByRole("button", { name: "Resume motion" }).click();
   await expect.poll(async () => Number(await stage.getAttribute("data-progress"))).toBeGreaterThan(.5);
+  await expect.poll(async () => Number(await stage.getAttribute("data-atmosphere-time"))).toBeGreaterThan(Number(atmosphereTime));
 });
 
 test("changing reduced motion removes WebGL and restores the static portrait", async ({ page }) => {
@@ -81,10 +84,12 @@ test("changing reduced motion removes WebGL and restores the static portrait", a
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("canvas")).toHaveCount(0);
   await expect(page.locator(".portrait-fallback")).toBeVisible();
+  await expect(page.locator(".atmosphere-fallback")).toBeVisible();
   await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready");
   await expect(page.locator("canvas")).toHaveCount(1);
+  await expect(page.locator(".atmosphere-fallback")).toBeHidden();
 });
 
 test("WebGL context loss restores content and fallback", async ({ page }) => {
@@ -93,6 +98,7 @@ test("WebGL context loss restores content and fallback", async ({ page }) => {
   await page.locator("canvas").evaluate((canvas: HTMLCanvasElement) => canvas.getContext("webgl2")?.getExtension("WEBGL_lose_context")?.loseContext());
   await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback");
   await expect(page.locator(".portrait-fallback")).toBeVisible();
+  await expect(page.locator(".atmosphere-fallback")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });

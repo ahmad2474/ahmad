@@ -54,6 +54,7 @@ export function AgenticScene() {
 
   return (
     <>
+      <div className="atmosphere-fallback" aria-hidden="true" />
       <div ref={mount} className="particle-stage" data-status={status} aria-hidden="true" />
       {status === "ready" && <button className="motion-toggle" type="button" title={paused ? "Resume motion" : "Pause motion"} aria-pressed={paused} onClick={() => {
         const next = !paused;

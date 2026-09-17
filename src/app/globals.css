@@ -66,6 +66,8 @@ h1 > span:nth-child(2) { color: var(--color-accent); }
 .hero .scroll-cue > span { color: #d4bdff; }
 
 /* A single fixed canvas carries the same particles from portrait into background. */
+.atmosphere-fallback { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 67% 43%, #69449a21, transparent 58%), radial-gradient(ellipse at 12% 80%, #5133750f, transparent 52%); }
+html[data-particles="ready"]:has(.particle-stage[data-atmosphere-mode="animated"]) .atmosphere-fallback { visibility: hidden; }
 .particle-stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .particle-stage canvas { width: 100%; height: 100%; display: block; }
 .identity-field { position: absolute; z-index: 1; width: 55%; height: 90%; left: 26%; top: -2%; margin: 0; pointer-events: none; }
@@ -463,6 +465,35 @@ html[data-particles="ready"] .form-fallback { opacity: 0; }
   .chat-form { flex-wrap: wrap; }
   .chat-form textarea { flex-basis: 100%; }
   .chat-form button { margin-left: auto; }
+}
+/* Rounded surfaces and boxed action links share one vocabulary. */
+:root { --radius-panel: 24px; --radius-control: 14px; }
+.profile-chat, .phase-story, .context-step, .cloudops-capability, .cloudops-foundation article { border-radius: var(--radius-panel); }
+.button-primary, .button-secondary, .chat-prompts button, .chat-form button, .chat-form textarea, .project-tabs button, .skip-link { border-radius: var(--radius-control); }
+.button-secondary { border-color: #ae8bdd45; background: #15101dc9; color: #d5c5e8; }
+.button-secondary:hover { border-color: #c1a3ff90; background: #241a34; }
+.nav-link, .header-link, .section-evidence, .context-trace-link, .contact-email, .contact-links a, .site-footer > a, .scroll-cue, .chat-sources a, .capability-lines dt a {
+  border: 1px solid #ae8bdd40; border-radius: var(--radius-control); padding: .65rem .85rem; max-width: 100%; background: #14101e9c;
+  transition: border-color var(--duration-ui), background var(--duration-ui), color var(--duration-ui);
+}
+.nav-link:hover, .header-link:hover, .section-evidence:hover, .contact-email:hover, .contact-links a:hover, .site-footer > a:hover, .scroll-cue:hover, .chat-sources a:hover, .capability-lines dt a:hover { border-color: #c1a3ff8c; background: #261b36d9; color: #eadbff; }
+.site-header nav { gap: .6rem; }
+.contact-links { gap: .65rem; }
+.contact-email { font-size: clamp(.875rem, 1.4vw, 1.2rem); }
+.capability-lines dt a { padding: .55rem .75rem; }
+.capability-lines dt a[aria-current="step"] { border-color: #c1a3ff88; background: #261b36b3; }
+.chat-sources a { text-decoration: none; }
+.chat-form textarea { border: 1px solid #ae8bdd26; background: #0e0b14a1; }
+.project-tabs { gap: .55rem; border-bottom: 0; }
+.project-tabs button { border: 1px solid #ae8bdd32; padding: .8rem 1rem; background: #14101e94; transition: background var(--duration-ui), border-color var(--duration-ui); }
+.project-tabs button:hover { border-color: #c1a3ff75; background: #23192f; }
+.project-tabs button[aria-selected="true"] { border-color: #c1a3ff80; background: #271b3caa; }
+.project-status { border: 1px solid #ae8bdd38; border-radius: 999px; }
+.motion-toggle { border-radius: 999px; border-color: #ae8bdd38; }
+@container (max-width: 53.125rem) {
+  .site-header nav { gap: .5rem; }
+  .nav-link { padding: .55rem .65rem; }
+  .section-evidence { gap: .75rem; letter-spacing: .05em; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }

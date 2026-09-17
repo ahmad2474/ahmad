@@ -4,6 +4,8 @@ Status: supplied CV and selected public repository documentation/source inspecte
 
 ## Compact revision evidence review
 
+September 18: Ahmad reports the deployed assistant works. No further provider requests were needed for the atmosphere/control revision; separate Gemini fallback fidelity/connectivity remains unverified.
+
 Final configuration checkpoint: a locally supplied Gemini key was moved to ignored local configuration. The user reports both keys added in Vercel and approved one local Gemini test. It returned the labeled provider-unavailable profile fallback; real model generation remains unconfirmed. This supersedes earlier key deferrals.
 
 OpsPilot and InsightLoop now appear together in one selectable projects section. On September 17, read the public READMEs plus selected source: OpsPilot [Terraform tables](https://github.com/ahmad2474/opspilot-ai/blob/main/scripts/terraform/main.tf) and [CI workflow](https://github.com/ahmad2474/opspilot-ai/blob/main/.github/workflows/ci.yml); InsightLoop [agent loop](https://github.com/ahmad2474/insightloop/blob/main/src/lib/agent/loop.ts) and [query guard](https://github.com/ahmad2474/insightloop/blob/main/src/lib/bigquery/client.ts). Reviewed artifacts support table provisioning, backend Docker/CI, custom tool/retry/clarification flow and read-only SQL boundaries. Other descriptions are explicitly repository-documented. No end-to-end AWS/BigQuery run, evaluation result, deployment adoption or financial outcome was independently verified. In particular, OpsPilot Terraform provisions three DynamoDB tables, not an entire AWS platform.

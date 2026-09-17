@@ -54,6 +54,8 @@ The browser suite uses the production build and starts/stops its own server on p
 
 Read [compact portfolio review](docs/COMPACT-PORTFOLIO-REVIEW.md) for the latest milestone. Earlier reports/components describe retained historical versions.
 
+September 18 refinement: [atmosphere and rounded-controls review](docs/ATMOSPHERE-REVIEW.md). `src/lib/scene-atmosphere.ts` shares the existing particle canvas, clock and lifecycle, adding violet light, occasional ambient trails and a gathering pulse. The user confirms the live chatbot works; Gemini fallback remains independently unverified.
+
 ## Vercel deployment
 
 Repository: [ahmad2474/ahmad](https://github.com/ahmad2474/ahmad), selected by Ahmad. Deployment branch: `main`.

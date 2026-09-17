@@ -1,5 +1,9 @@
 # Portfolio V2 — Motion system
 
+## September 18 atmosphere
+
+`scene-atmosphere.ts` adds a soft interpolated violet light field and fading line tails to the existing renderer. Light follows the same anchors and eased cursor; a bounded pulse accompanies scroll gathering and project selection. Trails reuse 18 existing ambient points on desktop / 6 on compact devices. Ambient points remain subdued throughout the page instead of disappearing after the hero. No new canvas, animation loop, texture assets or dependencies. Field/trails share the renderer clock, pause, visibility suspension, reduced-motion disposal and WebGL failure lifecycle. Economy quality removes trails and replaces animated lighting with static CSS illumination; reduced motion/WebGL failure also uses that static field. A frame window above 45ms can go straight to economy without an intermediate window. These decorations do not carry factual content.
+
 ## Current compact sequence
 
 One Three.js canvas and one authoritative portrait point cloud carries Hero → abstract bot glyph → Infrastructure topology → Reason/Act/Verify network → selected project → quiet contact scatter. Scroll progress is reversible; returning to the top reconstructs the same original portrait positions. Independent seeded destinations are decorative system geometry, never new facial anatomy. Project tabs interpolate the existing destination buffer over 0.9 seconds using smoothstep; rapid selection starts from its current intermediate state. Pending selections wait while paused. No canvas swap or identity data regeneration.

@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-18",
+  "viewport": "1440x960",
+  "scene": "Ahmad.AI with adaptive atmospheric background",
+  "intervalCount": 179,
+  "medianMs": 16.7,
+  "p95Ms": 16.8,
+  "quality": "economy",
+  "atmosphereMode": "static",
+  "rendererMeanMs": "16.8",
+  "webglRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "limitations": "Headless software-WebGL scheduling after adaptive static-light fallback, not native GPU presentation or universal 60fps.",
+  "browser": "153.0.8010.12"
+}
