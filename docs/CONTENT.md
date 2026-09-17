@@ -2,6 +2,8 @@
 
 ## Latest compact content
 
+Latest approved detail changes: remove “From the next action / to the system around it.” from the hero. “Scroll to explore” is plain text, not an anchor. Footer name is Ahmad Hassan, with a variable current-year copyright line and “All rights reserved.” Other identity/project claims are unchanged.
+
 September 18: the user confirms the live chatbot is working. This is user-reported live behavior; independent Gemini fallback verification remains outstanding. Atmospheric and rounded-control refinements add no project claims or content changes.
 
 Configuration checkpoint: a supplied local Gemini key is preserved in ignored local configuration, never public content or the tracked example. The user reports both keys added in Vercel and approved one local Gemini test. It returned the labeled provider-unavailable profile fallback; model generation remains unconfirmed. This supersedes earlier key deferrals.

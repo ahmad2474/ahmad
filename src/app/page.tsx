@@ -5,6 +5,7 @@ import { AssistantSection } from "@/components/assistant-section";
 import { InfrastructureSection } from "@/components/infrastructure-section";
 import { ProjectsSection } from "@/components/projects-section";
 import { ContactSection } from "@/components/contact-section";
+import { CopyrightYear } from "@/components/copyright-year";
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>;
@@ -50,9 +51,8 @@ export default function Home() {
               <div><dt><span aria-hidden="true">02</span> CONTEXT & RAG</dt><dd>Grounded in evidence.</dd></div>
               <div><dt><span aria-hidden="true">03</span> INFRASTRUCTURE</dt><dd>Built to operate.</dd></div>
             </dl>
-            <p className="notes-signoff">From the next action<br />to the system around it.</p>
           </aside>
-          <div className="hero-closing"><a className="scroll-cue" href="#ahmad-ai"><span aria-hidden="true">↓</span> SCROLL TO EXPLORE</a></div>
+          <div className="hero-closing"><p className="scroll-cue"><span aria-hidden="true">↓</span> SCROLL TO EXPLORE</p></div>
         </section>
         <AssistantSection />
         <InfrastructureSection />
@@ -62,7 +62,7 @@ export default function Home() {
         <ContactSection />
       </main>
       <footer className="site-footer">
-        <p>AH / PORTFOLIO V2</p>
+        <div className="footer-identity"><p>Ahmad Hassan</p><p className="footer-copyright">© <CopyrightYear initialYear={new Date().getFullYear()} /> All rights reserved.</p></div>
         <span className="footer-center" aria-hidden="true">IDENTITY <span>—</span> INTELLIGENCE <span>—</span> INFRASTRUCTURE</span>
         <a href="mailto:ahmad_warraich@outlook.com">Let’s build something intelligent. <Arrow /></a>
       </footer>

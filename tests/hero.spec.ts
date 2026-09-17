@@ -25,7 +25,8 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     await expect(page.locator("canvas")).toHaveCount(0);
 
     await expect(page.getByRole("link", { name: /Chat on WhatsApp/ })).toHaveAttribute("href", "https://wa.me/923026849341");
-    await page.getByRole("link", { name: "SCROLL TO EXPLORE" }).click();
+    await expect(page.getByRole("link", { name: "SCROLL TO EXPLORE" })).toHaveCount(0);
+    await page.getByRole("link", { name: "Ahmad.AI", exact: true }).click();
     await expect(page).toHaveURL(/#ahmad-ai$/);
     await expect(page.locator("#assistant-title")).toBeInViewport();
     expect(errors).toEqual([]);
@@ -114,7 +115,7 @@ test("failed WebGL initialization keeps the portrait and links usable", async ({
   await page.goto("/");
   await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback");
   await expect(page.locator(".portrait-fallback")).toBeVisible();
-  await page.getByRole("link", { name: "SCROLL TO EXPLORE" }).click();
+  await page.getByRole("link", { name: "Ahmad.AI", exact: true }).click();
   await expect(page).toHaveURL(/#ahmad-ai$/);
 });
 
@@ -138,7 +139,7 @@ test("identity and anchors remain useful without JavaScript", async ({ browser }
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator(".portrait-fallback img")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
-  await page.getByRole("link", { name: "SCROLL TO EXPLORE" }).click();
+  await page.getByRole("link", { name: "Ahmad.AI", exact: true }).click();
   await expect(page).toHaveURL(/#ahmad-ai$/);
   await expect(page.locator(".agent-symbol .form-fallback")).toHaveCSS("opacity", "0.65");
   await expect(page.locator(".no-script-projects")).toContainText("in development");
