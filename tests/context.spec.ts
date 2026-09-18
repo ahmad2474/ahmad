@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { CLOUDOPS_NODES, createCloudOpsDestinations } from "../src/lib/cloudops-particles";
 
-test("every architecture terminal remains populated through both adaptive quality budgets", () => {
+test("every evidence page and grounding core remain populated through adaptive quality budgets", () => {
   const count = 9000;
   const positions = createCloudOpsDestinations(count);
   for (const budget of [1, .65, .45]) {
@@ -11,9 +11,9 @@ test("every architecture terminal remains populated through both adaptive qualit
       for (let i = 0; i < drawn; i++) {
         const index = Math.floor(i * count / drawn) * 3;
         const dx = positions[index] - (node.x - .5), dy = positions[index + 1] - (.5 - node.y);
-        if (dx * dx + dy * dy < .04 * .04) populated++;
+        if (Math.abs(dx) < .12 && Math.abs(dy) < .16) populated++;
       }
-      expect(populated, `${node.label} at ${budget * 100}%`).toBeGreaterThan(drawn * .03);
+      expect(populated, `${node.label} at ${budget * 100}%`).toBeGreaterThan(drawn * .1);
     }
   }
 });

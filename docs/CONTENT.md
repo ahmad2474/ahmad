@@ -2,6 +2,8 @@
 
 ## Latest compact content
 
+September 18 visual assets: `src/app/icon.svg` is an original code-native AH monogram; `favicon.ico` contains 16/32/48px rasterizations and `apple-icon.png` is its 180px rasterization. Next metadata file conventions supply icon links. Agent sigil, InsightLoop ribbon and CloudOps evidence-page destinations are procedural decorative geometry; static SVG diagrams match. Original portrait data and public completion/evidence claims are unchanged. CloudOps remains planned/in development; chatbot response logic is the next task.
+
 Latest mobile/portrait refinement: use a three-line mobile navigation disclosure, including the existing GitHub destination. Thin desktop portrait spatial sampling from 9,832 to 7,374 original positions (25% reduction); mobile remains 3,022. Supplied identity data/original folders remain unchanged. The existing static fallback is retained; this density change applies to the interactive point cloud.
 
 Latest approved detail changes: remove “From the next action / to the system around it.” from the hero. “Scroll to explore” is plain text, not an anchor. Footer name is Ahmad Hassan, with a variable current-year copyright line and “All rights reserved.” Other identity/project claims are unchanged.

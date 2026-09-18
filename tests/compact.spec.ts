@@ -3,7 +3,7 @@ import { profileAnswer } from "../src/lib/portfolio-knowledge";
 import { createAgentDestinations, createInfrastructureDestinations, createProjectDestinations } from "../src/lib/portfolio-forms";
 
 test("new forms preserve deterministic finite geometry at all quality budgets", () => {
-  for (const form of [createAgentDestinations, createInfrastructureDestinations, (count: number) => createProjectDestinations("insightloop", count)]) {
+  for (const form of [createAgentDestinations, createInfrastructureDestinations, (count: number) => createProjectDestinations("insightloop", count), (count: number) => createProjectDestinations("cloudops", count)]) {
     const points = form(3022);
     expect(points).toEqual(form(3022));
     expect([...points].every(Number.isFinite)).toBe(true);

@@ -12,30 +12,25 @@ function seeded(seed: number) {
   return () => { state = (Math.imul(state, 1664525) + 1013904223) >>> 0; return state / 4294967296; };
 }
 
-/** Recognizable abstract bot glyph, extruded in depth; never human identity geometry. */
+/** A sculptural four-point agent sigil; decorative, never identity geometry. */
 export function createAgentDestinations(count: number) {
   const points = new Float32Array(count * 3), random = seeded(910);
   for (let i = 0; i < count; i++) {
-    let x: number, y: number;
+    let x: number, y: number, z: number;
     const kind = random(), a = random() * Math.PI * 2;
-    if (kind < .57) {
-      // A rounded rectangular head, with sparse interior reconstruction bands.
-      const c = Math.cos(a), s = Math.sin(a);
-      const radius = random() < .7 ? 1 : .45 + random() * .5;
-      x = .5 + Math.sign(c) * Math.pow(Math.abs(c), .45) * .255 * radius;
-      y = .49 + Math.sign(s) * Math.pow(Math.abs(s), .45) * .19 * radius;
-    } else if (kind < .77) {
-      x = (random() < .5 ? .4 : .6) + Math.cos(a) * .027;
-      y = .46 + Math.sin(a) * .044;
-    } else if (kind < .86) {
-      x = .43 + random() * .14; y = .59 + (random() - .5) * .009;
-    } else if (kind < .92) {
-      x = .5 + (random() - .5) * .008; y = .19 + random() * .1;
+    if (kind < .85) {
+      const radius = random() < .28 ? 1 : .3 + .7 * Math.sqrt(random());
+      x = .37 * Math.cos(a) ** 3 * radius;
+      y = .39 * Math.sin(a) ** 3 * radius;
+      z = Math.sin(a * 2) * .11 * Math.sin(radius * Math.PI) + (random() - .5) * .012;
+    } else if (kind < .93) {
+      const elevation = random() * 2 - 1, r = .035 * Math.sqrt(1 - elevation ** 2);
+      x = Math.cos(a) * r; y = Math.sin(a) * r; z = elevation * .035;
     } else {
-      x = .5 + Math.cos(a) * .36;
-      y = .5 + Math.sin(a) * .3;
+      x = Math.cos(a) * .42; y = Math.sin(a) * .12;
+      z = Math.sin(a) * .26;
     }
-    points.set([x - .5, .5 - y, (random() - .5) * .16], i * 3);
+    points.set([x, y, z], i * 3);
   }
   return points;
 }
@@ -94,18 +89,12 @@ export function createProjectDestinations(key: ProjectKey, count: number) {
   }
   const points = new Float32Array(count * 3), random = seeded(280);
   for (let i = 0; i < count; i++) {
-    const column = Math.floor(random() * 5), kind = random();
-    let x: number, y: number, z: number;
-    if (kind < .75) {
-      const h = [.2, .32, .24, .42, .34][column];
-      x = .26 + column * .12 + (random() - .5) * .055;
-      y = .72 - random() * h;
-      z = (random() - .5) * .065;
-    } else {
-      const a = random() * Math.PI * 2;
-      x = .5 + Math.cos(a) * .36; y = .5 + Math.sin(a) * .32; z = Math.sin(a) * .07;
-    }
-    points.set([x - .5, .5 - y, z], i * 3);
+    // A closed ribbon: query and observation return into the same agent loop.
+    const a = random() * Math.PI * 2, width = (random() - .5) * .07;
+    const x = .33 * Math.sin(a) + width * Math.cos(a);
+    const y = .22 * Math.sin(a * 2) + width * Math.sin(a);
+    const z = .12 * Math.cos(a) + width * Math.sin(a * 2);
+    points.set([x, y, z], i * 3);
   }
   return points;
 }

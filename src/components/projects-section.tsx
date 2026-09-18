@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { CLOUDOPS_ROUTES } from "@/lib/cloudops-particles";
+import { EvidenceSculpture, InsightRibbon } from "./sculpture-diagram";
 import { OPSPILOT_NODES } from "@/lib/portfolio-forms";
 
 const projects = [
@@ -26,7 +26,7 @@ export function ProjectsSection() {
         <figure className="project-field" aria-labelledby="project-visual-caption">
           <div className="project-particle-anchor visual-anchor"><div className="visual-aura" aria-hidden="true" />
             <svg className="project-diagram visual-diagram" viewBox="0 0 1000 1000" aria-hidden="true">
-              {project.key === "opspilot" ? <><g className="form-fallback"><circle cx="500" cy="500" r="100" /><circle cx="500" cy="500" r="310" /><circle cx="500" cy="500" r="390" />{OPSPILOT_NODES.map((node, i) => <circle key={i} cx={node.x * 1000} cy={node.y * 1000} r="35" />)}</g><g className="visual-guide">{OPSPILOT_NODES.map((node, i) => <path key={i} d={`M500 500L${node.x * 1000} ${node.y * 1000}`} />)}</g></> : project.key === "insightloop" ? <g className="form-fallback"><ellipse cx="500" cy="500" rx="360" ry="320" />{[200, 320, 240, 420, 340].map((height, i) => <rect key={i} x={232.5 + i * 120} y={720 - height} width="55" height={height} />)}</g> : <><g className="form-fallback">{[290, 374, 458, 542, 626].map(y => <ellipse key={y} cx="500" cy={y} rx="170" ry="55" />)}</g>{CLOUDOPS_ROUTES.map((p, i) => <path key={i} className="visual-guide" d={`M${p[0] * 1000} ${p[1] * 1000}C${p[2] * 1000} ${p[3] * 1000} ${p[4] * 1000} ${p[5] * 1000} ${p[6] * 1000} ${p[7] * 1000}`} />)}</>}
+              {project.key === "opspilot" ? <><g className="form-fallback"><circle cx="500" cy="500" r="100" /><circle cx="500" cy="500" r="310" /><circle cx="500" cy="500" r="390" />{OPSPILOT_NODES.map((node, i) => <circle key={i} cx={node.x * 1000} cy={node.y * 1000} r="35" />)}</g><g className="visual-guide">{OPSPILOT_NODES.map((node, i) => <path key={i} d={`M500 500L${node.x * 1000} ${node.y * 1000}`} />)}</g></> : project.key === "insightloop" ? <InsightRibbon /> : <EvidenceSculpture />}
             </svg>
             <span className="project-visual-index" aria-hidden="true">0{selected + 1}<span>/ 03</span></span>
           </div>

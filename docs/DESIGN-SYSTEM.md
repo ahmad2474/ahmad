@@ -4,6 +4,8 @@ Status: creative principles locked; numerical tokens and exact styling proposed.
 
 ## Locked principles
 
+Latest visual revision, implemented for review: custom violet AH monogram favicon on near-black. Ahmad.AI uses a sculptural four-point agent sigil and central core, replacing the cartoon bot. InsightLoop uses a continuous depth ribbon instead of bars; CloudOps uses floating evidence pages converging into a faceted grounding core instead of a cylinder. Violet/lilac illumination, restrained motion, original hero likeness and six-section composition remain. Static diagrams follow the same silhouettes.
+
 Latest scrolling direction: remove the visible Pause/Resume motion button. A 48px violet glass up-arrow appears only once the entire hero is above the viewport, links back to the page top and returns keyboard focus to the home identity. Keep reduced-motion support. Add only brief 160ms easing to stepped desktop wheel input; precision trackpad movement, touch, keyboard and nested scrolling panels stay native.
 
 Latest mobile/density direction: below the existing 53.125rem container breakpoint, navigation collapses behind a 48px three-line disclosure control. Its dropdown preserves the glass palette; native disclosure keeps access without JavaScript. Desktop keeps the inline glass nav. Desktop portrait sampling is thinned by exactly 25%, from 9,832 to 7,374; compact sampling stays at 3,022. Preserve glyph sizing, material and authoritative original positions while opening more space between desktop particles.

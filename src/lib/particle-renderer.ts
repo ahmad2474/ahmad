@@ -20,7 +20,7 @@ const vertexShader = `
   attribute float aSize;
   attribute float aSeed;
   attribute vec3 aProfile;
-  uniform float uTime, uProgress, uScale, uDpr, uRepulsion, uAgent, uInfrastructure, uGather, uPhase, uFlow, uProject, uContact;
+  uniform float uTime, uProgress, uScale, uDpr, uRepulsion, uAgent, uInfrastructure, uGather, uPhase, uFlow, uProject, uProjectKind, uContact;
   uniform vec2 uViewport, uCenter, uCursor, uPointer;
   uniform vec2 uNetworkCenter, uNetworkExtent;
   uniform vec2 uAgentCenter, uAgentExtent, uInfrastructureCenter, uInfrastructureExtent;
@@ -54,6 +54,9 @@ const vertexShader = `
     float depth = mix(p.z, aScatter.z, spread);
     float agentGather = smoothstep(aSeed * .12, .88 + aSeed * .12, uAgent);
     vec3 agentPoint = aAgent;
+    float agentTurn = sin(uTime * .24) * .18 + uCursor.x * .08;
+    agentPoint.xz = mat2(cos(agentTurn), -sin(agentTurn), sin(agentTurn), cos(agentTurn)) * agentPoint.xz;
+    agentPoint.xy *= 1. + sin(uTime * .6) * .014;
     agentPoint.y += sin(uTime * .5) * .003;
     vec2 agentXY = uAgentCenter + agentPoint.xy * uAgentExtent;
     agentXY += uCursor * vec2(24., -16.) * agentPoint.z;
@@ -81,9 +84,14 @@ const vertexShader = `
     depth = mix(depth, network.z, gather);
     float projectGather = smoothstep(aSeed * .14, .86 + aSeed * .14, uProject);
     vec3 projectPoint = aCloudOps;
-    if (abs(projectPoint.x) < .18 && projectPoint.y > -.14 && projectPoint.y < .22) {
+    if (uProjectKind < .5 && abs(projectPoint.x) < .18 && projectPoint.y > -.14 && projectPoint.y < .22) {
       float turn = uTime * .04;
       projectPoint.xz = mat2(cos(turn), -sin(turn), sin(turn), cos(turn)) * projectPoint.xz;
+    }
+    if (uProjectKind > .5) {
+      float turn = sin(uTime * .2) * .17 + uCursor.x * .065;
+      projectPoint.xz = mat2(cos(turn), -sin(turn), sin(turn), cos(turn)) * projectPoint.xz;
+      projectPoint.y += sin(uTime * .55 + projectPoint.x * 5.) * .008;
     }
     vec2 projectXY = uProjectCenter + projectPoint.xy * uProjectExtent;
     projectXY += uCursor * vec2(22., -16.) * projectPoint.z;
@@ -93,13 +101,14 @@ const vertexShader = `
     xy = mix(xy, destination, contact);
     depth = mix(depth, aScatter.z, contact);
     gl_Position = vec4(xy / (uViewport * .5), -depth * .1, 1.);
-    gl_PointSize = aSize * uDpr * (1. + depth * .23) * mix(1., .78, spread) * mix(1., .6, max(agentGather, max(infraGather, gather)));
+    gl_PointSize = aSize * uDpr * (1. + depth * .23) * mix(1., .78, spread) * mix(1., .6, max(agentGather, max(infraGather, gather))) * mix(1., .72, projectGather * step(.5, uProjectKind));
     vColor = aColor;
     float keyLight = .74 + .26 * max(dot(normalize(aNormal + vec3(.0001)), normalize(vec3(-.45, .7, 1.))), 0.);
     float portraitAlpha = (.19 + pow(aProfile.y, 1.2) * .71) * aProfile.z * keyLight;
     vAlpha = mix(portraitAlpha, .22 + aSeed * .14, spread);
-    float eye = step(.07, abs(aAgent.x)) * (1. - step(.14, abs(aAgent.x))) * step(0., aAgent.y) * (1. - step(.09, aAgent.y));
-    vAlpha = mix(vAlpha, .24 + aSeed * .15 + eye * .35, agentGather);
+    float agentLight = 1. - smoothstep(.02, .18, length(aAgent.xy));
+    float agentSweep = pow(max(0., cos(atan(aAgent.y, aAgent.x) - uTime * .4)), 12.);
+    vAlpha = mix(vAlpha, .28 + aSeed * .12 + agentLight * .3 + agentSweep * .22, agentGather);
     vColor = mix(vColor, mix(vec3(.74, .57, 1.), vec3(.91, .8, 1.), aSeed), agentGather);
     vAlpha = mix(vAlpha, .22 + aSeed * .17, infraGather);
     vColor = mix(vColor, mix(vec3(.72, .6, 1.), vec3(.79, .88, 1.), aSeed), infraGather);
@@ -109,7 +118,8 @@ const vertexShader = `
     vAlpha = mix(vAlpha, networkAlpha, gather);
     vColor = mix(vColor, mix(vec3(.72, .85, 1.), vec3(.91, .72, 1.), uPhase * .5), gather * max(activation * .6, signal));
     vColor = mix(vColor, vec3(.85, .76, 1.), gather * .25);
-    vAlpha = mix(vAlpha, .2 + aSeed * .17 + sin(uTime * .45 + projectPoint.y * 12.) * .04, projectGather);
+    float projectSignal = pow(max(0., sin(uTime * .6 - aCloudOps.x * 8. - aCloudOps.y * 6.)), 10.);
+    vAlpha = mix(vAlpha, .25 + aSeed * .14 + projectSignal * .3, projectGather);
     vColor = mix(vColor, mix(vec3(.72, .54, 1.), vec3(.9, .8, 1.), aSeed), projectGather);
     vAlpha = mix(vAlpha, .018 + aSeed * .04, contact);
     vSeed = aSeed;
@@ -226,6 +236,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   const projectAttribute = geometry.getAttribute("aCloudOps") as THREE.BufferAttribute;
   projectAttribute.setUsage(THREE.DynamicDrawUsage);
   const uniforms = {
+    uProjectKind: { value: projectChapter.dataset.project === "insightloop" ? 1 : projectChapter.dataset.project === "cloudops" ? 2 : 0 },
     uOpacity: { value: compact ? .95 : .7 },
     uTime: { value: 0 }, uProgress: { value: 0 }, uScale: { value: 180 }, uDpr: { value: dpr },
     uViewport: { value: new THREE.Vector2(innerWidth, innerHeight) },
@@ -330,6 +341,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
     if (pendingProject) {
       projectFrom = new Float32Array(projectAttribute.array as Float32Array);
       projectTo = createProjectDestinations(pendingProject, count);
+      uniforms.uProjectKind.value = pendingProject === "insightloop" ? 1 : pendingProject === "cloudops" ? 2 : 0;
       host.dataset.projectKey = pendingProject; pendingProject = null; projectChangeStart = elapsed;
     }
     if (projectFrom && projectTo) {
