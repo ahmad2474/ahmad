@@ -79,6 +79,7 @@ html[data-particles="ready"] .portrait-fallback { visibility: hidden; }
 .caption-separator { color: #466576; }
 .back-to-top { position: fixed; right: max(1.3rem, env(safe-area-inset-right)); bottom: max(1.1rem, env(safe-area-inset-bottom)); z-index: 12; display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid #ae8bdd55; border-radius: 14px; background: #191222e8; color: #e2d3fa; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 8px 24px #0003; transition: color var(--duration-ui), background var(--duration-ui); }
 .back-to-top:hover { color: white; background: #30213feb; }
+.chat-message > p { white-space: pre-line; }
 .engineering-notes { grid-column: 3; grid-row: 2 / 4; position: relative; z-index: 3; align-self: start; margin-top: -2.1rem; }
 .notes-intro { margin: 0 0 2.8rem; color: #abc7d7; font-size: .75rem; line-height: 2; letter-spacing: .16em; border-left: 1px solid #6296b0; padding-left: 1rem; }
 h2 { font: 400 clamp(1.375rem, 1.7vw, 1.8rem)/1.25 var(--font-display); letter-spacing: -.025em; margin: 0; }

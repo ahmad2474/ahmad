@@ -37,7 +37,7 @@ export function ProfileChat() {
     setMessages(current => [...current.slice(-18), { role: "user", content: value }]);
     const controller = new AbortController(); request.current = controller;
     try {
-      const response = await fetch("/api/ahmad", { method: "POST", headers: { "Content-Type": "application/json" }, signal: AbortSignal.any([controller.signal, AbortSignal.timeout(25_000)]), body: JSON.stringify({ question: value, history: previous.map(({ role, content }) => ({ role, content })) }) });
+      const response = await fetch("/api/ahmad", { method: "POST", headers: { "Content-Type": "application/json" }, signal: AbortSignal.any([controller.signal, AbortSignal.timeout(25_000)]), body: JSON.stringify({ question: value, history: previous.map(({ role, content }) => ({ role, content: content.slice(0, 1200) })) }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "The answer couldn’t load. Try again.");
       if (typeof data.answer !== "string" || !Array.isArray(data.sources)) throw new Error("The answer couldn’t load. Try again.");
@@ -51,7 +51,7 @@ export function ProfileChat() {
     <div className="profile-chat">
       <div className="chat-topline"><span className="eyebrow">A CONVERSATION, WITH CONTEXT.</span><span className="chat-mode">{mode === "ai" ? "AI enabled" : mode === "loading" ? "Connecting…" : mode === "offline" ? "Connection unavailable" : "Profile references"}</span></div>
       <div className="chat-log" ref={log} role="log" aria-label="Conversation with Ahmad.AI" aria-live="polite" aria-relevant="additions" tabIndex={0}>
-        {!messages.length && <div className="chat-welcome"><span className="chat-spark" aria-hidden="true">✦</span><h3>Get to know the engineer.</h3><p>Ask about my work, the decisions behind it, or where your project could fit.</p><span className="chat-reference-note">Answers grounded in my public profile and project documentation.</span></div>}
+        {!messages.length && <div className="chat-welcome"><span className="chat-spark" aria-hidden="true">✦</span><h3>Get to know the engineer.</h3><p>Ask about Ahmad’s skills, experience, projects or how to reach him.</p><span className="chat-reference-note">Answers grounded in Ahmad’s supplied résumé and project references.</span></div>}
         {messages.map((message, index) => <article key={index} className={`chat-message chat-${message.role}`}><span className="eyebrow">{message.role === "user" ? "YOU" : "AHMAD.AI"}{message.result?.mode === "profile" && " / PROFILE ANSWER"}</span><p>{message.content}</p>{message.result?.notice && <p className="chat-notice">{message.result.notice}</p>}{message.result && message.result.sources.length > 0 && <div className="chat-sources" aria-label="Answer references">{message.result.sources.map(source => <a key={source.id} href={source.href}>{source.title} <span aria-hidden="true">↗</span></a>)}</div>}</article>)}
         {busy && <p className="chat-pending" role="status">Finding an answer…</p>}
       </div>

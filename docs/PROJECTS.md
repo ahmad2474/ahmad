@@ -4,6 +4,8 @@ Status: supplied CV and selected public repository documentation/source inspecte
 
 ## Compact revision evidence review
 
+Latest résumé text supplies owner-authorized public employment/education/skill history and additional details for OpsPilot, InsightLoop, AI Resume Builder and earlier portfolio. These are résumé assertions; this revision does not add independent live project verification or measured metrics. New résumé-provided app links may be rendered as references, without asserting uptime/adoption. CloudOps remains in development. Certification names are included without validation identifiers or any current-validity claim.
+
 September 18: Ahmad reports the deployed assistant works. No further provider requests were needed for the atmosphere/control revision; separate Gemini fallback fidelity/connectivity remains unverified.
 
 Final configuration checkpoint: a locally supplied Gemini key was moved to ignored local configuration. The user reports both keys added in Vercel and approved one local Gemini test. It returned the labeled provider-unavailable profile fallback; real model generation remains unconfirmed. This supersedes earlier key deferrals.
