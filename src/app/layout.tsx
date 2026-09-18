@@ -6,7 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Ahmad Hassan — Agentic AI Developer × DevOps Engineer",
+  title: "Ahmad Hassan | Agentic AI Developer in Lahore",
   description: "Ahmad Hassan, Agentic AI Developer and DevOps Engineer based in Lahore, Pakistan. Explore his AI agents, RAG systems, cloud infrastructure and projects.",
   alternates: { canonical: "/" },
   robots: { index: isIndexableDeployment(), follow: isIndexableDeployment() },

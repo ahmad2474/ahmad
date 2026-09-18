@@ -14,7 +14,7 @@ export function AgenticChapter() {
         <div className="chapter-heading">
           <p className="eyebrow section-index"><span />04 / AGENTIC AI ENGINEERING</p>
           <h2 id="agentic-title" className="section-title">From intent.<br /><span>To impact.</span></h2>
-          <p className="section-intro">I build agents that connect decisions to tools, and answers to evidence. Useful intelligence should be inspectable.</p>
+          <p className="section-intro">I build tool-calling AI agents that connect decisions to tools, and RAG pipelines that connect answers to evidence. Useful intelligence should be inspectable.</p>
           <dl className="capability-lines">
             {phases.map((phase, i) => <div key={phase.name} id={`agent-${phase.name.toLowerCase()}`} data-phase-story={i} tabIndex={-1}><dt><a href={`#agent-${phase.name.toLowerCase()}`} data-phase-link={i}><span>0{i + 1}</span>{phase.name}<span aria-hidden="true">↗</span></a></dt><dd>{phase.copy}</dd></div>)}
           </dl>

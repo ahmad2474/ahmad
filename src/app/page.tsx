@@ -8,6 +8,7 @@ import { ContactSection } from "@/components/contact-section";
 import { CopyrightYear } from "@/components/copyright-year";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { PageControls } from "@/components/page-controls";
+import { PROFILE_SCHEMA } from "@/lib/site-seo";
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>;
@@ -15,7 +16,7 @@ function Arrow() {
 
 export default function Home() {
   return (
-    <><AgenticScene /><PageControls /><div className="portfolio" id="identity">
+    <><script id="ahmad-profile" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFILE_SCHEMA).replace(/</g, "\\u003c") }} /><AgenticScene /><PageControls /><div className="portfolio" id="identity">
       <header className="site-header">
         <a className="wordmark" href="#identity" aria-label="Ahmad Hassan, home">AHMAD HASSAN</a>
         <nav className="desktop-navigation" aria-label="Main navigation">
@@ -40,6 +41,7 @@ export default function Home() {
             <h1 id="hero-title"><span>AHMAD</span><span>HASSAN<span className="name-period">.</span></span></h1>
             <p className="role">AGENTIC AI DEVELOPER<br /><span className="role-cross">×</span> DEVOPS ENGINEER</p>
             <p className="hero-headline">I build agents that act.<br />Infrastructure that scales.</p>
+            <p className="hero-location">Based in Lahore, Pakistan.</p>
           </div>
           <IdentityField />
           <div className="hero-actions">
