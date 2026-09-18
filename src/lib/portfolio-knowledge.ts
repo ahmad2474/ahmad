@@ -34,7 +34,7 @@ export const KNOWLEDGE = [
 
 export type KnowledgeId = typeof KNOWLEDGE[number]["id"];
 export type AnswerSource = { id: string; title: string; href: string };
-export type ProfileAnswer = { answer: string; sources: AnswerSource[]; mode: "profile" | "ai"; notice?: string };
+export type ProfileAnswer = { answer: string; sources: AnswerSource[]; links?: AnswerSource[]; mode: "profile" | "ai"; notice?: string };
 export const OFF_TOPIC = "I’m Ahmad’s AI assistant, and I’m happy to help you learn about his skills, experience, projects or how to contact him. Your question seems to be outside that scope. What would you like to know about Ahmad?";
 export const outOfScopeAnswer = (): ProfileAnswer => ({ mode: "profile", answer: OFF_TOPIC, sources: [] });
 const followup = (q: string) => /^(tell me more|what else|and (then|there)|how long|what did he do there|which technologies)[?!.\s]*$/.test(q);
@@ -48,13 +48,37 @@ export function directAnswer(question: string): ProfileAnswer | null {
   const profileIntent = related || /\b(experience|skills?|technologies|languages|frameworks|tech stack|projects?|background|education|certs?|certifications?|contact|resume|cv|career|employment|jobs?|employers?|companies|algoustics|onstak|ontrak|sikandar|whatsapp|email|github|linkedin|ops pilot|insight loop|cloud ops)\b/.test(q);
   if (!profileIntent && !followup(q)) return outOfScopeAnswer();
   if (!related && /^(what (is|are)|explain|teach|how (do|can) i|write|generate|debug)\b/.test(q) && !/\b(experience|skills|projects|background|education|certifications|contact|resume|cv)\b/.test(q)) return outOfScopeAnswer();
-  if (/\b(salary|age|birthday|married|wife|availability|available|street address|validation number|certification id|certification number|uptime|accuracy|recall|faithfulness|latency|savings|pass rate)\b/.test(q)) return { mode: "profile", answer: "I don’t have verified information for that specific detail. Ahmad’s availability and rates aren’t confirmed, and unmeasured project results aren’t published. You can ask him directly using the contact links below.", sources: KNOWLEDGE.filter(item => ["email", "whatsapp"].includes(item.id)).map(({ id, title, href }) => ({ id, title, href })) };
+  if (/\b(availability|available|hire|hiring|salary|rates?|pricing)\b/.test(q)) return { mode: "profile", answer: /\b(salary|rates?|pricing)\b/.test(q) ? "I don’t have verified information about Ahmad’s rates or salary expectations. Please contact him by email or WhatsApp to discuss your role or project." : "Ahmad’s current availability isn’t confirmed. Please contact him by email or WhatsApp to discuss hiring or your project.", sources: KNOWLEDGE.filter(item => ["email", "whatsapp"].includes(item.id)).map(({ id, title, href }) => ({ id, title, href })) };
+  if (/\b(age|birthday|married|wife|street address|validation number|certification id|certification number)\b/.test(q)) return { mode: "profile", answer: "I don’t have verified information about that detail in Ahmad’s public profile.", sources: [] };
+  if (/\b(uptime|accuracy|recall|faithfulness|latency|savings|pass rate)\b/.test(q)) return { mode: "profile", answer: "I don’t have a verified measurement for that result in Ahmad’s supplied project information.", sources: [] };
   return null;
+}
+
+/** References ground answers internally; only requested actions become visible links. */
+export function presentAnswer(result: ProfileAnswer, question: string): ProfileAnswer {
+  const q = question.toLowerCase();
+  const requestedDates = /\b(when|dates?|timeline|period|which year|what year|start|started|end|ended|join|joined|leave|left)\b/.test(q);
+  const months = "January|February|March|April|May|June|July|August|September|October|November|December";
+  const dates = new RegExp(`(?:${months})\\s+\\d{4}\\s*[–—-]\\s*(?:${months})\\s+\\d{4}`, "g");
+  const answer = requestedDates ? result.answer : result.answer
+    .replace(new RegExp(`,?\\s*${dates.source}`, "g"), "")
+    .replace(/,?\s*\b(?:19|20)\d{2}\s*[–—-]\s*(?:19|20)\d{2}/g, "")
+    .replace(/These are the supplied résumé dates, not a claim of current employment\. ?/g, "")
+    .replace(/\.{2,}/g, ".");
+  const hiring = /\b(hire|hiring|availability|available|salary|rates?|pricing)\b/.test(q);
+  const allContact = /\b(contact|reach|connect|social)\b/.test(q);
+  const requestedLinks = /\b(links?|urls?|repos?|repositories)\b/.test(q);
+  const ids = ["email", "whatsapp", "github", "linkedin"].filter(id => allContact || (hiring && ["email", "whatsapp"].includes(id)) || q.includes(id) || (id === "whatsapp" && /\b(phone|number)\b/.test(q)));
+  const linkSources = result.sources.some(source => source.id === "contact")
+    ? [...result.sources, ...KNOWLEDGE.filter(item => ids.includes(item.id) && !result.sources.some(source => source.id === item.id)).map(({ id, title, href }) => ({ id, title, href }))]
+    : result.sources;
+  const links = linkSources.filter(source => ids.includes(source.id) || (requestedLinks && !ids.length && !source.href.startsWith("#")));
+  return { ...result, answer: answer.trim(), links };
 }
 
 export function profileAnswer(question: string, previousQuestion?: string): ProfileAnswer {
   const direct = directAnswer(question);
-  if (direct) return direct;
+  if (direct) return presentAnswer(direct, question);
   const query = (followup(question.toLowerCase().trim()) && previousQuestion ? previousQuestion + " " + question : question).toLowerCase();
   const sourceIds: KnowledgeId[] = [];
   if (/\b(location|city|country|based)\b|where.*\b(from|live|lives)\b/.test(query)) sourceIds.push("profile");
@@ -74,5 +98,6 @@ export function profileAnswer(question: string, previousQuestion?: string): Prof
     sourceIds.push(best.item.id);
   }
   const selected = sourceIds.map(id => KNOWLEDGE.find(item => item.id === id)!);
-  return { mode: "profile", answer: selected[0].text, sources: selected.map(({ id, title, href }) => ({ id, title, href })) };
+  const conciseProfile = "Ahmad Hassan is an Agentic AI Developer and DevOps Engineer based in Lahore, Pakistan, with about six years of software/engineering experience. He builds tool-calling agents, RAG pipelines and cloud tooling. His projects include OpsPilot AI, InsightLoop and the in-development CloudOps Knowledge Assistant.";
+  return presentAnswer({ mode: "profile", answer: selected[0].id === "profile" ? conciseProfile : selected[0].text, sources: selected.map(({ id, title, href }) => ({ id, title, href })) }, question);
 }

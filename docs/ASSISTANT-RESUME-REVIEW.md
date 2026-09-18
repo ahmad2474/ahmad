@@ -15,3 +15,10 @@ Private certification identifiers, raw CV, photographs and secrets are excluded 
 ## Validation
 
 Full suite: 37 checks passed before the final text-retrieval/history refinements. All six final résumé coverage/scope/failover/long-history checks passed, along with production build/TypeScript and lint. Providers are mocked or disabled in local automated tests; no keys appear in client code or output. Desktop/mobile chat captures are `review/assistant-resume-1440.png` and `review/assistant-resume-390.png`; both have readable multiline answers and no horizontal overflow. Live-provider smoke is performed after deployment and reported in the session.
+
+
+## Conversational refinement
+
+Suggestions disappear on first submission and return for a new empty conversation. Ordinary answers no longer display grounding tags. Contact actions and explicitly requested external links remain available. Default AI replies target 40–70 words; job/education dates require an explicit request. Hiring uncertainty offers email/WhatsApp without unrelated measurement caveats. Internal source validation and full résumé knowledge remain intact.
+
+Validation: production build, TypeScript and lint pass; all 17 assistant/compact regression checks pass, including 1440px/390px chat behavior, error states, reload, explicit dates, relevant contacts and 320px enlarged text. Desktop/mobile captures were visually inspected. Automated provider tests use mocks or disabled keys.

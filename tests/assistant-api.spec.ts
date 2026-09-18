@@ -10,6 +10,8 @@ test("off-topic requests skip providers; semantic off-topic output is normalized
     calls++;
     const system = JSON.parse(String(init?.body)).messages[0].content;
     for (const fact of ["Algoustics", "Onstak", "Ontrak", "Sikandar", "Digital Marketing", "Business Communication", "six years", "June 2026"]) expect(system).toContain(fact);
+    expect(system).toContain("dates ONLY when");
+    expect(system).toContain("40–70 words");
     expect(system).not.toMatch(/Validation Number:|Certification ID:/);
     const question = JSON.parse(String(init?.body)).messages.at(-1).content;
     return Response.json({ choices: [{ message: { content: JSON.stringify({ scope: question.includes("French") ? "unknown" : "off-topic", answer: "An invented claim or unrelated lecture.", sources: [] }) } }] });
@@ -51,6 +53,7 @@ test("server-only Groq failure falls back to Gemini, and invalid source IDs fall
     const request = () => new Request("http://portfolio.test/api/ahmad", { method: "POST", headers: { "Content-Type": "application/json", origin: "http://portfolio.test", host: "portfolio.test" }, body: JSON.stringify({ question: "What is CloudOps?" }) });
     const first = await (await POST(request())).json();
     expect(first.mode).toBe("ai");
+    expect(first.links).toEqual([]);
     expect(first.sources).toEqual([{ id: "cloudops", title: "CloudOps planned scope", href: "#projects" }]);
     expect(calls).toHaveLength(2);
     invalid = true;

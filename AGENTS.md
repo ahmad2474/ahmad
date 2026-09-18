@@ -54,3 +54,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+
+## September 18 — conversational assistant refinement
+
+Suggested questions appear only in an empty conversation and disappear as soon as the first question is sent, including pending/error states. Grounding references remain validated internally but are not rendered as answer tags. Show only relevant contact actions or explicitly requested external links. Ordinary answers are focused and brief; introductions do not dump the résumé. Employment/education dates appear only when explicitly requested. Hiring uncertainty offers email/WhatsApp without unrelated project-metric caveats. Preserve all verified knowledge and honest availability/project-status distinctions.

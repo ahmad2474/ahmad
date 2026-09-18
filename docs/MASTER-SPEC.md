@@ -39,7 +39,7 @@ WordPress belongs in earlier/supporting experience. Do not elevate it into the h
 - Vercel as deployment target; publishing the completed milestone through GitHub is now authorized by the September 17 publishing direction.
 - Proposed: render text and primary navigation independently of the WebGL layer; mount the scene as progressive enhancement. A static verified portrait remains available on loading failure or unsupported devices.
 - Select supported compatible library versions and package manager during implementation. No versions are locked by this document.
-- Ahmad.AI: curated public facts with evidence links; Next.js server endpoint; Groq primary/Gemini fallback using server-only keys and bounded requests. No persistent conversations or assistant tools. Missing keys/provider failures produce visibly labeled direct profile answers. The user will add keys later. Provider quotas/account settings govern free-tier usage; local process limits are not a distributed quota.
+- Ahmad.AI: curated public facts with internally validated references and relevant contact actions; Next.js server endpoint; Groq primary/Gemini fallback using server-only keys and bounded requests. No persistent conversations or assistant tools. Missing keys/provider failures produce visibly labeled direct profile answers. The user will add keys later. Provider quotas/account settings govern free-tier usage; local process limits are not a distributed quota.
 
 ## Quality requirements
 Responsive from small phones to wide desktop; keyboard-operable controls; visible focus; meaningful document structure; accessible contrast; prefers-reduced-motion support; descriptive metadata; social sharing artwork deferred until requested; optimized portrait assets; lazy-loaded WebGL; production-quality error handling.
@@ -97,3 +97,8 @@ The approved compact six-section revision above supersedes this longer chapter-b
 
 ## Phase 01 implementation record
 See [unified chapter review](UNIFIED-CHAPTERS-REVIEW.md) for the latest milestone and [hero motion review](HOLOGRAM-MOTION-REVIEW.md) for its foundation. Other reports describe earlier checkpoints.
+
+
+## September 18 — conversational assistant refinement
+
+Suggested questions appear only in an empty conversation and disappear as soon as the first question is sent, including pending/error states. Grounding references remain validated internally but are not rendered as answer tags. Show only relevant contact actions or explicitly requested external links. Ordinary answers are focused and brief; introductions do not dump the résumé. Employment/education dates appear only when explicitly requested. Hiring uncertainty offers email/WhatsApp without unrelated project-metric caveats. Preserve all verified knowledge and honest availability/project-status distinctions.

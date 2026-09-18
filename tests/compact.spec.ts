@@ -83,15 +83,21 @@ test("profile chat answers from references, admits unknown facts and clears on r
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator(".chat-mode")).toHaveText("Profile references");
+  await expect(page.locator(".chat-prompts button")).toHaveCount(3);
   await page.getByRole("button", { name: "Tell me about OpsPilot AI" }).click();
+  await expect(page.locator(".chat-prompts")).toHaveCount(0);
   await expect(page.locator(".chat-assistant")).toContainText("read-only AWS");
   await expect(page.locator(".chat-assistant")).toContainText("PROFILE ANSWER");
-  await expect(page.locator(".chat-sources a")).toHaveAttribute("href", "https://github.com/ahmad2474/opspilot-ai");
+  await expect(page.locator(".chat-sources a")).toHaveCount(0);
   await page.getByRole("textbox", { name: "Ask about Ahmad" }).fill("What is Ahmad’s salary?");
   await page.getByRole("button", { name: "Send question" }).click();
   await expect(page.locator(".chat-assistant").last()).toContainText("don’t have verified information");
+  await expect(page.locator(".chat-assistant").last().getByRole("link", { name: "Email Ahmad" })).toHaveAttribute("href", "mailto:ahmad_warraich@outlook.com");
+  await expect(page.locator(".chat-assistant").last().getByRole("link", { name: "WhatsApp Ahmad" })).toHaveAttribute("href", "https://wa.me/923026849341");
+  await expect(page.locator(".chat-assistant").last()).not.toContainText("unmeasured");
   await page.reload();
   await expect(page.locator(".chat-message")).toHaveCount(0);
+  await expect(page.locator(".chat-prompts button")).toHaveCount(3);
 });
 
 test("chat validation and cross-origin rejection protect the server endpoint", async ({ request }) => {
@@ -113,6 +119,7 @@ test("chat network errors preserve a retryable question without claiming an answ
   await page.getByRole("textbox", { name: "Ask about Ahmad" }).fill("What does Ahmad build?");
   await page.getByRole("button", { name: "Send question" }).click();
   await expect(page.locator(".chat-error")).toContainText("Please try again shortly.");
+  await expect(page.locator(".chat-prompts")).toHaveCount(0);
   await expect(page.getByRole("textbox", { name: "Ask about Ahmad" })).toHaveValue("What does Ahmad build?");
   await expect(page.locator(".chat-assistant")).toHaveCount(0);
 });
