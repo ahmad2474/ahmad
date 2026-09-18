@@ -93,3 +93,10 @@ Agreed next motion direction: small cursor-driven head turn/tilt and lighting re
 - Any future opening identity sequence should be skippable, repeat-visit aware and roughly 2–3 seconds maximum.
 
 Phase 01 lab observation: 120 requestAnimationFrame intervals under synthetic pointer input, median/p95 16.7ms on the documented Intel Mac/headless Chromium environment. This is not GPU presentation or real-device validation; see [Phase 01 review](PHASE-01-REVIEW.md) for conditions and limitations.
+
+
+## September 18 — refresh handoff
+
+The portrait fallback is a transparent capture from the actual live particle canvas, rather than an opaque screenshot. Keep it and CSS illumination visible throughout chunk loading and scene initialization. The renderer signals readiness only after its first successful draw; only then reveal the canvas and hide static fallbacks in the same browser paint. Failure, reduced-motion changes and disposal retain the existing static recovery. This prevents the dark portrait rectangle and an empty frame during refresh.
+
+Validation: production build/TypeScript and lint pass. All 22 hero/loading checks passed, including reduced motion, no JavaScript, context loss and mobile budgets. After refining the capture to exclude environmental glow, both delayed-loading/repeated-refresh checks were rerun at 1440px/390px and screenshots inspected. Browser diagnostics verify readiness is never published before a WebGL draw. This is Chromium coverage; physical Safari/iOS behavior remains a device check.

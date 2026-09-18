@@ -194,7 +194,7 @@ function createAmbientGeometry(compact: boolean) {
   return geometry;
 }
 
-export function mountParticles(host: HTMLDivElement, source: PortraitSource, onFailure: () => void): ParticleController {
+export function mountParticles(host: HTMLDivElement, source: PortraitSource, onFailure: () => void, onReady: () => void): ParticleController {
   gsap.registerPlugin(ScrollTrigger);
   const anchor = document.querySelector<HTMLElement>(".identity-field");
   const main = document.querySelector<HTMLElement>("main");
@@ -333,6 +333,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   };
   renderer.debug.onShaderError = fail;
 
+  let firstFrame = true;
   const render = (now: number) => {
     frame = 0;
     if (disposed || failed || paused || !visible || document.hidden) return;
@@ -387,6 +388,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
     if (routeOffset !== lastRouteOffset) { diagram?.style.setProperty("--route-offset", routeOffset); lastRouteOffset = routeOffset; }
     renderer.render(scene, camera);
     if (failed) return;
+    if (firstFrame) { firstFrame = false; onReady(); }
     if (elapsed > qualityWindowStart && samples < 100) {
       totalFrameTime += delta; samples++;
       if (samples === 100) {

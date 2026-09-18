@@ -31,9 +31,11 @@ export function AgenticScene() {
           controller.current = null;
           document.documentElement.removeAttribute("data-particles");
           setStatus("fallback");
+        }, () => {
+          if (disposed || current !== generation) return;
+          document.documentElement.dataset.particles = "ready";
+          setStatus("ready");
         });
-        document.documentElement.dataset.particles = "ready";
-        setStatus("ready");
       } catch {
         if (!disposed && current === generation) setStatus("fallback");
       }

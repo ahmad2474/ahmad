@@ -68,7 +68,8 @@ h1 > span:nth-child(2) { color: var(--color-accent); }
 /* A single fixed canvas carries the same particles from portrait into background. */
 .atmosphere-fallback { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 67% 43%, #69449a21, transparent 58%), radial-gradient(ellipse at 12% 80%, #5133750f, transparent 52%); }
 html[data-particles="ready"]:has(.particle-stage[data-atmosphere-mode="animated"]) .atmosphere-fallback { visibility: hidden; }
-.particle-stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.particle-stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; visibility: hidden; }
+html[data-particles="ready"] .particle-stage { visibility: visible; }
 .particle-stage canvas { width: 100%; height: 100%; display: block; }
 .identity-field { position: absolute; z-index: 1; width: 55%; height: 90%; left: 26%; top: -2%; margin: 0; pointer-events: none; }
 .portrait-fallback { position: absolute; inset: 0; overflow: hidden; }
