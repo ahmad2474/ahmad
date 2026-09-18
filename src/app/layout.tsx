@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
+import { SITE_URL, isIndexableDeployment } from "@/lib/site-seo";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/space-grotesk";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Ahmad Hassan — Agentic AI Developer × DevOps Engineer",
-  description: "I build agents that act. Infrastructure that scales. Ahmad Hassan — Agentic AI Developer × DevOps Engineer.",
-  robots: { index: false, follow: false }, // Local review phase; revisit with the verified production domain.
+  description: "Ahmad Hassan, Agentic AI Developer and DevOps Engineer based in Lahore, Pakistan. Explore his AI agents, RAG systems, cloud infrastructure and projects.",
+  alternates: { canonical: "/" },
+  robots: { index: isIndexableDeployment(), follow: isIndexableDeployment() },
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION || undefined },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

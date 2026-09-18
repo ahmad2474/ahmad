@@ -74,3 +74,8 @@ The narrative remains Identity → Agentic AI → RAG/Context → Infrastructure
 ## September 18 — conversational assistant refinement
 
 Suggested questions appear only in an empty conversation and disappear as soon as the first question is sent, including pending/error states. Grounding references remain validated internally but are not rendered as answer tags. Show only relevant contact actions or explicitly requested external links. Ordinary answers are focused and brief; introductions do not dump the résumé. Employment/education dates appear only when explicitly requested. Hiring uncertainty offers email/WhatsApp without unrelated project-metric caveats. Preserve all verified knowledge and honest availability/project-status distinctions.
+
+
+## September 18 — production indexing
+
+The user requested making the existing Vercel portfolio indexable/crawlable. `https://ahmad-umber.vercel.app/` is the approved canonical public URL for search; a custom domain is not required. Production builds opt into index/follow, while preview/local/custom review environments remain noindex. Noncanonical hosts and API routes also receive an X-Robots-Tag exclusion. Robots allows homepage/assets (so crawlers can read noindex on reviews), excluding `/api/`; only production publishes the canonical homepage in its sitemap. Location is owner-verified Lahore, Pakistan. Search Console ownership/submission remains an account step requiring the user's public HTML-tag verification token. No Gmail credentials, fabricated keyword difficulty or guaranteed indexing/ranking.
