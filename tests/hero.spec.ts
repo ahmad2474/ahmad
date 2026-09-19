@@ -162,8 +162,8 @@ test("mobile navigation opens with keyboard and closes on Escape, outside click 
   await expect(menu).not.toHaveAttribute("open");
   await toggle.click(); await page.getByRole("link", { name: "Work", exact: true }).click();
   await expect(menu).not.toHaveAttribute("open");
-  await expect(page).toHaveURL(/#projects$/);
-  await expect(page.locator("#projects")).toBeFocused();
+  await expect(page).toHaveURL(/\/projects$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Work that makes");
 });
 
 for (const width of [320, 390, 1280]) {

@@ -9,6 +9,7 @@ import { CopyrightYear } from "@/components/copyright-year";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { PageControls } from "@/components/page-controls";
 import { PROFILE_SCHEMA } from "@/lib/site-seo";
+import Link from "next/link";
 
 function Arrow() {
   return <span className="arrow" aria-hidden="true">↗</span>;
@@ -21,7 +22,8 @@ export default function Home() {
         <a className="wordmark" href="#identity" aria-label="Ahmad Hassan, home">AHMAD HASSAN</a>
         <nav className="desktop-navigation" aria-label="Main navigation">
           <a className="nav-link" href="#ahmad-ai">Ahmad.AI</a>
-          <a className="nav-link" href="#projects">Work</a>
+          <Link className="nav-link" href="/projects">Work</Link>
+          <Link className="nav-link" href="/blog">Journal</Link>
           <a className="nav-link" href="#contact">Contact</a>
         </nav>
         <MobileNavigation />

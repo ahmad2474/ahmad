@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 
 export function MobileNavigation() {
   const menu = useRef<HTMLDetailsElement>(null);
@@ -31,9 +32,10 @@ export function MobileNavigation() {
         <span className="menu-lines" aria-hidden="true"><span /><span /><span /></span>
       </summary>
       <nav id="mobile-navigation" aria-label="Main navigation">
-        <a className="nav-link" href="#ahmad-ai" onClick={() => navigate("#ahmad-ai")}>Ahmad.AI</a>
-        <a className="nav-link" href="#projects" onClick={() => navigate("#projects")}>Work</a>
-        <a className="nav-link" href="#contact" onClick={() => navigate("#contact")}>Contact</a>
+        <Link className="nav-link" href="/#ahmad-ai" onClick={() => navigate("/#ahmad-ai")}>Ahmad.AI</Link>
+        <Link className="nav-link" href="/projects" onClick={() => navigate("/projects")}>Work</Link>
+        <Link className="nav-link" href="/blog" onClick={() => navigate("/blog")}>Journal</Link>
+        <Link className="nav-link" href="/#contact" onClick={() => navigate("/#contact")}>Contact</Link>
         <a className="nav-link" href="https://github.com/ahmad2474" onClick={() => navigate("https://github.com/ahmad2474")}>GitHub <span aria-hidden="true">↗</span></a>
       </nav>
     </details>

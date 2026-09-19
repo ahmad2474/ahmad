@@ -75,5 +75,7 @@ WordPress may appear as supporting career context when verified. It must not dis
 ## Publishing readiness
 Each case study needs a verified factual draft and working public links, or explicit omission of unavailable links. Confidential source, credentials and private data must remain outside published examples. Phase 01 may link only to real destinations; no pretend demos.
 
+September 20: dedicated case-study pages are implemented for all three highlighted projects. OpsPilot and InsightLoop pages use the repository evidence already recorded above and state the limits of that verification. CloudOps is clearly labeled in development and planned throughout. These are concise portfolio studies; screenshots, measured results and independent end-to-end runs remain future evidence upgrades.
+
 ## Approved evidence directions from the implementation brief
 OpsPilot AI is the primary case study; InsightLoop is secondary. The desired OpsPilot narrative is incident/problem → investigation → tool calls → evidence → hypothesis → verification → conclusion. Candidates to verify include read-only IAM boundaries, evaluation/hallucination testing, tool correctness, MCP/shared services, AWS investigation, FinOps and provider resilience. These are evidence requests, not confirmed features. Do not publish them as accomplishments until the actual project source or documentation supports them.

@@ -29,7 +29,8 @@ test("six sections follow the shorter reading order, with opposed desktop compos
   }
   await expect(page.locator(".context-chapter,.cloudops-chapter")).toHaveCount(0);
   await page.getByRole("link", { name: "Work", exact: true }).click();
-  await expect(page).toHaveURL(/#projects$/);
+  await expect(page).toHaveURL(/\/projects$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Work that makes");
 });
 
 test("one portrait point cloud reforms through every section, reverses, and project selection morphs it", async ({ page }) => {
@@ -70,7 +71,7 @@ test("project keyboard selection, source links and fallback visuals work without
   await page.keyboard.press("ArrowDown");
   await expect(page.getByRole("tab", { name: /InsightLoop/ })).toBeFocused();
   await expect(page.getByRole("tabpanel")).toContainText("BigQuery");
-  await expect(page.getByRole("link", { name: "EXPLORE THE REPOSITORY" })).toHaveAttribute("href", "https://github.com/ahmad2474/insightloop");
+  await expect(page.getByRole("link", { name: "REPOSITORY" })).toHaveAttribute("href", "https://github.com/ahmad2474/insightloop");
   await page.keyboard.press("End");
   await expect(page.getByRole("tabpanel")).toContainText("IN DEVELOPMENT");
   await expect(page.getByRole("tabpanel")).toContainText("Planned:");

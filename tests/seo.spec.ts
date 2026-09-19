@@ -25,7 +25,7 @@ test("alternate hosts and the assistant API cannot be indexed", async ({ request
   expect(api.headers()["x-robots-tag"]).toBe("noindex, nofollow");
 });
 
-test("robots permits homepage/resources and sitemap contains only the canonical homepage", async ({ request }) => {
+test("robots permits public pages and sitemap contains canonical indexable routes", async ({ request }) => {
   const robots = await request.get("/robots.txt", { headers: { host: SITE_HOST } });
   expect(robots.status()).toBe(200);
   const rules = await robots.text();
@@ -36,8 +36,9 @@ test("robots permits homepage/resources and sitemap contains only the canonical 
   const sitemap = await request.get("/sitemap.xml", { headers: { host: SITE_HOST } });
   expect(sitemap.status()).toBe(200);
   const xml = await sitemap.text();
-  expect(xml.match(/<loc>/g)?.length ?? 0).toBe(production ? 1 : 0);
-  if (production) expect(xml).toContain(`<loc>${SITE_URL}/</loc>`);
+  expect(xml.match(/<loc>/g)?.length ?? 0).toBe(production ? 5 : 0);
+  if (production) for (const path of ["/", "/projects", "/projects/opspilot-ai", "/projects/insightloop", "/projects/cloudops-knowledge-assistant"]) expect(xml).toContain(`<loc>${SITE_URL}${path}</loc>`);
+  expect(xml).not.toContain(`<loc>${SITE_URL}/blog</loc>`);
   expect(xml).not.toMatch(/#identity|#projects|\/api\//);
 });
 
