@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CopyrightYear } from "./copyright-year";
+import { FreshHomeLink } from "./fresh-home-link";
 import { MobileNavigation } from "./mobile-navigation";
 
 const Arrow = () => <span className="arrow" aria-hidden="true">↗</span>;
@@ -7,12 +8,12 @@ const Arrow = () => <span className="arrow" aria-hidden="true">↗</span>;
 export function InnerHeader() {
   return (
     <header className="site-header inner-header">
-      <Link className="wordmark" href="/" aria-label="Ahmad Hassan, home">AHMAD HASSAN</Link>
+      <FreshHomeLink className="wordmark" href="/" aria-label="Ahmad Hassan, home">AHMAD HASSAN</FreshHomeLink>
       <nav className="desktop-navigation" aria-label="Main navigation">
-        <Link className="nav-link" href="/">Home</Link>
+        <FreshHomeLink className="nav-link" href="/">Home</FreshHomeLink>
         <Link className="nav-link" href="/projects">Projects</Link>
         <Link className="nav-link" href="/blog">Journal</Link>
-        <Link className="nav-link" href="/#contact">Contact</Link>
+        <FreshHomeLink className="nav-link" href="/#contact">Contact</FreshHomeLink>
       </nav>
       <MobileNavigation />
       <a className="header-link" href="https://github.com/ahmad2474">GitHub <Arrow /></a>

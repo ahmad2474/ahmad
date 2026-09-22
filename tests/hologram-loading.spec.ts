@@ -29,8 +29,10 @@ test("particle scene remounts after inner-page navigation and repeated reloads",
   await page.getByRole("link", { name: "Work", exact: true }).click();
   await expect(page).toHaveURL(/\/projects$/);
   await expect(page.locator("canvas")).toHaveCount(0);
+  await page.evaluate(() => Object.assign(window, { innerPageWindowMarker: true }));
   await page.getByRole("link", { name: "Home", exact: true }).click();
   await expect(page).toHaveURL(/\/$/);
+  expect(await page.evaluate(() => "innerPageWindowMarker" in window)).toBe(false);
   await expect(stage).toHaveAttribute("data-status", "ready");
   for (let reload = 0; reload < 2; reload++) {
     await page.reload();
