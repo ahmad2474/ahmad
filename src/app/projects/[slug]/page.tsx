@@ -38,12 +38,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <aside className="case-facts" aria-label="Project facts">
             <div><span>STATUS</span><strong>{project.status}</strong></div>
             <div><span>STACK</span><strong>{project.stack.join(" · ")}</strong></div>
+            <div><span>DELIVERY</span><strong>{project.delivery}</strong></div>
             <div><span>VISUAL</span><strong>{project.visual}</strong></div>
           </aside>
           <div className="case-narrative">
-            <section><p className="eyebrow">01 / THE PROBLEM</p><h2>Designed around the investigation.</h2><p>{project.problem}</p></section>
-            <section><p className="eyebrow">02 / SYSTEM SHAPE</p><h2>Architecture that can be checked.</h2><div className="architecture-grid">{project.architecture.map(([title, copy], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
-            <section><p className="eyebrow">03 / EVIDENCE</p><h2>What the public record supports.</h2><ul className="case-evidence">{project.evidence.map(item => <li key={item}>{item}</li>)}</ul>{project.repository && <a className="section-evidence" href={project.repository}>EXPLORE THE REPOSITORY <span aria-hidden="true">↗</span></a>}</section>
+            <section><p className="eyebrow">01 / THE PROBLEM</p><h2>{project.problemHeading}</h2><p>{project.problem}</p></section>
+            <section><p className="eyebrow">02 / ARCHITECTURE</p><h2>How the system moves.</h2><ol className="case-flow">{project.flow.map(([title, copy], index) => <li key={title}><span className="case-flow-index">0{index + 1}</span><div><h3>{title}</h3><p>{copy}</p></div></li>)}</ol></section>
+            <section><p className="eyebrow">03 / ENGINEERING DECISIONS</p><h2>Why these boundaries matter.</h2><div className="architecture-grid">{project.architecture.map(([title, copy], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
+            <section><p className="eyebrow">04 / SOURCE EVIDENCE</p><h2>What the repository shows.</h2><ul className="case-evidence">{project.evidence.map(item => <li key={item}>{item}</li>)}</ul><p className="case-source-intro">Selected files from the public repository, pinned to the revision reviewed for this case study.</p><ul className="case-source-list">{project.sources.map(([label, href]) => <li key={href}><a href={href} target="_blank" rel="noopener noreferrer"><span>{label}</span><span aria-hidden="true">↗</span></a></li>)}</ul>{project.repository && <a className="section-evidence" href={project.repository} target="_blank" rel="noopener noreferrer">EXPLORE THE REPOSITORY <span aria-hidden="true">↗</span></a>}</section>
             <section className="case-boundary"><p className="eyebrow">HONEST BOUNDARY</p><p>{project.boundary}</p></section>
           </div>
         </div>

@@ -1,5 +1,7 @@
 # Portfolio V2 — Content and asset register
 
+September 22 source correction: CloudOps's public repository now contains implementation and a committed manifest. The manifest totals **222 documents**, comprising **107 public** and **115 synthetic internal** documents, rather than 222 public plus 115 internal. Seventy incident files and a 315-question, 10-category dataset are present. Live provider scores and AWS deployment remain pending. This supersedes historical planned-only descriptions below; see `PROJECTS.md`.
+
 ## Latest compact content
 
 Latest résumé authorization supersedes the earlier employer/years exclusion below: owner-supplied full résumé text provides approximately six years of software/engineering experience; four exact roles/dates (Algoustics May 2024–June 2026, Sikandar March 2022–March 2024, Onstak June 2019–March 2022, Ontrak August 2018–May 2019), duties, all technical skills, BS Software Engineering at Superior University 2013–2017, certification names, and complete project history including Resume Builder/earlier portfolio. WordPress, Digital Marketing and Business Communication are explicitly supplied. Business ownership is separate from engineering and Algoustics is not a current-employer claim. Public phone/email/GitHub/LinkedIn may be answered and linked. Private certification IDs, raw CV and photos stay excluded. Dates/qualifications are owner-provided, not independently audited; certification validity and marketing results are unknown. CloudOps planned status/results remain unchanged.

@@ -61,8 +61,8 @@ test("public profile and every project are represented in server-rendered HTML",
   expect(profile.mainEntity.sameAs).toEqual(["https://github.com/ahmad2474", "https://linkedin.com/in/ahmadhassan102"]);
   expect(profile.mainEntity).not.toHaveProperty("worksFor");
   for (const key of ["opspilot", "insightloop", "cloudops"]) expect(html).toContain(`id="project-panel-${key}"`);
-  expect(html).toContain("An agentic data analyst investigates");
-  expect(html).toContain("retrieval-augmented generation (RAG) system in development");
+  expect(html).toContain("A Next.js data agent explores a synthetic retail warehouse");
+  expect(html).toContain("An in-development RAG system for on-call cloud and DevOps questions");
 });
 
 test("visible portfolio copy uses no em dashes", async ({ page }) => {

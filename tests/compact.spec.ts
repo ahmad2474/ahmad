@@ -13,7 +13,7 @@ test("new forms preserve deterministic finite geometry at all quality budgets", 
   expect(profileAnswer("What is Ahmad’s salary?").answer).toContain("don’t have verified");
   const cloudops = profileAnswer("What is CloudOps?");
   expect(cloudops.answer).toContain("IN DEVELOPMENT");
-  expect(cloudops.answer).toContain("Planned scope");
+  expect(cloudops.answer).toContain("222 documents TOTAL");
   expect(profileAnswer("Write a poem about cats").answer).toContain("Ahmad’s AI assistant");
 });
 
@@ -74,7 +74,8 @@ test("project keyboard selection, source links and fallback visuals work without
   await expect(page.getByRole("link", { name: "REPOSITORY" })).toHaveAttribute("href", "https://github.com/ahmad2474/insightloop");
   await page.keyboard.press("End");
   await expect(page.getByRole("tabpanel")).toContainText("IN DEVELOPMENT");
-  await expect(page.getByRole("tabpanel")).toContainText("Planned:");
+  await expect(page.getByRole("tabpanel")).toContainText("measured scores are pending");
+  await expect(page.getByRole("link", { name: "REPOSITORY" })).toHaveAttribute("href", "https://github.com/ahmad2474/cloudops-rag");
   await expect(page.getByRole("tabpanel")).not.toContainText("⟨");
   await expect(page.locator(".project-field .form-fallback")).toHaveCSS("opacity", "0.65");
   await expect(page.getByRole("link", { name: /WhatsApp/ }).last()).toHaveAttribute("href", "https://wa.me/923026849341");

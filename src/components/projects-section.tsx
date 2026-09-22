@@ -37,7 +37,7 @@ export function ProjectsSection() {
             <div className="project-meta"><span className="eyebrow">{item.category}</span><span className="project-status">{item.status}</span></div>
             <h3>{item.headline}</h3><p>{item.summary}</p><ul className="project-evidence">{item.evidence.map(evidence => <li key={evidence}>{evidence}</li>)}</ul><p className="project-stack">{item.stack.join(" · ")}</p>
             <div className="project-actions"><Link className="section-evidence" href={`/projects/${item.slug}`}>VIEW CASE STUDY <span aria-hidden="true">↗</span></Link>{item.repository && <a className="section-evidence" href={item.repository}>REPOSITORY <span aria-hidden="true">↗</span></a>}</div>
-            {!item.repository && <p className="project-pending">Implementation and evaluation are ongoing. Performance, cost, and deployment results will be published after measurement.</p>}
+            {item.key === "cloudops" && <p className="project-pending">Live provider evaluation and the AWS demo are pending. Performance, cost and deployment results will follow measurement.</p>}
           </article>
           ))}
         </div>

@@ -2,6 +2,14 @@
 
 Status: supplied CV and selected public repository documentation/source inspected. Independent live operation and measured outcomes remain unverified.
 
+## September 22 repository audit, current source of truth
+
+The case studies now use pinned public source revisions: OpsPilot AI `b2157a7`, InsightLoop `e41c45d`, and CloudOps RAG `5447ad2`. Their pages show the architecture flow, key engineering decisions, source files and what remains unverified. Historical notes below record earlier portfolio states and must not override this audit.
+
+- **OpsPilot AI:** Next.js galaxy/chat → FastAPI → OpenAI Agents SDK runner → thin tools → shared services → read-only boto3. API and token-gated MCP reuse the services. Concurrent regional scanning has cache/cooldown and isolated collector failures. Deletion-impact service reports EC2/RDS/EBS relationships without mutation. Moto fixtures and service-derived oracle support deterministic evaluation. No independent live AWS run, savings or production adoption verified.
+- **InsightLoop:** Next.js chat route streams NDJSON steps/final response from a custom plan/tool/observe loop. A common provider adapter uses Gemini or Groq. Tools inspect schema, run SQL or request clarification. SQL guard permits one SELECT/WITH statement, caps rows and cancels jobs at timeout. Nine tool rounds and three SQL retries are upper bounds in source. No independent BigQuery run, accuracy result or production adoption verified.
+- **CloudOps:** A public [cloudops-rag repository](https://github.com/ahmad2474/cloudops-rag) now exists. The committed [manifest](https://github.com/ahmad2474/cloudops-rag/blob/5447ad26a6f26915b5cfd508c72d735e7b41d20a/data/manifest.json) contains **222 documents total: 107 public + 115 synthetic internal**. Seventy incident files are among the internal documents. The committed evaluation dataset has 315 questions in 10 categories. Retrieval, search-time ACLs, grounded-generation checks, API and Review Bench code are present. The Terraform design is authored, but AWS plan/apply and live Bedrock/OpenSearch evaluations are pending. No scores, spend, latency or deployment outcome is published. The older user brief's “222 public + 115 internal” count is superseded by the current manifest.
+
 ## Compact revision evidence review
 
 Latest résumé text supplies owner-authorized public employment/education/skill history and additional details for OpsPilot, InsightLoop, AI Resume Builder and earlier portfolio. These are résumé assertions; this revision does not add independent live project verification or measured metrics. New résumé-provided app links may be rendered as references, without asserting uptime/adoption. CloudOps remains in development. Certification names are included without validation identifiers or any current-validity claim.

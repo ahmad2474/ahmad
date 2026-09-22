@@ -54,7 +54,7 @@ test("server-only Groq failure falls back to Gemini, and invalid source IDs fall
     const first = await (await POST(request())).json();
     expect(first.mode).toBe("ai");
     expect(first.links).toEqual([]);
-    expect(first.sources).toEqual([{ id: "cloudops", title: "CloudOps planned scope", href: "#projects" }]);
+    expect(first.sources).toEqual([{ id: "cloudops", title: "CloudOps development status", href: "#projects" }]);
     expect(calls).toHaveLength(2);
     invalid = true;
     const second = await (await POST(request())).json();

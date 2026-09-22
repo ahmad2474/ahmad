@@ -65,7 +65,7 @@ export default function Home() {
         <InfrastructureSection />
         <AgenticChapter />
         <ProjectsSection />
-        <noscript><div className="no-script-projects"><p>Also explore <a href="https://github.com/ahmad2474/insightloop">InsightLoop</a>, a custom agent for guarded BigQuery investigation. CloudOps Knowledge Assistant is in development; its planned design includes hybrid retrieval, permissions, and grounded answers.</p></div></noscript>
+        <noscript><div className="no-script-projects"><p>Also explore <a href="https://github.com/ahmad2474/insightloop">InsightLoop</a>, a custom agent for guarded BigQuery investigation. <a href="https://github.com/ahmad2474/cloudops-rag">CloudOps Knowledge Assistant</a> is in development; its repository includes hybrid retrieval, search-time permissions and grounded-answer checks.</p></div></noscript>
         <ContactSection />
       </main>
       <footer className="site-footer">
