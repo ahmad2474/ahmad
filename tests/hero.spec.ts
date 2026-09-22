@@ -87,7 +87,7 @@ test("changing reduced motion removes WebGL and restores the static portrait", a
   await expect(page.locator(".atmosphere-fallback")).toBeHidden();
 });
 
-test("WebGL context loss restores content and fallback", async ({ page }) => {
+test("WebGL context loss restores the fallback, then rebuilds the scene", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready");
   await page.locator("canvas").evaluate((canvas: HTMLCanvasElement) => canvas.getContext("webgl2")?.getExtension("WEBGL_lose_context")?.loseContext());
@@ -96,6 +96,36 @@ test("WebGL context loss restores content and fallback", async ({ page }) => {
   await expect(page.locator(".atmosphere-fallback")).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready", { timeout: 5000 });
+  await expect(page.locator("canvas")).toHaveCount(1);
+  await expect(page.locator(".portrait-fallback")).toBeHidden();
+});
+
+test("a transient WebGL startup failure recovers without a refresh", async ({ page }) => {
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    const allowedAt = performance.now() + 1200;
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, ...args: Parameters<typeof original>) {
+      if (String(args[0]).includes("webgl") && performance.now() < allowedAt) return null;
+      return original.apply(this, args);
+    } as typeof original;
+  });
+  await page.goto("/");
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback");
+  await expect(page.locator(".portrait-fallback")).toBeVisible();
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready", { timeout: 6000 });
+  await expect(page.locator("canvas")).toHaveCount(1);
+});
+
+test("page lifecycle releases the old context and restores a cached page", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready");
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true })));
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "static");
+  await expect(page.locator("canvas")).toHaveCount(0);
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true })));
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready");
+  await expect(page.locator("canvas")).toHaveCount(1);
 });
 
 test("failed WebGL initialization keeps the portrait and links usable", async ({ page }) => {

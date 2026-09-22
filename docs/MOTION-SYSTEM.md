@@ -1,5 +1,9 @@
 # Portfolio V2 — Motion system
 
+## September 23 WebGL startup resilience
+
+The homepage now releases its WebGL context on `pagehide`, reconstructs after a back/forward-cache restore, and makes two bounded recovery attempts after a transient startup or runtime context failure. The static portrait remains visible during recovery. Desktop backing buffers keep the approved 1440px composition at 2x while tapering DPR on wider viewports to a six-million-pixel ceiling; compact viewports use a two-million-pixel ceiling. Existing frame-time quality reduction remains active after startup. Reduced motion still stays static and never retries WebGL.
+
 ## September 18 atmosphere
 
 `scene-atmosphere.ts` adds a soft interpolated violet light field and fading line tails to the existing renderer. Light follows the same anchors and eased cursor; a bounded pulse accompanies scroll gathering and project selection. Trails reuse 18 existing ambient points on desktop / 6 on compact devices. Ambient points remain subdued throughout the page instead of disappearing after the hero. No new canvas, animation loop, texture assets or dependencies. Field/trails share the renderer clock, pause, visibility suspension, reduced-motion disposal and WebGL failure lifecycle. Economy quality removes trails and replaces animated lighting with static CSS illumination; reduced motion/WebGL failure also uses that static field. A frame window above 45ms can go straight to economy without an intermediate window. These decorations do not carry factual content.

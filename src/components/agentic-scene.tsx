@@ -14,41 +14,80 @@ export function AgenticScene() {
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     let generation = 0;
     let disposed = false;
-    const configure = async () => {
-      const current = ++generation;
+    let retryCount = 0;
+    let retryTimer = 0;
+    let startupTimer = 0;
+    const clearTimers = () => {
+      window.clearTimeout(retryTimer);
+      window.clearTimeout(startupTimer);
+      retryTimer = 0;
+      startupTimer = 0;
+    };
+    const release = () => {
+      clearTimers();
       controller.current?.dispose();
       controller.current = null;
       document.documentElement.removeAttribute("data-particles");
+    };
+    const configure = async (resetRetries = true) => {
+      const current = ++generation;
+      release();
       setStatus("static");
+      if (resetRetries) retryCount = 0;
       if (media.matches) return;
+      const recover = () => {
+        if (disposed || current !== generation || media.matches) return;
+        release();
+        setStatus("fallback");
+        if (retryCount >= 2) return;
+        const delay = retryCount === 0 ? 650 : 1600;
+        retryCount++;
+        retryTimer = window.setTimeout(() => void configure(false), delay);
+      };
       try {
         const [{ mountParticles }, source] = await Promise.all([
           import("@/lib/particle-renderer"), import("../../myhologram/portraitParticles"),
         ]);
         if (disposed || current !== generation) return;
         controller.current = mountParticles(target, source, () => {
-          controller.current?.dispose();
-          controller.current = null;
-          document.documentElement.removeAttribute("data-particles");
-          setStatus("fallback");
+          // Leave the failed render callback before disposing its GL resources.
+          queueMicrotask(recover);
         }, () => {
           if (disposed || current !== generation) return;
+          window.clearTimeout(startupTimer);
+          startupTimer = 0;
+          retryCount = 0;
           document.documentElement.dataset.particles = "ready";
           setStatus("ready");
         });
-      } catch {
-        if (!disposed && current === generation) setStatus("fallback");
-      }
+        // A visible page should produce its first draw promptly. Recover if a
+        // browser creates a context but never schedules a usable first frame.
+        startupTimer = window.setTimeout(() => {
+          if (!document.hidden && current === generation && document.documentElement.dataset.particles !== "ready") recover();
+        }, 8000);
+      } catch { recover(); }
     };
     void configure();
-    media.addEventListener("change", configure);
+    const preferenceChanged = () => void configure(true);
+    const pageHidden = () => {
+      generation++;
+      release();
+      setStatus("static");
+    };
+    const pageShown = (event: PageTransitionEvent) => { if (event.persisted) void configure(true); };
+    const online = () => { if (!controller.current && !media.matches) void configure(true); };
+    media.addEventListener("change", preferenceChanged);
+    window.addEventListener("pagehide", pageHidden);
+    window.addEventListener("pageshow", pageShown);
+    window.addEventListener("online", online);
     return () => {
       disposed = true;
       generation++;
-      media.removeEventListener("change", configure);
-      controller.current?.dispose();
-      controller.current = null;
-      document.documentElement.removeAttribute("data-particles");
+      media.removeEventListener("change", preferenceChanged);
+      window.removeEventListener("pagehide", pageHidden);
+      window.removeEventListener("pageshow", pageShown);
+      window.removeEventListener("online", online);
+      release();
     };
   }, []);
 

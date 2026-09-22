@@ -207,9 +207,15 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   const projectAnchor = document.querySelector<HTMLElement>(".project-particle-anchor");
   const contactChapter = document.querySelector<HTMLElement>(".contact-section");
   if (!anchor || !main || !assistant || !agentAnchor || !infraAnchor || !chapter || !networkAnchor || !projectChapter || !projectAnchor || !contactChapter) throw new Error("Particle scene requires its HTML anchors");
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "low-power" });
   const compact = innerWidth < 850 || matchMedia("(pointer: coarse)").matches;
-  const dpr = compact ? Math.min(Math.max(devicePixelRatio, 1.5), 2) : 2;
+  // A fixed 2x buffer becomes unnecessarily large on wide desktop screens and
+  // can make context creation unreliable. Keep 1440px at 2x, then taper only
+  // enough to remain within a bounded backing-buffer budget.
+  const pixelBudget = compact ? 2_000_000 : 6_000_000;
+  const preferredDpr = compact ? Math.min(Math.max(devicePixelRatio, 1.5), 2) : 2;
+  const fitDpr = (width: number, height: number) => Math.max(1, Math.min(preferredDpr, Math.sqrt(pixelBudget / Math.max(1, width * height))));
+  const dpr = fitDpr(innerWidth, innerHeight);
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
   renderer.setPixelRatio(dpr);
   renderer.setClearColor(0, 0);
   host.appendChild(renderer.domElement);
@@ -270,11 +276,15 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   const diagram = chapter.querySelector<SVGElement>(".network-diagram");
   let width = innerWidth, height = innerHeight, anchorTop = 0, anchorLeft = 0, anchorWidth = 0, anchorHeight = 0;
   let pointerActive = false, paused = false, visible = true, disposed = false, failed = false, frame = 0, resizeFrame = 0, previous = 0, elapsed = 0;
-  let samples = 0, totalFrameTime = 0, qualityLevel = 0, qualityWindowStart = 2;
+  let samples = 0, totalFrameTime = 0, qualityLevel = 0, qualityWindowStart = 2, activeDpr = dpr;
   let lastPhase = -1, selectedPhase: number | null = null, lastRouteOffset = "";
   let pendingProject: ProjectKey | null = null, projectFrom: Float32Array | null = null, projectTo: Float32Array | null = null, projectChangeStart = 0;
   const measure = () => {
     width = innerWidth; height = innerHeight;
+    if (qualityLevel === 0) {
+      activeDpr = fitDpr(width, height);
+      renderer.setPixelRatio(activeDpr); uniforms.uDpr.value = activeDpr;
+    }
     const rect = anchor.getBoundingClientRect();
     anchorTop = rect.top + scrollY; anchorLeft = rect.left; anchorWidth = rect.width; anchorHeight = rect.height;
     uniforms.uViewport.value.set(width, height);
@@ -337,6 +347,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   const render = (now: number) => {
     frame = 0;
     if (disposed || failed || paused || !visible || document.hidden) return;
+    try {
     const delta = previous ? Math.min(now - previous, 80) : 16.7;
     previous = now; elapsed += delta / 1000;
     if (pendingProject) {
@@ -396,7 +407,8 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
         if (qualityLevel < 2 && mean > (qualityLevel === 0 ? 30 : 26)) {
           qualityLevel = qualityLevel === 0 && mean > 45 ? 2 : qualityLevel + 1;
           const nextDpr = qualityLevel === 1 ? 1.5 : 1.25;
-          renderer.setPixelRatio(nextDpr); uniforms.uDpr.value = nextDpr;
+          activeDpr = Math.min(nextDpr, fitDpr(width, height));
+          renderer.setPixelRatio(activeDpr); uniforms.uDpr.value = activeDpr;
           const reducedCount = Math.floor(count * (qualityLevel === 1 ? .65 : .45));
           geometry.setIndex(Array.from({ length: reducedCount }, (_, i) => Math.floor(i * count / reducedCount)));
           geometry.setDrawRange(0, reducedCount);
@@ -406,6 +418,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
       }
     }
     frame = requestAnimationFrame(render);
+    } catch { fail(); }
   };
   const wake = () => {
     if (!disposed && !failed && !paused && visible && !document.hidden && !frame) { previous = 0; frame = requestAnimationFrame(render); }
