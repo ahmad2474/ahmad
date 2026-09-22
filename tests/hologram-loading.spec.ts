@@ -14,7 +14,7 @@ test("portrait geometry survives a transient asset request failure", async ({ pa
   expect(requests).toBeGreaterThanOrEqual(2);
 });
 
-test("failed WebGL gets a Canvas 2D particle scene and useful diagnostics", async ({ page }) => {
+test("failed WebGL keeps the verified fallback and exposes graphics diagnostics", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.addInitScript(() => {
     const getContext = HTMLCanvasElement.prototype.getContext;
@@ -25,16 +25,12 @@ test("failed WebGL gets a Canvas 2D particle scene and useful diagnostics", asyn
   });
   await page.goto("/?particle-debug=1");
   const stage = page.locator(".particle-stage");
-  await expect(stage).toHaveAttribute("data-status", "ready", { timeout: 6000 });
-  await expect(page.locator("html")).toHaveAttribute("data-particle-engine", "canvas2d");
-  await expect(page.locator(".particle-diagnostics")).toContainText("engine: canvas2d");
-  await expect(page.locator(".particle-diagnostics")).toContainText("canvas: present");
-  const before = Number(await stage.getAttribute("data-atmosphere-time"));
-  await page.waitForTimeout(400);
-  expect(Number(await stage.getAttribute("data-atmosphere-time"))).toBeGreaterThan(before);
-  await page.mouse.move(300, 240);
-  await page.evaluate(() => window.scrollTo({ top: 1200, behavior: "instant" }));
-  await expect.poll(async () => Number(await stage.getAttribute("data-progress"))).toBeGreaterThan(.5);
+  await expect(stage).toHaveAttribute("data-status", "fallback", { timeout: 6000 });
+  await expect(page.locator(".particle-diagnostics")).toContainText("stage: fallback");
+  await expect(page.locator(".particle-diagnostics")).toContainText("engine: none");
+  await expect(page.locator(".particle-diagnostics")).toContainText("canvas: missing");
+  await expect(page.locator(".particle-diagnostics")).toContainText("Chrome graphics: unavailable");
+  await expect(page.locator(".portrait-fallback img")).toHaveCSS("animation-name", "fallback-portrait-drift");
 });
 
 test("stable portrait binary has the authoritative geometry length", async ({ request }) => {

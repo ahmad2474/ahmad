@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { mountParticles, type ParticleController } from "@/lib/particle-renderer";
-import { mountCanvasParticles } from "@/lib/canvas-particle-renderer";
 
 const PORTRAIT_META = { count: 44000, pivot: [0, -0.411522633744856, 0.0823045267489712], stride: 12 };
 
@@ -43,14 +42,13 @@ export function AgenticScene() {
       setStatus("static");
       if (resetRetries) retryCount = 0;
       if (media.matches) return;
-      let particleBuffer: ArrayBuffer | null = null;
-      const ready = (engine: "webgl" | "canvas2d") => {
+      const ready = () => {
         if (disposed || current !== generation) return;
         window.clearTimeout(startupTimer);
         startupTimer = 0;
         retryCount = 0;
         document.documentElement.dataset.particles = "ready";
-        document.documentElement.dataset.particleEngine = engine;
+        document.documentElement.dataset.particleEngine = "webgl";
         setStatus("ready");
       };
       const recover = () => {
@@ -58,18 +56,7 @@ export function AgenticScene() {
         release();
         document.documentElement.dataset.particles = "fallback";
         setStatus("fallback");
-        if (retryCount >= 2) {
-          if (!particleBuffer) return;
-          try {
-            controller.current = mountCanvasParticles(target, { particleBuffer, particleMeta: PORTRAIT_META }, () => {
-              document.documentElement.dataset.particles = "fallback";
-              setStatus("fallback");
-            }, () => ready("canvas2d"));
-          } catch (error) {
-            target.dataset.failureReason = error instanceof Error ? error.message : "Canvas compatibility renderer failed";
-          }
-          return;
-        }
+        if (retryCount >= 2) return;
         const delay = retryCount === 0 ? 650 : 1600;
         retryCount++;
         retryTimer = window.setTimeout(() => void configure(false), delay);
@@ -81,13 +68,13 @@ export function AgenticScene() {
           signal: loadController.signal,
         });
         if (!response.ok) throw new Error(`Portrait data request failed: ${response.status}`);
-        particleBuffer = await response.arrayBuffer();
+        const particleBuffer = await response.arrayBuffer();
         if (disposed || current !== generation) return;
         controller.current = mountParticles(target, { particleBuffer, particleMeta: PORTRAIT_META }, () => {
           // Leave the failed render callback before disposing its GL resources.
           target.dataset.failureReason = "WebGL rendering stopped";
           queueMicrotask(recover);
-        }, () => { delete target.dataset.failureReason; ready("webgl"); });
+        }, () => { delete target.dataset.failureReason; ready(); });
         // A visible page should produce its first draw promptly. Recover if a
         // browser creates a context but never schedules a usable first frame.
         startupTimer = window.setTimeout(() => {
@@ -125,6 +112,14 @@ export function AgenticScene() {
   useEffect(() => {
     if (!new URLSearchParams(window.location.search).has("particle-debug")) return;
     let previousTime = "";
+    const probe = document.createElement("canvas");
+    let webglSupport = "unavailable";
+    try {
+      const webgl2 = probe.getContext("webgl2", { alpha: true, depth: false, stencil: false, powerPreference: "low-power" });
+      const webgl1 = webgl2 ? null : probe.getContext("webgl", { alpha: true, depth: false, stencil: false, powerPreference: "low-power" });
+      webglSupport = webgl2 ? "WebGL 2" : webgl1 ? "WebGL 1 only" : "unavailable";
+      (webgl2 || webgl1)?.getExtension("WEBGL_lose_context")?.loseContext();
+    } catch { webglSupport = "probe failed"; }
     const update = () => {
       const target = mount.current;
       const canvas = target?.querySelector("canvas");
@@ -138,6 +133,7 @@ export function AgenticScene() {
         `clock: ${time} | ${motion}`,
         `quality: ${target?.dataset.quality || "none"}`,
         `canvas: ${canvas ? "present" : "missing"}`,
+        `Chrome graphics: ${webglSupport}`,
         `reduced motion: ${matchMedia("(prefers-reduced-motion: reduce)").matches ? "yes" : "no"}`,
         `last WebGL error: ${target?.dataset.failureReason || "none"}`,
       ]);

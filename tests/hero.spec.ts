@@ -128,7 +128,7 @@ test("page lifecycle releases the old context and restores a cached page", async
   await expect(page.locator("canvas")).toHaveCount(1);
 });
 
-test("failed WebGL initialization uses Canvas 2D particles and keeps links usable", async ({ page }) => {
+test("failed WebGL initialization keeps the verified portrait and links usable", async ({ page }) => {
   await page.addInitScript(() => {
     const getContext = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, ...args: Parameters<typeof getContext>) {
@@ -137,9 +137,8 @@ test("failed WebGL initialization uses Canvas 2D particles and keeps links usabl
     } as typeof getContext;
   });
   await page.goto("/");
-  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready", { timeout: 6000 });
-  await expect(page.locator("html")).toHaveAttribute("data-particle-engine", "canvas2d");
-  await expect(page.locator("canvas[data-particle-engine=canvas2d]")).toHaveCount(1);
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback", { timeout: 6000 });
+  await expect(page.locator(".portrait-fallback")).toBeVisible();
   await openMobileMenu(page);
   await page.getByRole("link", { name: "Ahmad.AI", exact: true }).click();
   await expect(page).toHaveURL(/#ahmad-ai$/);

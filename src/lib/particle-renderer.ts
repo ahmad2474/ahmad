@@ -215,7 +215,16 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   const preferredDpr = compact ? Math.min(Math.max(devicePixelRatio, 1.5), 2) : 2;
   const fitDpr = (width: number, height: number) => Math.max(1, Math.min(preferredDpr, Math.sqrt(pixelBudget / Math.max(1, width * height))));
   const dpr = fitDpr(innerWidth, innerHeight);
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
+  // The scene does not use depth or stencil buffers. Asking Chrome only for the
+  // buffers we draw avoids rejecting the context on constrained GPU profiles.
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: false,
+    depth: false,
+    stencil: false,
+    powerPreference: "low-power",
+    failIfMajorPerformanceCaveat: false,
+  });
   renderer.setPixelRatio(dpr);
   renderer.setClearColor(0, 0);
   host.appendChild(renderer.domElement);
