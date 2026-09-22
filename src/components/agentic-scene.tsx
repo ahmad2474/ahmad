@@ -9,6 +9,7 @@ export function AgenticScene() {
   const mount = useRef<HTMLDivElement>(null);
   const controller = useRef<ParticleController | null>(null);
   const [status, setStatus] = useState<"static" | "ready" | "fallback">("static");
+  const [diagnostics, setDiagnostics] = useState<string[] | null>(null);
 
   useEffect(() => {
     const target = mount.current;
@@ -43,6 +44,7 @@ export function AgenticScene() {
       const recover = () => {
         if (disposed || current !== generation || media.matches) return;
         release();
+        document.documentElement.dataset.particles = "fallback";
         setStatus("fallback");
         if (retryCount >= 2) return;
         const delay = retryCount === 0 ? 650 : 1600;
@@ -100,10 +102,34 @@ export function AgenticScene() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has("particle-debug")) return;
+    let previousTime = "";
+    const update = () => {
+      const target = mount.current;
+      const canvas = target?.querySelector("canvas");
+      const time = target?.dataset.atmosphereTime || "none";
+      const motion = time !== "none" && time !== previousTime ? "advancing" : "stalled";
+      previousTime = time;
+      setDiagnostics([
+        `stage: ${target?.dataset.status || "missing"}`,
+        `render: ${target?.dataset.renderState || "none"}`,
+        `clock: ${time} | ${motion}`,
+        `quality: ${target?.dataset.quality || "none"}`,
+        `canvas: ${canvas ? "present" : "missing"}`,
+        `reduced motion: ${matchMedia("(prefers-reduced-motion: reduce)").matches ? "yes" : "no"}`,
+      ]);
+    };
+    update();
+    const timer = window.setInterval(update, 750);
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
     <>
       <div className="atmosphere-fallback" aria-hidden="true" />
       <div ref={mount} className="particle-stage" data-status={status} aria-hidden="true" />
+      {diagnostics && <output className="particle-diagnostics" aria-live="polite"><strong>PARTICLE DIAGNOSTICS</strong>{diagnostics.map(line => <span key={line.split(":")[0]}>{line}</span>)}</output>}
     </>
   );
 }

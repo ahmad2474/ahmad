@@ -88,6 +88,8 @@ The user authorized a matching page structure after approving separate project c
 
 Links from inner pages back to the particle homepage use document navigation. This deliberately clears Next.js's static client route cache and creates a fresh WebGL lifecycle after project or journal visits. Keep client navigation between lightweight inner pages. The portrait dataset remains the versioned binary asset at `/portraits/ahmad-particles-v1.bin`.
 
+Chrome-specific reliability: promote the fixed WebGL canvas to its own compositing layer. If WebGL fails after bounded recovery, animate the verified transparent portrait and sparse ambient particles as a compatibility scene. Reduced-motion preference still disables all animation. `?particle-debug=1` exposes local stage, clock, quality, canvas and motion-preference diagnostics without transmitting browser data.
+
 ## September 22 — search site name
 
 User-provided Google result screenshot `01.png` shows the small site-name label as “Vercel” while the page title is separate. Preferred site name is “Agentic AI Developer”. Add homepage `WebSite` JSON-LD and `og:site_name`, and avoid em dashes in published UI and assistant answers, using `|` for compact labels. Google chooses the displayed label after recrawling; metadata is a preference, not a guarantee. Keep `01.png` local and untracked.

@@ -14,6 +14,19 @@ test("portrait geometry survives a transient asset request failure", async ({ pa
   expect(requests).toBeGreaterThanOrEqual(2);
 });
 
+test("failed WebGL gets an animated compatibility scene and useful diagnostics", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    Object.defineProperty(HTMLCanvasElement.prototype, "getContext", { configurable: true, value: () => null });
+  });
+  await page.goto("/?particle-debug=1");
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback", { timeout: 6000 });
+  await expect(page.locator(".particle-diagnostics")).toContainText("stage: fallback");
+  await expect(page.locator(".particle-diagnostics")).toContainText("canvas: missing");
+  await expect(page.locator(".portrait-fallback img")).toHaveCSS("animation-name", "fallback-portrait-drift");
+  await expect(page.locator(".atmosphere-fallback")).toHaveCSS("visibility", "visible");
+});
+
 test("stable portrait binary has the authoritative geometry length", async ({ request }) => {
   const response = await request.get("/portraits/ahmad-particles-v1.bin");
   expect(response.ok()).toBe(true);
