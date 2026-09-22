@@ -90,6 +90,8 @@ Links from inner pages back to the particle homepage use document navigation. Th
 
 Chrome-specific reliability: promote the fixed WebGL canvas to its own compositing layer and request a lightweight context without unused depth or stencil buffers. The Canvas 2D experiment was rejected because it lost the approved depth and premium quality. If WebGL remains unavailable after bounded recovery, animate the verified transparent portrait and sparse ambient particles with CSS without pretending this is equivalent to the full scene. Reduced-motion preference still disables all animation. `?particle-debug=1` exposes local stage, engine, clock, quality, canvas, Chrome WebGL capability, motion preference and last local error without transmitting browser data.
 
+Normal homepage unmount must dispose Three.js resources without calling `forceContextLoss()`. Explicitly forcing the WebGL context to fail caused a delayed Chrome GPU glitch while scrolling the Projects page and could prevent the next homepage scene from creating a context. Inner pages use a lightweight CSS particle atmosphere, shared by Projects, case studies and Journal, and never allocate a second WebGL context.
+
 ## September 22 — search site name
 
 User-provided Google result screenshot `01.png` shows the small site-name label as “Vercel” while the page title is separate. Preferred site name is “Agentic AI Developer”. Add homepage `WebSite` JSON-LD and `og:site_name`, and avoid em dashes in published UI and assistant answers, using `|` for compact labels. Google chooses the displayed label after recrawling; metadata is a preference, not a guarantee. Keep `01.png` local and untracked.

@@ -34,7 +34,7 @@ export function InnerFooter() {
 export function InnerShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="portfolio inner-portfolio">
-      <div className="inner-atmosphere" aria-hidden="true"><span /><span /><span /></div>
+      <div className="inner-atmosphere" aria-hidden="true"><span /><span /><span /><span /><span /><span /></div>
       <InnerHeader />
       <main id="main" tabIndex={-1}>{children}</main>
       <InnerFooter />

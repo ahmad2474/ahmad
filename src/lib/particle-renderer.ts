@@ -503,7 +503,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
       document.removeEventListener("pointerleave", pointerLeave); document.removeEventListener("visibilitychange", visibility);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       stopMotion();
-      atmosphere.dispose(); geometry.dispose(); material.dispose(); ambientGeometry.dispose(); ambientMaterial.dispose(); renderer.dispose(); renderer.forceContextLoss();
+      atmosphere.dispose(); geometry.dispose(); material.dispose(); ambientGeometry.dispose(); ambientMaterial.dispose(); renderer.dispose();
       renderer.domElement.remove(); host.style.visibility = "";
     },
   };

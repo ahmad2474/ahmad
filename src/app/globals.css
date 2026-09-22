@@ -547,8 +547,12 @@ html[data-particles="ready"] .form-fallback { opacity: 0; }
 .inner-header { border-bottom: 1px solid #b194e81f; }
 .inner-atmosphere { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: radial-gradient(ellipse at 78% 15%, #7141aa1f, transparent 42%), radial-gradient(ellipse at 15% 68%, #4e2c7414, transparent 40%); }
 .inner-atmosphere::before { content: ""; position: absolute; inset: 0; opacity: .25; background-image: linear-gradient(#b496dd0b 1px, transparent 1px), linear-gradient(90deg, #b496dd0b 1px, transparent 1px); background-size: 88px 88px; mask-image: linear-gradient(to bottom, #000, transparent 72%); }
-.inner-atmosphere span { position: absolute; width: 4px; height: 4px; border-radius: 1px; background: #c5a8ff; box-shadow: 0 0 16px #b37cf9; opacity: .45; }
-.inner-atmosphere span:first-child { left: 11%; top: 29%; }.inner-atmosphere span:nth-child(2) { right: 18%; top: 43%; }.inner-atmosphere span:last-child { left: 57%; bottom: 19%; }
+.inner-atmosphere::after { content: ""; position: absolute; inset: -8%; opacity: .42; background-image: radial-gradient(circle, #d6c0ff 0 1.2px, transparent 1.8px), radial-gradient(circle, #8fbfff 0 1px, transparent 1.6px), radial-gradient(circle, #a86fe8 0 1.4px, transparent 2px); background-position: 0 0, 51px 73px, 97px 31px; background-size: 157px 173px, 223px 197px, 281px 239px; animation: inner-particle-drift 24s cubic-bezier(.45, 0, .55, 1) infinite alternate; }
+.inner-atmosphere span { position: absolute; width: 5px; height: 5px; border-radius: 1px; background: #c5a8ff; box-shadow: 0 0 18px #b37cf9; opacity: .46; transform: rotate(45deg); animation: inner-particle-float 10s ease-in-out infinite alternate; }
+.inner-atmosphere span:first-child { left: 11%; top: 29%; }.inner-atmosphere span:nth-child(2) { right: 18%; top: 43%; animation-delay: -2s; }.inner-atmosphere span:nth-child(3) { left: 57%; bottom: 19%; animation-delay: -5s; }
+.inner-atmosphere span:nth-child(4) { left: 34%; top: 18%; animation-delay: -7s; }.inner-atmosphere span:nth-child(5) { right: 37%; bottom: 28%; animation-delay: -3.5s; }.inner-atmosphere span:nth-child(6) { left: 18%; bottom: 12%; animation-delay: -8.5s; }
+@keyframes inner-particle-drift { to { transform: translate3d(2.2%, -1.5%, 0) rotate(.3deg); } }
+@keyframes inner-particle-float { from { translate: 0 -5px; opacity: .28; } to { translate: 8px 8px; opacity: .62; } }
 .inner-hero { min-height: 520px; padding: clamp(6rem, 11vw, 11rem) var(--gutter) clamp(4rem, 7vw, 7rem); border-bottom: 1px solid #b194e824; display: flex; flex-direction: column; justify-content: end; }
 .inner-hero .section-index { margin-bottom: 2.5rem; }
 .inner-hero h1, .case-study h1, .journal-article h1 { max-width: 1100px; font: 400 clamp(3.25rem, 7vw, 7.4rem)/.95 var(--font-display); letter-spacing: -.065em; }

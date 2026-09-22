@@ -64,6 +64,40 @@ test("particle scene remounts after inner-page navigation and repeated reloads",
   }
 });
 
+test("scrolling past InsightLoop never forces Chrome's WebGL context to be lost", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 960 });
+  await page.addInitScript(() => {
+    Object.assign(window, { forcedContextLosses: 0 });
+    const original = WebGL2RenderingContext.prototype.getExtension;
+    const getExtension = original as unknown as (this: WebGL2RenderingContext, name: string) => unknown;
+    WebGL2RenderingContext.prototype.getExtension = function (this: WebGL2RenderingContext, name: string) {
+      const extension = getExtension.call(this, name);
+      if (name !== "WEBGL_lose_context" || !extension) return extension;
+      const loseExtension = extension as { loseContext: () => void };
+      return new Proxy(loseExtension, {
+        get(target, property, receiver) {
+          if (property !== "loseContext") return Reflect.get(target, property, receiver);
+          return () => { (window as unknown as { forcedContextLosses: number }).forcedContextLosses++; return target.loseContext(); };
+        },
+      });
+    } as unknown as typeof original;
+  });
+  await page.goto("/");
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready");
+  await page.getByRole("link", { name: "Work", exact: true }).click();
+  await expect(page).toHaveURL(/\/projects$/);
+  await page.locator(".case-card").nth(2).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(500);
+  expect(await page.evaluate(() => (window as unknown as { forcedContextLosses: number }).forcedContextLosses)).toBe(0);
+  await expect(page.locator(".inner-atmosphere")).toBeVisible();
+  await expect(page.locator(".inner-atmosphere")).toHaveCSS("position", "fixed");
+  await page.getByRole("link", { name: "Home", exact: true }).click();
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready");
+  const before = Number(await page.locator(".particle-stage").getAttribute("data-atmosphere-time"));
+  await page.waitForTimeout(400);
+  expect(Number(await page.locator(".particle-stage").getAttribute("data-atmosphere-time"))).toBeGreaterThan(before);
+});
+
 for (const width of [1440, 390]) {
   test(`refresh keeps a transparent portrait until the first WebGL draw at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 960 });
