@@ -1,5 +1,48 @@
 import { test, expect, type Route } from "@playwright/test";
 
+test("portrait geometry survives a transient asset request failure", async ({ page }) => {
+  let requests = 0;
+  await page.route("**/portraits/ahmad-particles-v1.bin", route => {
+    requests++;
+    return requests === 1 ? route.fulfill({ status: 503, body: "temporary" }) : route.continue();
+  });
+  await page.goto("/");
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback");
+  await expect(page.locator(".portrait-fallback")).toBeVisible();
+  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "ready", { timeout: 6000 });
+  await expect(page.locator("canvas")).toHaveCount(1);
+  expect(requests).toBeGreaterThanOrEqual(2);
+});
+
+test("stable portrait binary has the authoritative geometry length", async ({ request }) => {
+  const response = await request.get("/portraits/ahmad-particles-v1.bin");
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["cache-control"]).toContain("immutable");
+  expect((await response.body()).byteLength).toBe(44000 * 12);
+});
+
+test("particle scene remounts after inner-page navigation and repeated reloads", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 960 });
+  await page.goto("/");
+  const stage = page.locator(".particle-stage");
+  await expect(stage).toHaveAttribute("data-status", "ready");
+  await page.getByRole("link", { name: "Work", exact: true }).click();
+  await expect(page).toHaveURL(/\/projects$/);
+  await expect(page.locator("canvas")).toHaveCount(0);
+  await page.getByRole("link", { name: "Home", exact: true }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(stage).toHaveAttribute("data-status", "ready");
+  for (let reload = 0; reload < 2; reload++) {
+    await page.reload();
+    await expect(stage).toHaveAttribute("data-status", "ready");
+    const before = Number(await stage.getAttribute("data-atmosphere-time"));
+    await page.waitForTimeout(350);
+    const after = Number(await stage.getAttribute("data-atmosphere-time"));
+    expect(after).toBeGreaterThan(before);
+    await expect(page.locator("canvas")).toHaveCount(1);
+  }
+});
+
 for (const width of [1440, 390]) {
   test(`refresh keeps a transparent portrait until the first WebGL draw at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 960 });

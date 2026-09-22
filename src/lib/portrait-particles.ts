@@ -1,11 +1,16 @@
-export interface PortraitSource { particleData: string; particleMeta: { count: number; stride: number; pivot: number[] } }
+export interface PortraitSource {
+  particleData?: string;
+  particleBuffer?: ArrayBuffer;
+  particleMeta: { count: number; stride: number; pivot: number[] };
+}
 
 /** Decode the user-supplied portrait geometry without generating facial features. */
 export function createPortraitParticles(count: number, source: PortraitSource, density = 1) {
   const { particleData, particleMeta } = source;
-  const binary = atob(particleData);
-  if (particleMeta.stride !== 12 || binary.length !== particleMeta.count * particleMeta.stride) throw new Error("Invalid portrait particle data");
-  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+  const bytes = source.particleBuffer
+    ? new Uint8Array(source.particleBuffer)
+    : Uint8Array.from(atob(particleData || ""), c => c.charCodeAt(0));
+  if (particleMeta.stride !== 12 || bytes.length !== particleMeta.count * particleMeta.stride) throw new Error("Invalid portrait particle data");
   const view = new DataView(bytes.buffer);
   // Choose one supplied point per spatial cell, rather than thinning record order.
   // This removes overlapping clusters without inventing new facial positions.

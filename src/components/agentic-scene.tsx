@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { ParticleController } from "@/lib/particle-renderer";
+import { mountParticles, type ParticleController } from "@/lib/particle-renderer";
+
+const PORTRAIT_META = { count: 44000, pivot: [0, -0.411522633744856, 0.0823045267489712], stride: 12 };
 
 export function AgenticScene() {
   const mount = useRef<HTMLDivElement>(null);
@@ -17,6 +19,7 @@ export function AgenticScene() {
     let retryCount = 0;
     let retryTimer = 0;
     let startupTimer = 0;
+    let loadController: AbortController | null = null;
     const clearTimers = () => {
       window.clearTimeout(retryTimer);
       window.clearTimeout(startupTimer);
@@ -25,6 +28,8 @@ export function AgenticScene() {
     };
     const release = () => {
       clearTimers();
+      loadController?.abort();
+      loadController = null;
       controller.current?.dispose();
       controller.current = null;
       document.documentElement.removeAttribute("data-particles");
@@ -45,11 +50,15 @@ export function AgenticScene() {
         retryTimer = window.setTimeout(() => void configure(false), delay);
       };
       try {
-        const [{ mountParticles }, source] = await Promise.all([
-          import("@/lib/particle-renderer"), import("../../myhologram/portraitParticles"),
-        ]);
+        loadController = new AbortController();
+        const response = await fetch("/portraits/ahmad-particles-v1.bin", {
+          cache: retryCount ? "reload" : "force-cache",
+          signal: loadController.signal,
+        });
+        if (!response.ok) throw new Error(`Portrait data request failed: ${response.status}`);
+        const particleBuffer = await response.arrayBuffer();
         if (disposed || current !== generation) return;
-        controller.current = mountParticles(target, source, () => {
+        controller.current = mountParticles(target, { particleBuffer, particleMeta: PORTRAIT_META }, () => {
           // Leave the failed render callback before disposing its GL resources.
           queueMicrotask(recover);
         }, () => {
