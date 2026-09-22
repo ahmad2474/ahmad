@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { SITE_URL, SITE_HOST, isIndexableDeployment } from "../src/lib/site-seo";
+import { SITE_NAME, SITE_URL, SITE_HOST, isIndexableDeployment } from "../src/lib/site-seo";
 
 const production = process.env.VERCEL_ENV === "production";
 
@@ -46,7 +46,12 @@ test("public profile and every project are represented in server-rendered HTML",
   const response = await request.get("/", { headers: { host: SITE_HOST, "user-agent": "Googlebot" } });
   const html = await response.text();
   expect(html).toContain("<title>Ahmad Hassan | Agentic AI Developer in Lahore</title>");
+  expect(html).toContain(`<meta property="og:site_name" content="${SITE_NAME}"`);
   expect(html).toContain('class="hero-location">Based in Lahore, Pakistan.</p>');
+  const websiteScript = html.match(/<script id="ahmad-website" type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  expect(websiteScript).not.toBeNull();
+  const website = JSON.parse(websiteScript![1]);
+  expect(website).toMatchObject({ "@type": "WebSite", name: SITE_NAME, url: `${SITE_URL}/` });
   const script = html.match(/<script id="ahmad-profile" type="application\/ld\+json">([\s\S]*?)<\/script>/);
   expect(script).not.toBeNull();
   const profile = JSON.parse(script![1]);
@@ -58,6 +63,14 @@ test("public profile and every project are represented in server-rendered HTML",
   for (const key of ["opspilot", "insightloop", "cloudops"]) expect(html).toContain(`id="project-panel-${key}"`);
   expect(html).toContain("An agentic data analyst investigates");
   expect(html).toContain("retrieval-augmented generation (RAG) system in development");
+});
+
+test("visible portfolio copy uses no em dashes", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const path of ["/", "/projects", "/projects/opspilot-ai", "/blog"]) {
+    await page.goto(path);
+    expect(await page.locator("body").innerText()).not.toContain("—");
+  }
 });
 
 for (const width of [1440, 390]) {

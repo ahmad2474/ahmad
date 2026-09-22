@@ -28,7 +28,7 @@ export default function BlogPage() {
           <div className="journal-empty">
             <span className="journal-signal" aria-hidden="true">✦</span><p className="eyebrow">EDITORIAL DESK / PREPARING</p>
             <h2>The journal is being assembled.</h2>
-            <p>The structure is ready. The first entries will be sourced, owner-reviewed engineering articles—not automated news rewrites.</p>
+            <p>The structure is ready. The first entries will be sourced, owner-reviewed engineering articles, not automated news rewrites.</p>
             <Link className="section-evidence" href="/projects">EXPLORE PROJECTS <span aria-hidden="true">↗</span></Link>
           </div>
         )}

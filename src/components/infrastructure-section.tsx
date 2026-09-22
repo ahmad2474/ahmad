@@ -29,7 +29,7 @@ export function InfrastructureSection() {
             <span className="visual-center-label" aria-hidden="true">SYSTEM<br /><small>CONNECTED BY DESIGN</small></span>
           </div>
           <div className="infra-labels" aria-hidden="true">{INFRA_NODES.map((node, i) => <div key={node.label} className={`infra-label infra-label-${i}`} style={{ left: `${node.x * 100}%`, top: `${node.y * 100}%` }}><span>{node.label}</span><small>{node.detail}</small></div>)}</div>
-          <figcaption id="infra-caption" className="visual-caption">A CONCEPTUAL TOPOLOGY — PROVISION / DEPLOY / OPERATE</figcaption>
+          <figcaption id="infra-caption" className="visual-caption">A CONCEPTUAL TOPOLOGY | PROVISION / DEPLOY / OPERATE</figcaption>
         </figure>
       </div>
     </section>

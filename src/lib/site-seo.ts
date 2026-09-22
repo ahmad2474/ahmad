@@ -1,5 +1,6 @@
 export const SITE_URL = "https://ahmad-umber.vercel.app";
 export const SITE_HOST = new URL(SITE_URL).hostname;
+export const SITE_NAME = "Agentic AI Developer";
 
 /** Fail closed for local, preview and custom review environments. */
 export function isIndexableDeployment(environment = process.env.VERCEL_ENV) {
@@ -25,4 +26,13 @@ export const PROFILE_SCHEMA = {
     knowsAbout: ["Agentic AI", "Retrieval-augmented generation", "AWS", "DevOps", "Terraform"],
     sameAs: ["https://github.com/ahmad2474", "https://linkedin.com/in/ahmadhassan102"],
   },
+} as const;
+
+/** Preferred site name for Google's site-name system, separate from page titles. */
+export const WEBSITE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: SITE_NAME,
+  url: `${SITE_URL}/`,
 } as const;

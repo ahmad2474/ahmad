@@ -66,6 +66,7 @@ test("answers omit unsolicited dates and references, while explicit dates and co
   expect(profileAnswer("What is his email?").links?.[0].href).toBe("mailto:ahmad_warraich@outlook.com");
   expect(profileAnswer("Give me his GitHub link").links?.some(link => link.id === "github")).toBe(true);
   expect(presentAnswer({ mode: "ai", answer: "He worked at Algoustics Inc., May 2024–June 2026. He builds agents.", sources: [] }, "Who is he?").answer).toBe("He worked at Algoustics Inc. He builds agents.");
+  expect(presentAnswer({ mode: "ai", answer: "Agentic AI Developer — DevOps Engineer", sources: [] }, "What are his roles?").answer).toBe("Agentic AI Developer | DevOps Engineer");
 });
 
 for (const width of [1440, 390]) {

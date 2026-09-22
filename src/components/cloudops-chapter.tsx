@@ -34,7 +34,7 @@ export function CloudOpsChapter() {
             <div className="cloudops-core" aria-hidden="true"><span>EVIDENCE</span><span>ENGINE</span></div>
           </div>
           <ul className="cloudops-node-labels" aria-label="Planned architecture flow">{CLOUDOPS_NODES.map((node, i) => <li key={node.label} className={`cloudops-label cloudops-label-${i}`} style={{ left: `${node.x * 100}%`, top: `${node.y * 100}%` }}><span className="eyebrow">0{i + 1} / {node.label}</span><span>{node.detail}</span></li>)}</ul>
-          <figcaption id="cloudops-caption">PLANNED ARCHITECTURE <span>—</span> RETRIEVE / AUTHORIZE / GROUND / REVIEW</figcaption>
+          <figcaption id="cloudops-caption">PLANNED ARCHITECTURE <span>|</span> RETRIEVE / AUTHORIZE / GROUND / REVIEW</figcaption>
         </figure>
       </div>
       <div className="cloudops-capabilities">{capabilities.map((capability, i) => <article key={capability.label} className="cloudops-capability"><div className="phase-card-top"><span className="eyebrow">{capability.label}</span><span>0{i + 1}</span></div><h3>{capability.title}</h3><p>{capability.copy}</p><p className="phase-note">{capability.note}</p></article>)}</div>

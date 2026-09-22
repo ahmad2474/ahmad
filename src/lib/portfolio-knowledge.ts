@@ -60,11 +60,11 @@ export function presentAnswer(result: ProfileAnswer, question: string): ProfileA
   const requestedDates = /\b(when|dates?|timeline|period|which year|what year|start|started|end|ended|join|joined|leave|left)\b/.test(q);
   const months = "January|February|March|April|May|June|July|August|September|October|November|December";
   const dates = new RegExp(`(?:${months})\\s+\\d{4}\\s*[–—-]\\s*(?:${months})\\s+\\d{4}`, "g");
-  const answer = requestedDates ? result.answer : result.answer
+  const answer = (requestedDates ? result.answer : result.answer
     .replace(new RegExp(`,?\\s*${dates.source}`, "g"), "")
     .replace(/,?\s*\b(?:19|20)\d{2}\s*[–—-]\s*(?:19|20)\d{2}/g, "")
     .replace(/These are the supplied résumé dates, not a claim of current employment\. ?/g, "")
-    .replace(/\.{2,}/g, ".");
+    .replace(/\.{2,}/g, ".")).replace(/\s*—\s*/g, " | ");
   const hiring = /\b(hire|hiring|availability|available|salary|rates?|pricing)\b/.test(q);
   const allContact = /\b(contact|reach|connect|social)\b/.test(q);
   const requestedLinks = /\b(links?|urls?|repos?|repositories)\b/.test(q);

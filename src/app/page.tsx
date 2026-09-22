@@ -8,7 +8,7 @@ import { ContactSection } from "@/components/contact-section";
 import { CopyrightYear } from "@/components/copyright-year";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { PageControls } from "@/components/page-controls";
-import { PROFILE_SCHEMA } from "@/lib/site-seo";
+import { PROFILE_SCHEMA, WEBSITE_SCHEMA } from "@/lib/site-seo";
 import Link from "next/link";
 
 function Arrow() {
@@ -17,7 +17,7 @@ function Arrow() {
 
 export default function Home() {
   return (
-    <><script id="ahmad-profile" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFILE_SCHEMA).replace(/</g, "\\u003c") }} /><AgenticScene /><PageControls /><div className="portfolio" id="identity">
+    <><script id="ahmad-website" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_SCHEMA).replace(/</g, "\\u003c") }} /><script id="ahmad-profile" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFILE_SCHEMA).replace(/</g, "\\u003c") }} /><AgenticScene /><PageControls /><div className="portfolio" id="identity">
       <header className="site-header">
         <a className="wordmark" href="#identity" aria-label="Ahmad Hassan, home">AHMAD HASSAN</a>
         <nav className="desktop-navigation" aria-label="Main navigation">
@@ -70,7 +70,7 @@ export default function Home() {
       </main>
       <footer className="site-footer">
         <div className="footer-identity"><p>Ahmad Hassan</p><p className="footer-copyright">© <CopyrightYear initialYear={new Date().getFullYear()} /> All rights reserved.</p></div>
-        <span className="footer-center" aria-hidden="true">IDENTITY <span>—</span> INTELLIGENCE <span>—</span> INFRASTRUCTURE</span>
+        <span className="footer-center" aria-hidden="true">IDENTITY <span>|</span> INTELLIGENCE <span>|</span> INFRASTRUCTURE</span>
         <a href="mailto:ahmad_warraich@outlook.com">Let’s build something intelligent. <Arrow /></a>
       </footer>
     </div></>

@@ -24,7 +24,7 @@ export function InnerFooter() {
   return (
     <footer className="site-footer inner-footer">
       <div className="footer-identity"><p>Ahmad Hassan</p><p className="footer-copyright">© <CopyrightYear initialYear={new Date().getFullYear()} /> All rights reserved.</p></div>
-      <span className="footer-center" aria-hidden="true">IDENTITY <span>—</span> INTELLIGENCE <span>—</span> INFRASTRUCTURE</span>
+      <span className="footer-center" aria-hidden="true">IDENTITY <span>|</span> INTELLIGENCE <span>|</span> INFRASTRUCTURE</span>
       <a href="mailto:ahmad_warraich@outlook.com">Let’s build something intelligent. <Arrow /></a>
     </footer>
   );

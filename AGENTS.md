@@ -75,3 +75,7 @@ The user reports Google live tests passed for the homepage/sitemap and the sitem
 ## September 20 — project and journal pages
 
 The user authorized a matching page structure after approving separate project case studies and a future AI engineering blog. Public routes are `/projects`, three verified-status case studies, and `/blog`; a reusable `/blog/[slug]` article route is ready. Inner pages extend the homepage’s near-black/violet editorial system with shared navigation, footer, responsive technical glyphs and reduced-motion-safe CSS ambience. Project pages distinguish repository-supported facts from unverified outcomes; CloudOps remains in development. The journal launches empty and noindex, excluded from the sitemap until at least one sourced, owner-reviewed article exists. Never create automated news rewrites merely to fill it.
+
+## September 22 — search site name
+
+User-provided Google result screenshot `01.png` shows the small site-name label as “Vercel” while the page title is separate. Preferred site name is “Agentic AI Developer”. Add homepage `WebSite` JSON-LD and `og:site_name`, and avoid em dashes in published UI and assistant answers, using `|` for compact labels. Google chooses the displayed label after recrawling; metadata is a preference, not a guarantee. Keep `01.png` local and untracked.

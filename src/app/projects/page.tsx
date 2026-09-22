@@ -14,9 +14,9 @@ export default function ProjectsPage() {
   return (
     <InnerShell>
       <section className="inner-hero" aria-labelledby="projects-page-title">
-        <p className="eyebrow section-index"><span />SELECTED SYSTEMS / 01—03</p>
+        <p className="eyebrow section-index"><span />SELECTED SYSTEMS / 01 | 03</p>
         <h1 id="projects-page-title">Work that makes<br /><span>intelligence inspectable.</span></h1>
-        <p>Agentic systems, data investigation and cloud operations—presented with their architecture, evidence and honest boundaries.</p>
+        <p>Agentic systems, data investigation and cloud operations, presented with their architecture, evidence and honest boundaries.</p>
       </section>
       <section className="project-index" aria-label="Project case studies">
         {PROJECTS.map(project => (
