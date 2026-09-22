@@ -14,17 +14,27 @@ test("portrait geometry survives a transient asset request failure", async ({ pa
   expect(requests).toBeGreaterThanOrEqual(2);
 });
 
-test("failed WebGL gets an animated compatibility scene and useful diagnostics", async ({ page }) => {
+test("failed WebGL gets a Canvas 2D particle scene and useful diagnostics", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.addInitScript(() => {
-    Object.defineProperty(HTMLCanvasElement.prototype, "getContext", { configurable: true, value: () => null });
+    const getContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, ...args: Parameters<typeof getContext>) {
+      if (String(args[0]).includes("webgl")) return null;
+      return getContext.apply(this, args);
+    } as typeof getContext;
   });
   await page.goto("/?particle-debug=1");
-  await expect(page.locator(".particle-stage")).toHaveAttribute("data-status", "fallback", { timeout: 6000 });
-  await expect(page.locator(".particle-diagnostics")).toContainText("stage: fallback");
-  await expect(page.locator(".particle-diagnostics")).toContainText("canvas: missing");
-  await expect(page.locator(".portrait-fallback img")).toHaveCSS("animation-name", "fallback-portrait-drift");
-  await expect(page.locator(".atmosphere-fallback")).toHaveCSS("visibility", "visible");
+  const stage = page.locator(".particle-stage");
+  await expect(stage).toHaveAttribute("data-status", "ready", { timeout: 6000 });
+  await expect(page.locator("html")).toHaveAttribute("data-particle-engine", "canvas2d");
+  await expect(page.locator(".particle-diagnostics")).toContainText("engine: canvas2d");
+  await expect(page.locator(".particle-diagnostics")).toContainText("canvas: present");
+  const before = Number(await stage.getAttribute("data-atmosphere-time"));
+  await page.waitForTimeout(400);
+  expect(Number(await stage.getAttribute("data-atmosphere-time"))).toBeGreaterThan(before);
+  await page.mouse.move(300, 240);
+  await page.evaluate(() => window.scrollTo({ top: 1200, behavior: "instant" }));
+  await expect.poll(async () => Number(await stage.getAttribute("data-progress"))).toBeGreaterThan(.5);
 });
 
 test("stable portrait binary has the authoritative geometry length", async ({ request }) => {

@@ -88,7 +88,7 @@ The user authorized a matching page structure after approving separate project c
 
 Links from inner pages back to the particle homepage use document navigation. This deliberately clears Next.js's static client route cache and creates a fresh WebGL lifecycle after project or journal visits. Keep client navigation between lightweight inner pages. The portrait dataset remains the versioned binary asset at `/portraits/ahmad-particles-v1.bin`.
 
-Chrome-specific reliability: promote the fixed WebGL canvas to its own compositing layer. If WebGL fails after bounded recovery, animate the verified transparent portrait and sparse ambient particles as a compatibility scene. Reduced-motion preference still disables all animation. `?particle-debug=1` exposes local stage, clock, quality, canvas and motion-preference diagnostics without transmitting browser data.
+Chrome-specific reliability: promote the fixed WebGL canvas to its own compositing layer. If Chrome cannot create WebGL after bounded recovery, use the same authoritative portrait coordinates in a Canvas 2D compatibility renderer with ambient movement, cursor response and scroll dispersion. Static section diagrams remain visible because Canvas 2D does not reproduce later 3D reformations. If Canvas 2D also fails, animate the verified transparent portrait and sparse ambient particles with CSS. Reduced-motion preference still disables all animation. `?particle-debug=1` exposes local stage, engine, clock, quality, canvas, motion preference and last local error without transmitting browser data.
 
 ## September 22 — search site name
 

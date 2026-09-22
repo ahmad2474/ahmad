@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { mountParticles, type ParticleController } from "@/lib/particle-renderer";
+import { mountCanvasParticles } from "@/lib/canvas-particle-renderer";
 
 const PORTRAIT_META = { count: 44000, pivot: [0, -0.411522633744856, 0.0823045267489712], stride: 12 };
 
@@ -34,6 +35,7 @@ export function AgenticScene() {
       controller.current?.dispose();
       controller.current = null;
       document.documentElement.removeAttribute("data-particles");
+      document.documentElement.removeAttribute("data-particle-engine");
     };
     const configure = async (resetRetries = true) => {
       const current = ++generation;
@@ -41,12 +43,33 @@ export function AgenticScene() {
       setStatus("static");
       if (resetRetries) retryCount = 0;
       if (media.matches) return;
+      let particleBuffer: ArrayBuffer | null = null;
+      const ready = (engine: "webgl" | "canvas2d") => {
+        if (disposed || current !== generation) return;
+        window.clearTimeout(startupTimer);
+        startupTimer = 0;
+        retryCount = 0;
+        document.documentElement.dataset.particles = "ready";
+        document.documentElement.dataset.particleEngine = engine;
+        setStatus("ready");
+      };
       const recover = () => {
         if (disposed || current !== generation || media.matches) return;
         release();
         document.documentElement.dataset.particles = "fallback";
         setStatus("fallback");
-        if (retryCount >= 2) return;
+        if (retryCount >= 2) {
+          if (!particleBuffer) return;
+          try {
+            controller.current = mountCanvasParticles(target, { particleBuffer, particleMeta: PORTRAIT_META }, () => {
+              document.documentElement.dataset.particles = "fallback";
+              setStatus("fallback");
+            }, () => ready("canvas2d"));
+          } catch (error) {
+            target.dataset.failureReason = error instanceof Error ? error.message : "Canvas compatibility renderer failed";
+          }
+          return;
+        }
         const delay = retryCount === 0 ? 650 : 1600;
         retryCount++;
         retryTimer = window.setTimeout(() => void configure(false), delay);
@@ -58,25 +81,22 @@ export function AgenticScene() {
           signal: loadController.signal,
         });
         if (!response.ok) throw new Error(`Portrait data request failed: ${response.status}`);
-        const particleBuffer = await response.arrayBuffer();
+        particleBuffer = await response.arrayBuffer();
         if (disposed || current !== generation) return;
         controller.current = mountParticles(target, { particleBuffer, particleMeta: PORTRAIT_META }, () => {
           // Leave the failed render callback before disposing its GL resources.
+          target.dataset.failureReason = "WebGL rendering stopped";
           queueMicrotask(recover);
-        }, () => {
-          if (disposed || current !== generation) return;
-          window.clearTimeout(startupTimer);
-          startupTimer = 0;
-          retryCount = 0;
-          document.documentElement.dataset.particles = "ready";
-          setStatus("ready");
-        });
+        }, () => { delete target.dataset.failureReason; ready("webgl"); });
         // A visible page should produce its first draw promptly. Recover if a
         // browser creates a context but never schedules a usable first frame.
         startupTimer = window.setTimeout(() => {
           if (!document.hidden && current === generation && document.documentElement.dataset.particles !== "ready") recover();
         }, 8000);
-      } catch { recover(); }
+      } catch (error) {
+        target.dataset.failureReason = error instanceof Error ? error.message : "Particle renderer failed";
+        recover();
+      }
     };
     void configure();
     const preferenceChanged = () => void configure(true);
@@ -114,10 +134,12 @@ export function AgenticScene() {
       setDiagnostics([
         `stage: ${target?.dataset.status || "missing"}`,
         `render: ${target?.dataset.renderState || "none"}`,
+        `engine: ${document.documentElement.dataset.particleEngine || "none"}`,
         `clock: ${time} | ${motion}`,
         `quality: ${target?.dataset.quality || "none"}`,
         `canvas: ${canvas ? "present" : "missing"}`,
         `reduced motion: ${matchMedia("(prefers-reduced-motion: reduce)").matches ? "yes" : "no"}`,
+        `last WebGL error: ${target?.dataset.failureReason || "none"}`,
       ]);
     };
     update();
