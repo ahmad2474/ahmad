@@ -33,15 +33,15 @@ const vertexShader = `
     float spread = smoothstep(aSeed * .15, .82 + aSeed * .18, uProgress);
     // The supplied portrait is a depth surface, not a complete head scan.
     // Small turns plus lateral movement preserve presence without exposing missing sides.
-    float ay = (uCursor.x * .095 + sin(uTime * .16) * .008) * aProfile.x;
-    float ax = (-uCursor.y * .045) * aProfile.x;
+    float ay = (uCursor.x * .13 + sin(uTime * .28) * .022) * aProfile.x;
+    float ax = (-uCursor.y * .06 + cos(uTime * .22) * .008) * aProfile.x;
     vec3 p = position - uPivot;
-    p *= 1.0 + sin(uTime * .65 + aSeed * 2.) * .007;
+    p *= 1.0 + sin(uTime * .8 + aSeed * 2.) * .012;
     p.xz = mat2(cos(ay), -sin(ay), sin(ay), cos(ay)) * p.xz;
     p.yz = mat2(cos(ax), sin(ax), -sin(ax), cos(ax)) * p.yz;
     p += uPivot;
     vec2 home = uCenter + p.xy * uScale;
-    home += uCursor * vec2(7., -4.) * aProfile.x;
+    home += uCursor * vec2(14., -8.) * aProfile.x;
     vec2 destination = aScatter.xy * uViewport * .84;
     destination += vec2(sin(uTime * .12 + aSeed * 30.), cos(uTime * .1 + aSeed * 20.)) * 12.;
     vec2 xy = mix(home, destination, spread);
@@ -154,7 +154,7 @@ const ambientVertexShader = `
   varying float vAlpha, vSeed;
   void main() {
     vec2 xy = position.xy * uViewport;
-    xy += vec2(sin(uTime * .09 + aSeed * 31.), cos(uTime * .07 + aSeed * 23.)) * (12. + position.z * 18.);
+    xy += vec2(sin(uTime * .16 + aSeed * 31.), cos(uTime * .13 + aSeed * 23.)) * (18. + position.z * 28.);
     xy += uCursor * vec2(18., -12.) * position.z;
     gl_Position = vec4(xy / (uViewport * .5), .5, 1.);
     gl_PointSize = aSize * uDpr;
@@ -275,7 +275,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
   const phaseLinks = [...chapter.querySelectorAll<HTMLAnchorElement>("[data-phase-link]")];
   const diagram = chapter.querySelector<SVGElement>(".network-diagram");
   let width = innerWidth, height = innerHeight, anchorTop = 0, anchorLeft = 0, anchorWidth = 0, anchorHeight = 0;
-  let pointerActive = false, paused = false, visible = true, disposed = false, failed = false, frame = 0, resizeFrame = 0, previous = 0, elapsed = 0;
+  let pointerActive = false, paused = false, visible = true, disposed = false, failed = false, frame = 0, resizeFrame = 0, previous = 0, elapsed = 0, lastRenderAt = performance.now();
   let samples = 0, totalFrameTime = 0, qualityLevel = 0, qualityWindowStart = 2, activeDpr = dpr;
   let lastPhase = -1, selectedPhase: number | null = null, lastRouteOffset = "";
   let pendingProject: ProjectKey | null = null, projectFrom: Float32Array | null = null, projectTo: Float32Array | null = null, projectChangeStart = 0;
@@ -398,6 +398,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
     const routeOffset = String(-Math.round((sequence.value - phase) * 1000) / 10);
     if (routeOffset !== lastRouteOffset) { diagram?.style.setProperty("--route-offset", routeOffset); lastRouteOffset = routeOffset; }
     renderer.render(scene, camera);
+    lastRenderAt = performance.now();
     if (failed) return;
     if (firstFrame) { firstFrame = false; onReady(); }
     if (elapsed > qualityWindowStart && samples < 100) {
@@ -424,11 +425,12 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
     if (!disposed && !failed && !paused && visible && !document.hidden && !frame) { previous = 0; frame = requestAnimationFrame(render); }
   };
   const pointerMove = (event: PointerEvent) => {
-    if (event.pointerType !== "mouse" || paused) return;
+    if ((event.pointerType && event.pointerType !== "mouse") || paused) return;
     cursor.set(Math.max(-1, Math.min(1, (event.clientX - width * .5) / (width * .5))), Math.max(-1, Math.min(1, (event.clientY - height * .5) / (height * .5))));
     pointer.set(event.clientX - width * .5, height * .5 - event.clientY);
     if (!pointerActive) uniforms.uPointer.value.copy(pointer);
     pointerActive = true;
+    wake();
   };
   const pointerLeave = () => { cursor.set(0, 0); pointerActive = false; };
   const selectPhase = (event: MouseEvent) => {
@@ -446,6 +448,12 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
     pendingProject = key; wake();
   };
   const visibility = () => { if (document.hidden) { cancelAnimationFrame(frame); frame = 0; } else wake(); };
+  const heartbeat = window.setInterval(() => {
+    if (disposed || failed || paused || !visible || document.hidden) return;
+    if (performance.now() - lastRenderAt > 2000) {
+      cancelAnimationFrame(frame); frame = 0; previous = 0; wake();
+    }
+  }, 1500);
   const resize = () => {
     if (resizeFrame || disposed) return;
     resizeFrame = requestAnimationFrame(() => { resizeFrame = 0; measure(); ScrollTrigger.refresh(); wake(); });
@@ -478,6 +486,7 @@ export function mountParticles(host: HTMLDivElement, source: PortraitSource, onF
     },
     dispose() {
       if (disposed) return; disposed = true;
+      window.clearInterval(heartbeat);
       cancelAnimationFrame(frame); cancelAnimationFrame(resizeFrame);
       observer.disconnect(); intersection.disconnect();
       window.removeEventListener("resize", resize); window.removeEventListener("portfolio-project", selectProject);

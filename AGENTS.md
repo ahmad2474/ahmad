@@ -5,6 +5,7 @@ The three project pages now use pinned revisions of the public OpsPilot AI, Insi
 
 ## September 23 particle reliability
 Desktop particle startup now releases WebGL on `pagehide`, restores after BFCache, retries transient startup/context loss twice, and caps very wide backing buffers while retaining 2x rendering at 1440px. Preserve the static portrait during recovery and do not retry when reduced motion is enabled.
+Idle portrait/background movement is intentionally visible rather than near-static. The renderer heartbeat may restart a dropped frame loop only while the page is visible and motion is allowed; it must be cleaned up with the scene.
 
 ## Identity and scope
 Latest assistant authorization: the user supplied full résumé text and explicitly requested all skills, years, employers/job dates, project history, education, public contact links and additional WordPress/Digital Marketing/Business Communication skills. These owner-authorized public facts supersede earlier exclusions of employer/years claims. Omit certification IDs and secrets; don't invent metrics, marketing outcomes or current employment/availability. Ahmad.AI is only about Ahmad; unrelated questions receive a friendly scope redirect, also in profile fallback. Publishing through existing GitHub/Vercel remains authorized.
